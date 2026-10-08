@@ -232,7 +232,7 @@ def preparar(cuenta, oferta, config):
     contacto = extraer_contacto(oferta["caption"])
     rubro = extraer_rubro(puesto, oferta["caption"])
     base = CARPETA_SALIDA / cuenta["clave"] / f"{ahora():%Y%m%d_%H%M}_{oferta['id']}"
-    archivos = {"tarjeta": generar_tarjeta(cuenta, puesto, zona, contacto, base.with_suffix(".jpg"))}
+    archivos = {"tarjeta": generar_tarjeta(cuenta, puesto, zona, contacto, base.with_suffix(".jpg"), rubro)}
     if config.get("historias"):
         archivos["historia"] = generar_vertical(cuenta, archivos["tarjeta"],
                                                 f"Más info en @{cuenta['usuario']}",
@@ -278,7 +278,7 @@ def modo_prueba(config):
         puesto, zona = extraer_puesto(oferta["caption"]), extraer_zona(oferta["caption"])
         contacto = extraer_contacto(oferta["caption"])
         rubro = extraer_rubro(puesto, oferta["caption"])
-        ruta = generar_tarjeta(cuenta, puesto, zona, contacto, salida / f"ejemplo_{i + 1}_{cuenta['clave']}.jpg")
+        ruta = generar_tarjeta(cuenta, puesto, zona, contacto, salida / f"ejemplo_{i + 1}_{cuenta['clave']}.jpg", rubro)
         print(armar_texto(cuenta, oferta, puesto, zona, contacto, rubro, config))
         if i == 0:
             generar_vertical(cuenta, ruta, f"Más info en @{cuenta['usuario']}",
