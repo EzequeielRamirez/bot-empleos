@@ -119,9 +119,15 @@ def avatar(cuenta, d):
     if archivo.exists():
         logo = Image.open(archivo).convert("RGBA")
         lado = logo.width
-        recorte = int(lado * 0.13)  # las letras ocupan el centro: se amplía para que se lean
-        logo = logo.crop((recorte, recorte, lado - recorte, lado - recorte)).resize(
-            (interior, interior), Image.LANCZOS)
+        # Cuánto se amplía el logo dentro del círculo (BTU es más ancho y necesita aire)
+        recorte = int(lado * cuenta.get("logo_recorte", 0.1))
+        if recorte < 0:  # achicar: se agrega margen con el mismo degradé de fondo
+            grande = fondo_degradado(lado - 2 * recorte, lado - 2 * recorte).convert("RGBA")
+            grande.paste(logo, (-recorte, -recorte))
+            logo = grande.resize((interior, interior), Image.LANCZOS)
+        else:
+            logo = logo.crop((recorte, recorte, lado - recorte, lado - recorte)).resize(
+                (interior, interior), Image.LANCZOS)
     else:
         logo = fondo_degradado(interior, interior).convert("RGBA")
         dl = ImageDraw.Draw(logo)

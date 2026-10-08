@@ -9,7 +9,8 @@
       "variable_id": "IG_ID_TCM",
       "color_fondo": "#F7A21B",
       "color_texto": "#111111",
-      "hashtags_propios": "#TCMUruguay"
+      "hashtags_propios": "#TCMUruguay",
+      "logo_recorte": 0.04
     },
     {
       "clave": "btu",
@@ -19,7 +20,8 @@
       "variable_id": "IG_ID_BTU",
       "color_fondo": "#F7A21B",
       "color_texto": "#111111",
-      "hashtags_propios": "#BuscoTrabajoUruguay"
+      "hashtags_propios": "#BuscoTrabajoUruguay",
+      "logo_recorte": -0.04
     }
   ],
   "hashtags_a_buscar": [
