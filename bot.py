@@ -16,8 +16,8 @@ import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_email,
-                        extraer_puesto, extraer_zona, huella)
+from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_contacto,
+                        extraer_puesto, extraer_rubro, extraer_zona, formato_local, huella)
 from tarjeta import generar_tarjeta, generar_vertical
 from video import generar_video
 
@@ -131,12 +131,18 @@ def ordenar_y_limpiar_cola(estado, config):
 
 # ---------------------------------------------------------------- publicación
 
-def armar_texto(cuenta, oferta, puesto, zona, email, config):
+def armar_texto(cuenta, oferta, puesto, zona, contacto, rubro, config):
     lineas = ["🔎 NUEVA BÚSQUEDA LABORAL", "",
               f"💼 Puesto: {puesto[0].upper() + puesto[1:]}",
+              f"🏷️ Rubro: {rubro}",
               f"📍 Zona: {zona}"]
-    if email:
-        lineas.append(f"📩 Contacto: {email}")
+    if contacto.get("whatsapp"):
+        numero = contacto["whatsapp"]
+        lineas.append(f"📲 WhatsApp: {formato_local(numero)} → wa.me/598{numero}")
+    if contacto.get("email"):
+        lineas.append(f"📩 Email: {contacto['email']}")
+    if contacto.get("telefono") and not contacto.get("whatsapp"):
+        lineas.append(f"📞 Teléfono: {formato_local(contacto['telefono'])}")
     lineas += ["", AVISO.format(marca=cuenta["logo_texto"]),
                "", "📝 Detalle publicado por la empresa:",
                descripcion_sin_hashtags(oferta["caption"]), ""]
@@ -146,6 +152,11 @@ def armar_texto(cuenta, oferta, puesto, zona, email, config):
                "🔁 Compartilo con quien esté buscando trabajo.", "",
                f"{config['hashtags_al_publicar']} {cuenta['hashtags_propios']}"]
     return "\n".join(lineas)[:2150]
+
+
+def texto_para_facebook(cuenta, texto):
+    return texto.replace(f"Seguí a @{cuenta['usuario']} para recibir ofertas todos los días.",
+                         "Seguí esta página para recibir ofertas todos los días.")
 
 
 def esperar_contenedor(api, contenedor, intentos=24, espera=5):
@@ -211,24 +222,43 @@ def subir_imagenes(rutas):
     return commit
 
 
-def preparar(cuenta, oferta, config, formato):
-    """formato: "feed" (tarjeta + historia) o "reel"."""
+def preparar(cuenta, oferta, config):
+    """Una oferta → tarjeta (publicación y Facebook), historia con su rubro y video del Reel de prueba."""
     puesto = extraer_puesto(oferta["caption"])
     zona = extraer_zona(oferta["caption"])
-    email = extraer_email(oferta["caption"])
-    base = CARPETA_SALIDA / cuenta["clave"] / f"{ahora():%Y%m%d_%H%M}_{formato}_{oferta['id']}"
-    archivos = {"tarjeta": generar_tarjeta(cuenta, puesto, zona, email, base.with_suffix(".jpg"))}
-    if formato == "feed" and config.get("historias"):
+    contacto = extraer_contacto(oferta["caption"])
+    rubro = extraer_rubro(puesto, oferta["caption"])
+    base = CARPETA_SALIDA / cuenta["clave"] / f"{ahora():%Y%m%d_%H%M}_{oferta['id']}"
+    archivos = {"tarjeta": generar_tarjeta(cuenta, puesto, zona, contacto, base.with_suffix(".jpg"))}
+    if config.get("historias"):
         archivos["historia"] = generar_vertical(cuenta, archivos["tarjeta"],
                                                 f"Más info en @{cuenta['usuario']}",
-                                                base.with_name(base.name + "_historia.jpg"))
-    if formato == "reel":
+                                                base.with_name(base.name + "_historia.jpg"), rubro)
+    if config.get("reels_de_prueba", {}).get("activado"):
         vertical = generar_vertical(cuenta, archivos["tarjeta"], "Toda la info en la descripción",
                                     base.with_name(base.name + "_vertical.jpg"))
         archivos["video"] = generar_video(vertical, base.with_suffix(".mp4"))
-    texto = armar_texto(cuenta, oferta, puesto, zona, email, config)
-    return {"cuenta": cuenta, "oferta": oferta, "formato": formato,
-            "archivos": archivos, "texto": texto}
+    texto = armar_texto(cuenta, oferta, puesto, zona, contacto, rubro, config)
+    return {"cuenta": cuenta, "oferta": oferta, "rubro": rubro, "archivos": archivos, "texto": texto}
+
+
+def paginas_de_facebook(api):
+    """IG id → (id de la página de Facebook vinculada, token de esa página)."""
+    try:
+        datos = api.get("me/accounts", fields="id,access_token,instagram_business_account", limit=100)
+    except ErrorGraph as e:
+        print(f"  Facebook: no se pudieron leer las páginas ({e})")
+        return {}
+    return {p["instagram_business_account"]["id"]: (p["id"], p["access_token"])
+            for p in datos.get("data", []) if p.get("instagram_business_account")}
+
+
+def publicar_en_facebook(api, pagina, url_imagen, texto):
+    pagina_id, token_pagina = pagina
+    import requests
+    r = requests.post(f"{api.base}/{pagina_id}/photos", timeout=60, data={
+        "url": url_imagen, "message": texto, "access_token": token_pagina})
+    return api._respuesta(r)["id"]
 
 
 # ---------------------------------------------------------------- modos
@@ -242,13 +272,14 @@ def modo_prueba(config):
         print(f"\n=== Ejemplo {i + 1} → @{cuenta['usuario']} | {'ACEPTADA' if aceptada else 'DESCARTADA'}")
         if not aceptada:
             continue
-        puesto, zona, email = (extraer_puesto(oferta["caption"]), extraer_zona(oferta["caption"]),
-                               extraer_email(oferta["caption"]))
-        ruta = generar_tarjeta(cuenta, puesto, zona, email, salida / f"ejemplo_{i + 1}_{cuenta['clave']}.jpg")
-        print(armar_texto(cuenta, oferta, puesto, zona, email, config))
+        puesto, zona = extraer_puesto(oferta["caption"]), extraer_zona(oferta["caption"])
+        contacto = extraer_contacto(oferta["caption"])
+        rubro = extraer_rubro(puesto, oferta["caption"])
+        ruta = generar_tarjeta(cuenta, puesto, zona, contacto, salida / f"ejemplo_{i + 1}_{cuenta['clave']}.jpg")
+        print(armar_texto(cuenta, oferta, puesto, zona, contacto, rubro, config))
         if i == 0:
-            historia = generar_vertical(cuenta, ruta, f"Más info en @{cuenta['usuario']}",
-                                        salida / "ejemplo_historia.jpg")
+            generar_vertical(cuenta, ruta, f"Más info en @{cuenta['usuario']}",
+                             salida / "ejemplo_historia.jpg", rubro)
             generar_video(generar_vertical(cuenta, ruta, "Toda la info en la descripción",
                                            salida / "ejemplo_reel.jpg"), salida / "ejemplo_reel.mp4")
     print(f"\nTarjetas guardadas en {salida}")
@@ -294,23 +325,16 @@ def main():
     ordenar_y_limpiar_cola(estado, config)
     print(f"  {nuevas} ofertas nuevas, {len(estado['cola'])} en espera.")
 
-    # Cada hora se alterna qué cuenta elige primero. Primero se reparten las publicaciones
-    # normales (que también van a historias); si sobran ofertas, van como Reels de prueba,
-    # que NO se comparten en historias para no repetir el mismo anuncio.
-    if ahora().hour % 2:
+    # Cada hora, cada cuenta toma UNA oferta y la publica en todos los formatos:
+    # publicación + historia (con su rubro) + Reel de prueba + página de Facebook.
+    if ahora().hour % 2:  # se alterna qué cuenta elige primero
         cuentas.reverse()
     trabajos = []
     for cuenta in cuentas:
         if not estado["cola"]:
             print(f"  @{cuenta['usuario']}: no hay ofertas nuevas, se saltea esta hora.")
             continue
-        trabajos.append(preparar(cuenta, estado["cola"].pop(0), config, "feed"))
-    reels = config.get("reels_de_prueba", {})
-    if reels.get("activado"):
-        for _ in range(reels.get("por_hora_por_cuenta", 1)):
-            for cuenta in cuentas:
-                if estado["cola"]:
-                    trabajos.append(preparar(cuenta, estado["cola"].pop(0), config, "reel"))
+        trabajos.append(preparar(cuenta, estado["cola"].pop(0), config))
 
     en_github = os.environ.get("GITHUB_ACTIONS") == "true"
     solo_generar = args.sin_publicar or not en_github  # fuera de GitHub no hay URL pública
@@ -320,28 +344,21 @@ def main():
                         f"{sha}/{ruta.relative_to(RAIZ).as_posix()}")
     if sha:
         time.sleep(5)
+    paginas = paginas_de_facebook(api) if trabajos and config.get("facebook") and not solo_generar else {}
 
     errores = 0
     for t in trabajos:
         cuenta, oferta, archivos = t["cuenta"], t["oferta"], t["archivos"]
-        quien = f"@{cuenta['usuario']} ({'publicación' if t['formato'] == 'feed' else 'reel de prueba'})"
+        quien = f"@{cuenta['usuario']}"
         if solo_generar:
-            print(f"  {quien}: generado sin publicar → " + ", ".join(
+            print(f"  {quien}: generado sin publicar ({t['rubro']}) → " + ", ".join(
                 url(r) if sha and r.suffix == ".jpg" else r.name for r in archivos.values()))
             print(t["texto"])
             estado["cola"].insert(0, oferta)  # queda en espera para la próxima publicación real
             continue
         ig_id = os.environ[cuenta["variable_id"]]
         try:
-            if t["formato"] == "feed":
-                media_id = publicar_imagen(api, ig_id, url(archivos["tarjeta"]), t["texto"])
-            else:
-                media_id = publicar_reel_de_prueba(api, ig_id, archivos["video"], t["texto"],
-                                                   reels.get("graduacion", "MANUAL"))
-            estado["publicados"].append({"cuenta": cuenta["usuario"], "formato": t["formato"],
-                                         "oferta": oferta["id"], "media": media_id,
-                                         "fecha": ahora().isoformat()})
-            print(f"  {quien}: publicado ✔ ({oferta['permalink']})")
+            media_id = publicar_imagen(api, ig_id, url(archivos["tarjeta"]), t["texto"])
         except ErrorGraph as e:
             errores += 1
             print(f"  {quien}: ERROR al publicar → {e}")
@@ -349,12 +366,32 @@ def main():
             if oferta["intentos"] < 2:
                 estado["cola"].insert(0, oferta)
             continue
+        registro = {"cuenta": cuenta["usuario"], "oferta": oferta["id"], "rubro": t["rubro"],
+                    "media": media_id, "fecha": ahora().isoformat()}
+        estado["publicados"].append(registro)
+        print(f"  {quien}: publicado ✔ [{t['rubro']}] ({oferta['permalink']})")
+
+        # Lo demás es la MISMA oferta en otros formatos; si alguno falla, no frena al resto
+        extras = []
         if "historia" in archivos:
+            extras.append(("historia", lambda: publicar_imagen(api, ig_id, url(archivos["historia"]),
+                                                               historia=True)))
+        if "video" in archivos:
+            extras.append(("reel de prueba", lambda: publicar_reel_de_prueba(
+                api, ig_id, archivos["video"], t["texto"],
+                config["reels_de_prueba"].get("graduacion", "MANUAL"))))
+        if config.get("facebook"):
+            if ig_id in paginas:
+                extras.append(("Facebook", lambda: publicar_en_facebook(
+                    api, paginas[ig_id], url(archivos["tarjeta"]), texto_para_facebook(cuenta, t["texto"]))))
+            else:
+                print(f"  {quien}: Facebook → no encontré la página vinculada (¿falta el permiso pages_manage_posts?)")
+        for nombre, publicar in extras:
             try:
-                publicar_imagen(api, ig_id, url(archivos["historia"]), historia=True)
-                print(f"  @{cuenta['usuario']}: compartido en historias ✔")
+                registro[nombre] = publicar()
+                print(f"  {quien}: {nombre} ✔")
             except ErrorGraph as e:
-                print(f"  @{cuenta['usuario']}: no se pudo subir la historia → {e}")
+                print(f"  {quien}: {nombre} → no se pudo ({e})")
 
     for clave in ("vistos", "huellas", "publicados"):
         estado[clave] = estado[clave][-MAX_HISTORIAL:]
@@ -367,7 +404,7 @@ def main():
             git("push")
 
     if trabajos and errores == len(trabajos) and not solo_generar:
-        sys.exit("No se pudo publicar nada.")
+        sys.exit("No se pudo publicar en ninguna cuenta.")
 
 
 if __name__ == "__main__":

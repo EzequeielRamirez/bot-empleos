@@ -1,6 +1,8 @@
 """Genera la tarjeta (1080x1350) con el estilo de la cuenta."""
 from pathlib import Path
 
+from extraccion import formato_local
+
 from PIL import Image, ImageDraw, ImageFont
 
 ANCHO, ALTO = 1080, 1350
@@ -78,7 +80,7 @@ def icono_ubicacion(draw, x, y, tam, color):
     draw.ellipse((cx - r * 0.4, cy - r * 0.4, cx + r * 0.4, cy + r * 0.4), fill="#111111" if color != "#111111" else "#FFFFFF")
 
 
-def generar_tarjeta(cuenta, puesto, zona, email, destino):
+def generar_tarjeta(cuenta, puesto, zona, contacto, destino):
     fondo, negro, blanco = cuenta["color_fondo"], cuenta["color_texto"], "#FFFFFF"
     img = Image.new("RGB", (ANCHO, ALTO), fondo)
     draw = ImageDraw.Draw(img)
@@ -113,7 +115,12 @@ def generar_tarjeta(cuenta, puesto, zona, email, destino):
     # Cómo postularse
     draw.rounded_rectangle((MARGEN, 1060, ANCHO - MARGEN, 1200), radius=28, fill=blanco)
     draw.text((MARGEN + 36, 1080), "¿CÓMO POSTULARSE?", font=fuente("Lato-Black.ttf", 36), fill=negro)
-    detalle = f"Enviá tu CV a: {email}" if email else "Toda la información en la descripción"
+    if contacto.get("whatsapp"):
+        detalle = f"WhatsApp: {formato_local(contacto['whatsapp'])}"
+    elif contacto.get("email"):
+        detalle = f"Enviá tu CV a: {contacto['email']}"
+    else:
+        detalle = "Toda la información en la descripción"
     fd = fuente("Lato-Bold.ttf", 34)
     while ancho_texto(draw, detalle, fd) > ANCHO - 2 * MARGEN - 140 and fd.size > 22:
         fd = fuente("Lato-Bold.ttf", fd.size - 2)
@@ -135,7 +142,7 @@ def generar_tarjeta(cuenta, puesto, zona, email, destino):
     return destino
 
 
-def generar_vertical(cuenta, ruta_tarjeta, texto_inferior, destino):
+def generar_vertical(cuenta, ruta_tarjeta, texto_inferior, destino, rubro=None):
     """Versión 9:16 (1080x1920) para historias y reels: la tarjeta centrada con encabezado y pie."""
     fondo, negro, blanco = cuenta["color_fondo"], cuenta["color_texto"], "#FFFFFF"
     img = Image.new("RGB", (ANCHO, 1920), negro)
@@ -143,7 +150,12 @@ def generar_vertical(cuenta, ruta_tarjeta, texto_inferior, destino):
 
     f = fuente("Anton-Regular.ttf", 76)
     titulo = "NUEVA OFERTA DE TRABAJO"
-    draw.text(((ANCHO - ancho_texto(draw, titulo, f)) / 2, 150), titulo, font=f, fill=fondo)
+    draw.text(((ANCHO - ancho_texto(draw, titulo, f)) / 2, 110 if rubro else 150), titulo, font=f, fill=fondo)
+    if rubro:
+        fr = fuente("Lato-Black.ttf", 34)
+        etiqueta = f"RUBRO: {rubro.upper()}"
+        w = ancho_texto(draw, etiqueta, fr)
+        pastilla(draw, (ANCHO - w) / 2 - 28, 212, etiqueta, fr, blanco, negro)
 
     tarjeta = Image.open(ruta_tarjeta).convert("RGB").resize((1000, 1250))
     mascara = Image.new("L", tarjeta.size, 0)

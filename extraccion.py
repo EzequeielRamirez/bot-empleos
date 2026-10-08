@@ -149,3 +149,91 @@ def descripcion_sin_hashtags(caption, limite=900):
     if len(texto) > limite:
         texto = texto[:limite].rsplit(" ", 1)[0] + "…"
     return texto
+
+
+# ---------------------------------------------------------------- contacto
+
+TELEFONO = re.compile(r"(?<![\d$.,])(?:\+?\s?598[\s.-]?)?\(?0?\d{1,2}\)?[\s.-]?\d{3}[\s.-]?\d{3,4}(?![\d])")
+PALABRA_WHATSAPP = re.compile(r"whats\s?app|wpp|wsp|whats|wapp", re.IGNORECASE)
+
+
+def _numero_uy(texto):
+    """Devuelve el número uruguayo en 8 dígitos (sin 0 ni 598) o None."""
+    d = re.sub(r"\D", "", texto)
+    if d.startswith("598"):
+        d = d[3:]
+    d = d.lstrip("0")
+    return d if len(d) == 8 and d[0] in "2349" else None
+
+
+def formato_local(numero):
+    if numero.startswith("9"):  # celular: 099 123 456
+        return f"0{numero[:2]} {numero[2:5]} {numero[5:]}"
+    return f"{numero[:4]} {numero[4:]}"
+
+
+def extraer_contacto(caption):
+    """Email, WhatsApp y teléfono fijo. El WhatsApp es el número que aparece junto a la
+    palabra "WhatsApp" o, si no, el primer celular uruguayo (09X)."""
+    whatsapp = telefono = None
+    m = re.search(r"wa\.me/(\d+)", caption)
+    if m:
+        whatsapp = _numero_uy(m.group(1))
+    if not whatsapp:
+        for palabra in PALABRA_WHATSAPP.finditer(caption):
+            for n in TELEFONO.finditer(caption, palabra.end(), palabra.end() + 45):
+                whatsapp = _numero_uy(n.group())
+                if whatsapp:
+                    break
+            if whatsapp:
+                break
+    for n in TELEFONO.finditer(caption):
+        numero = _numero_uy(n.group())
+        if not numero or numero == whatsapp:
+            continue
+        if numero.startswith("9") and not whatsapp:
+            whatsapp = numero
+        elif not numero.startswith("9") and not telefono:
+            telefono = numero
+    return {"email": extraer_email(caption), "whatsapp": whatsapp, "telefono": telefono}
+
+
+# ---------------------------------------------------------------- rubro
+
+RUBROS = [
+    ("Gastronomía", ["cocin", "chef", "mozo", "moza", "barista", "gastronom", "panader", "pizz",
+                     "cafeter", "bacher", "parriller", "restaurant", "pasteler", "carro de comida"]),
+    ("Ventas y atención al público", ["vendedor", "ventas", "cajer", "atencion al cliente",
+                                      "atencion al publico", "comercial", "promotor", "tienda",
+                                      "call center", "telemarket", "repositor"]),
+    ("Limpieza y mantenimiento", ["limpieza", "limpiador", "mucama", "mantenimiento", "conserje",
+                                  "portero", "jardiner"]),
+    ("Salud y cuidados", ["cuidador", "enfermer", "medic", "acompanante", "adultos mayores",
+                          "odontolog", "farmac", "psicolog", "ninera", "diagnostico", "salud"]),
+    ("Administración y oficina", ["administrativ", "contable", "contador", "auditor", "recepcionista",
+                                  "secretari", "rrhh", "recursos humanos", "siniestros", "oficina",
+                                  "data entry", "facturacion", "cobranza"]),
+    ("Logística y transporte", ["chofer", "repartidor", "reparto", "logistic", "deposito",
+                                "expedicion", "conductor", "cadete", "camion", "delivery"]),
+    ("Construcción y oficios", ["obra", "construccion", "albanil", "electricista", "sanitario",
+                                "pintor", "carpinter", "herrer", "soldador", "mecanic", "tecnico"]),
+    ("Industria y producción", ["operario", "fabrica", "produccion", "planta", "industrial",
+                                "frigorifico", "envasado"]),
+    ("Tecnología y marketing", ["programador", "desarrollador", "developer", "sistemas", "informatic",
+                                "community manager", "marketing", "disenador", "redes sociales",
+                                "tiktok", "contenido digital"]),
+    ("Educación", ["docente", "maestr", "profesor", "educador", "tutor"]),
+    ("Belleza y estética", ["peluquer", "lashista", "manicur", "estetic", "barber", "cosmetolog",
+                            "maquillador", "pestan"]),
+    ("Seguridad", ["guardia", "seguridad", "vigilante", "custodia"]),
+    ("Turismo y eventos", ["animador", "recreac", "eventos", "hotel", "turismo"]),
+]
+
+
+def extraer_rubro(puesto, caption):
+    """Primero mira el puesto; si no alcanza, el texto completo."""
+    for texto in (normalizar(puesto), normalizar(caption)):
+        for rubro, palabras in RUBROS:
+            if any(p in texto for p in palabras):
+                return rubro
+    return "Otros rubros"

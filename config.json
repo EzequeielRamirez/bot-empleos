@@ -137,7 +137,7 @@
   "historias": true,
   "reels_de_prueba": {
     "activado": true,
-    "por_hora_por_cuenta": 1,
     "graduacion": "MANUAL"
-  }
+  },
+  "facebook": true
 }
