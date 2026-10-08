@@ -1,0 +1,28 @@
+name: Reloj (lanza el bot cada hora)
+
+# El programador de GitHub ("schedule") saltea muchas ejecuciones. Este reloj no depende de él:
+# el entorno "espera-1h" tiene un tiempo de espera de 60 minutos (no ocupa ninguna máquina
+# mientras espera); después lanza el bot y se vuelve a lanzar a sí mismo, en cadena.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 */6 * * *"  # respaldo: si la cadena se cortara, la vuelve a encender
+
+permissions:
+  actions: write
+
+concurrency:
+  group: reloj
+  cancel-in-progress: false
+
+jobs:
+  esperar-y-lanzar:
+    runs-on: ubuntu-latest
+    environment: espera-1h
+    steps:
+      - name: Lanzar el bot y programar la próxima hora
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run publicar.yml --repo "$GITHUB_REPOSITORY"
+          gh workflow run reloj.yml --repo "$GITHUB_REPOSITORY"
