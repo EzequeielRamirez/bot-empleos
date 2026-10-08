@@ -77,8 +77,10 @@ def git(*args):
 
 # ---------------------------------------------------------------- búsqueda
 
-def buscar_ofertas(api, ig_id, config, estado):
+def buscar_ofertas(api, ig_id, config, estado, tipo="recent_media"):
+    """tipo: "recent_media" (últimas 24 h) o "top_media" (destacadas, pueden ser más viejas)."""
     vistos, huellas = set(estado["vistos"]), set(estado["huellas"])
+    limite = ahora() - timedelta(days=config["dias_maximos_de_antiguedad"])
     nuevas = 0
     for tag in config["hashtags_a_buscar"]:
         try:
@@ -89,10 +91,10 @@ def buscar_ofertas(api, ig_id, config, estado):
                     continue
                 hid = estado["hashtag_ids"][tag] = res["data"][0]["id"]
             try:
-                res = api.get(f"{hid}/recent_media", user_id=ig_id, limit=25,
+                res = api.get(f"{hid}/{tipo}", user_id=ig_id, limit=25,
                               fields="id,caption,permalink,timestamp")
             except ErrorGraph:  # hashtags muy grandes: Instagram pide menos datos por vez
-                res = api.get(f"{hid}/recent_media", user_id=ig_id, limit=10,
+                res = api.get(f"{hid}/{tipo}", user_id=ig_id, limit=10,
                               fields="id,caption,permalink,timestamp")
         except ErrorGraph as e:
             print(f"  #{tag}: no se pudo buscar ({e})")
@@ -101,6 +103,9 @@ def buscar_ofertas(api, ig_id, config, estado):
         for post in res.get("data", []):
             if post["id"] in vistos:
                 continue
+            fecha = post.get("timestamp", ahora().strftime("%Y-%m-%dT%H:%M:%S+0000"))
+            if datetime.strptime(fecha, "%Y-%m-%dT%H:%M:%S%z") < limite:
+                continue  # muy vieja: ni la marcamos como vista
             vistos.add(post["id"])
             estado["vistos"].append(post["id"])
             caption = post.get("caption") or ""
@@ -111,11 +116,9 @@ def buscar_ofertas(api, ig_id, config, estado):
                 continue
             huellas.add(h)
             estado["huellas"].append(h)
-            estado["cola"].append({
-                "id": post["id"], "caption": caption, "permalink": post.get("permalink", ""),
-                "timestamp": post.get("timestamp", ahora().strftime("%Y-%m-%dT%H:%M:%S+0000")),
-                "intentos": 0,
-            })
+            estado["cola"].append({"id": post["id"], "caption": caption,
+                                   "permalink": post.get("permalink", ""), "timestamp": fecha,
+                                   "intentos": 0})
             nuevas += 1
     return nuevas
 
@@ -321,8 +324,15 @@ def main():
     estado = cargar_json(ARCHIVO_ESTADO, estado_inicial())
 
     print("Buscando ofertas nuevas…")
-    nuevas = buscar_ofertas(api, os.environ[cuentas[0]["variable_id"]], config, estado)
+    ig_busqueda = os.environ[cuentas[0]["variable_id"]]
+    nuevas = buscar_ofertas(api, ig_busqueda, config, estado)
     ordenar_y_limpiar_cola(estado, config)
+    # Si quedan pocas, se completan con publicaciones destacadas de los últimos días
+    if len(estado["cola"]) < config.get("minimo_en_espera", 6):
+        extra = buscar_ofertas(api, ig_busqueda, config, estado, tipo="top_media")
+        ordenar_y_limpiar_cola(estado, config)
+        print(f"  Quedaban pocas: se sumaron {extra} de las destacadas (hasta "
+              f"{config['dias_maximos_de_antiguedad']} días).")
     print(f"  {nuevas} ofertas nuevas, {len(estado['cola'])} en espera.")
 
     # Cada hora, cada cuenta toma UNA oferta y la publica en todos los formatos:

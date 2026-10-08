@@ -99,7 +99,7 @@
     "sumate al equipo de"
   ],
   "minimo_caracteres_descripcion": 60,
-  "dias_maximos_de_antiguedad": 3,
+  "dias_maximos_de_antiguedad": 30,
   "palabras_de_otros_paises": [
     "argentina",
     "misiones",
@@ -139,5 +139,6 @@
     "activado": true,
     "graduacion": "MANUAL"
   },
-  "facebook": true
+  "facebook": true,
+  "minimo_en_espera": 6
 }
