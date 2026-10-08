@@ -17,7 +17,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_contacto,
-                        extraer_puesto, extraer_rubro, extraer_zona, formato_local, huella)
+                        extraer_puesto, extraer_rubro, formato_local, huella)
+from ubicacion import extraer_ubicacion
 from tarjeta import generar_tarjeta, generar_vertical
 from video import generar_video
 
@@ -29,6 +30,11 @@ MAX_HISTORIAL = 5000
 AVISO = ("⚠️ Importante: {marca} no contrata, no selecciona personal y no recibe currículums. "
          "Únicamente difundimos oportunidades laborales publicadas por empresas y terceros. "
          "La postulación debe realizarse directamente mediante el contacto indicado.")
+
+
+def oferta_valida(caption, config):
+    """Búsqueda laboral + un lugar de Uruguay identificable (si no, puede ser de otro país)."""
+    return es_busqueda_laboral(caption, config) and extraer_ubicacion(caption) is not None
 
 
 class ErrorGraph(Exception):
@@ -109,7 +115,7 @@ def buscar_ofertas(api, ig_id, config, estado, tipo="recent_media"):
             vistos.add(post["id"])
             estado["vistos"].append(post["id"])
             caption = post.get("caption") or ""
-            if not es_busqueda_laboral(caption, config):
+            if not oferta_valida(caption, config):
                 continue
             h = huella(caption)
             if h in huellas:
@@ -127,7 +133,7 @@ def ordenar_y_limpiar_cola(estado, config):
     limite = ahora() - timedelta(days=config["dias_maximos_de_antiguedad"])
     cola = [o for o in estado["cola"]
             if datetime.strptime(o["timestamp"], "%Y-%m-%dT%H:%M:%S%z") >= limite
-            and es_busqueda_laboral(o["caption"], config)]  # por si cambiaron los filtros
+            and oferta_valida(o["caption"], config)]  # por si cambiaron los filtros
     cola.sort(key=lambda o: o["timestamp"], reverse=True)  # lo más nuevo primero
     estado["cola"] = cola
 
@@ -228,7 +234,7 @@ def subir_imagenes(rutas):
 def preparar(cuenta, oferta, config):
     """Una oferta → tarjeta (publicación y Facebook), historia con su rubro y video del Reel de prueba."""
     puesto = extraer_puesto(oferta["caption"])
-    zona = extraer_zona(oferta["caption"])
+    zona = extraer_ubicacion(oferta["caption"])
     contacto = extraer_contacto(oferta["caption"])
     rubro = extraer_rubro(puesto, oferta["caption"])
     base = CARPETA_SALIDA / cuenta["clave"] / f"{ahora():%Y%m%d_%H%M}_{oferta['id']}"
@@ -271,11 +277,11 @@ def modo_prueba(config):
     salida = RAIZ / "vista_previa"
     for i, oferta in enumerate(ejemplos):
         cuenta = config["cuentas"][i % len(config["cuentas"])]
-        aceptada = es_busqueda_laboral(oferta["caption"], config)
+        aceptada = oferta_valida(oferta["caption"], config)
         print(f"\n=== Ejemplo {i + 1} → @{cuenta['usuario']} | {'ACEPTADA' if aceptada else 'DESCARTADA'}")
         if not aceptada:
             continue
-        puesto, zona = extraer_puesto(oferta["caption"]), extraer_zona(oferta["caption"])
+        puesto, zona = extraer_puesto(oferta["caption"]), extraer_ubicacion(oferta["caption"])
         contacto = extraer_contacto(oferta["caption"])
         rubro = extraer_rubro(puesto, oferta["caption"])
         ruta = generar_tarjeta(cuenta, puesto, zona, contacto, salida / f"ejemplo_{i + 1}_{cuenta['clave']}.jpg", rubro)

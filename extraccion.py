@@ -36,7 +36,8 @@ GENERICOS_INICIO = (
     "se busca", "ingreso", "llamado", "atencion!", "atencion", "hola", "nueva", "nuevo",
     "sumate", "unite", "postulate", "incorporar", "enviar", "envia", "cv",
     "en ", "temporada", "busquedalaboral", "ofertalaboral", "seguimos", "somos",
-    "ser parte", "formar parte", "parte de",
+    "ser parte", "formar parte", "parte de", "oferta laboral", "oportunidades laborales",
+    "trabajo en", "empleo en", "llamado laboral",
 )
 VERBOS_DE_FRASE = re.compile(r"busc|selecci|abre|necesit|sumamos|incorpor|tenemos|queremos|"
                              r"envi|postul|\bcv\b|seguimos|crecie|\?",
