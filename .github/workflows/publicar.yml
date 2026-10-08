@@ -12,6 +12,10 @@ on:
         default: publicar
         type: choice
         options: [publicar, sin-publicar]
+      forzar:
+        description: "Publicar aunque no haya pasado 1 hora desde la última vez"
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -33,7 +37,9 @@ jobs:
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import json, os
           from datetime import datetime, timezone
-          if os.environ["EVENTO"] != "schedule":
+          # Los avisos automáticos (horario de GitHub o disparador externo) se filtran para
+          # no publicar dos veces en la misma hora; las pruebas a mano pueden forzar.
+          if os.environ["FORZAR"] == "true" or os.environ["MODO"] == "sin-publicar":
               print("seguir=true"); raise SystemExit
           try:
               estado = json.load(open("estado.json"))
@@ -45,7 +51,8 @@ jobs:
           PY
           cat "$GITHUB_OUTPUT"
         env:
-          EVENTO: ${{ github.event_name }}
+          FORZAR: ${{ inputs.forzar || 'false' }}
+          MODO: ${{ inputs.modo || 'publicar' }}
 
       - uses: actions/setup-python@v5
         if: steps.control.outputs.seguir == 'true'
