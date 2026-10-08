@@ -201,24 +201,53 @@ def sombra(img, caja, radio, desplazamiento=10, opacidad=70):
 
 # ---------------------------------------------------------------- tarjeta
 
-def generar_tarjeta(cuenta, puesto, zona, contacto, destino, rubro=None):
+def fondo_con_foto(ruta_foto):
+    """Foto a pantalla completa con capas oscuras arriba y abajo para que el texto se lea."""
+    foto = Image.open(ruta_foto).convert("RGB")
+    escala = max(ANCHO / foto.width, ALTO / foto.height)
+    foto = foto.resize((round(foto.width * escala), round(foto.height * escala)), Image.LANCZOS)
+    x, y = (foto.width - ANCHO) // 2, (foto.height - ALTO) // 2
+    img = foto.crop((x, y, x + ANCHO, y + ALTO)).convert("RGBA")
+    capa = Image.new("RGBA", (1, ALTO))
+    for yy in range(ALTO):
+        t = yy / ALTO
+        if t < 0.35:      # arriba: encabezado legible
+            a = 200 - (200 - 95) * (t / 0.35)
+        elif t < 0.62:    # centro: se ve la foto
+            a = 95
+        else:             # abajo: contacto y pie
+            a = 95 + (225 - 95) * ((t - 0.62) / 0.38)
+        capa.putpixel((0, yy), (10, 8, 4, int(a)))
+    img.alpha_composite(capa.resize((ANCHO, ALTO)))
+    # filete naranja de marca arriba
+    ImageDraw.Draw(img).rectangle((0, 0, ANCHO, 10), fill=DEGRADE_CENTRO)
+    return img
+
+
+def generar_tarjeta(cuenta, puesto, zona, contacto, destino, rubro=None, foto=None):
     negro, blanco = "#111111", "#FFFFFF"
-    img = fondo_degradado(ANCHO, ALTO).convert("RGBA")
+    naranja = DEGRADE_CENTRO
+    con_foto = foto is not None
+    img = fondo_con_foto(foto) if con_foto else fondo_degradado(ANCHO, ALTO).convert("RGBA")
     draw = ImageDraw.Draw(img)
+    texto_cab = blanco if con_foto else negro
+    lema_color = (255, 226, 168) if con_foto else "#3B2A00"
 
     # Encabezado estilo Instagram: logo con aro, usuario + verificado, lema
     d = 132
     img.alpha_composite(avatar(cuenta, d), (MARGEN - 6, 58))
     fu = fuente("Lato-Black.ttf", 46)
     x_txt = MARGEN + d + 22
-    draw.text((x_txt, 76), cuenta["usuario"], font=fu, fill=negro)
+    draw.text((x_txt, 76), cuenta["usuario"], font=fu, fill=texto_cab)
     img.alpha_composite(insignia_verificado(44), (int(x_txt + ancho_texto(draw, cuenta["usuario"], fu) + 12), 80))
-    draw.text((x_txt, 136), cuenta["lema"], font=fuente("Lato-Regular.ttf", 31), fill="#3B2A00")
-    draw.line((MARGEN, 222, ANCHO - MARGEN, 222), fill=(17, 17, 17, 60), width=2)
+    draw.text((x_txt, 136), cuenta["lema"], font=fuente("Lato-Regular.ttf", 31), fill=lema_color)
+    draw.line((MARGEN, 222, ANCHO - MARGEN, 222), fill=(255, 255, 255, 90) if con_foto else (17, 17, 17, 60), width=2)
 
     # Etiqueta + título
-    _, y = pastilla(draw, MARGEN, 252, "OFERTA DE TRABAJO", fuente("Lato-Black.ttf", 30), negro, blanco, 26, 12)
-    draw.text((MARGEN, y + 22), "SE BUSCA", font=fuente("Anton-Regular.ttf", 84), fill=negro)
+    _, y = pastilla(draw, MARGEN, 252, "OFERTA DE TRABAJO", fuente("Lato-Black.ttf", 30),
+                    naranja if con_foto else negro, negro if con_foto else blanco, 26, 12)
+    draw.text((MARGEN, y + 22), "SE BUSCA", font=fuente("Anton-Regular.ttf", 84), fill=naranja if con_foto else negro,
+              stroke_width=3 if con_foto else 0, stroke_fill=negro)
     y_titulo = y + 140
     alto_disponible = 905 - y_titulo
     f, lineas, interlineado = ajustar_titulo(draw, puesto.upper(), ANCHO - 2 * MARGEN, alto_disponible)
@@ -233,9 +262,9 @@ def generar_tarjeta(cuenta, puesto, zona, contacto, destino, rubro=None):
     fz = fuente("Lato-Black.ttf", 32)
     texto_zona = zona.upper()
     w = ancho_texto(draw, texto_zona, fz)
-    draw.rounded_rectangle((MARGEN, 930, MARGEN + w + 96, 998), radius=34, fill=negro)
-    icono_ubicacion(draw, MARGEN + 24, 942, 44, DEGRADE_CENTRO)
-    draw.text((MARGEN + 76, 945), texto_zona, font=fz, fill=blanco)
+    draw.rounded_rectangle((MARGEN, 930, MARGEN + w + 96, 998), radius=34, fill=naranja if con_foto else negro)
+    icono_ubicacion(draw, MARGEN + 24, 942, 44, negro if con_foto else naranja)
+    draw.text((MARGEN + 76, 945), texto_zona, font=fz, fill=negro if con_foto else blanco)
     if rubro:
         texto_rubro = rubro.upper()
         fr = fuente("Lato-Black.ttf", 26)

@@ -19,6 +19,7 @@ from pathlib import Path
 from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_contacto,
                         extraer_puesto, extraer_rubro, formato_local, huella)
 from ubicacion import extraer_ubicacion
+from fondos import elegir_fondo
 from tarjeta import generar_tarjeta, generar_vertical
 from video import generar_video
 
@@ -238,7 +239,8 @@ def preparar(cuenta, oferta, config):
     contacto = extraer_contacto(oferta["caption"])
     rubro = extraer_rubro(puesto, oferta["caption"])
     base = CARPETA_SALIDA / cuenta["clave"] / f"{ahora():%Y%m%d_%H%M}_{oferta['id']}"
-    archivos = {"tarjeta": generar_tarjeta(cuenta, puesto, zona, contacto, base.with_suffix(".jpg"), rubro)}
+    foto = elegir_fondo(puesto, rubro, oferta["caption"]) if config.get("fotos_de_fondo", True) else None
+    archivos = {"tarjeta": generar_tarjeta(cuenta, puesto, zona, contacto, base.with_suffix(".jpg"), rubro, foto)}
     if config.get("historias"):
         archivos["historia"] = generar_vertical(cuenta, archivos["tarjeta"],
                                                 f"Más info en @{cuenta['usuario']}",
@@ -284,7 +286,8 @@ def modo_prueba(config):
         puesto, zona = extraer_puesto(oferta["caption"]), extraer_ubicacion(oferta["caption"])
         contacto = extraer_contacto(oferta["caption"])
         rubro = extraer_rubro(puesto, oferta["caption"])
-        ruta = generar_tarjeta(cuenta, puesto, zona, contacto, salida / f"ejemplo_{i + 1}_{cuenta['clave']}.jpg", rubro)
+        ruta = generar_tarjeta(cuenta, puesto, zona, contacto, salida / f"ejemplo_{i + 1}_{cuenta['clave']}.jpg", rubro,
+                              elegir_fondo(puesto, rubro, oferta["caption"]))
         print(armar_texto(cuenta, oferta, puesto, zona, contacto, rubro, config))
         if i == 0:
             generar_vertical(cuenta, ruta, f"Más info en @{cuenta['usuario']}",
@@ -419,7 +422,13 @@ def main():
         git("add", "estado.json")
         if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=RAIZ).returncode:
             git("commit", "-m", "Actualizar estado")
-            git("push")
+            for intento in range(4):  # si alguien subió algo mientras tanto, se actualiza y reintenta
+                if subprocess.run(["git", "push"], cwd=RAIZ).returncode == 0:
+                    break
+                subprocess.run(["git", "pull", "--rebase", "-X", "theirs"], cwd=RAIZ)
+                time.sleep(3)
+            else:
+                sys.exit("No se pudo guardar el estado en GitHub.")
 
     if trabajos and errores == len(trabajos) and not solo_generar:
         sys.exit("No se pudo publicar en ninguna cuenta.")
