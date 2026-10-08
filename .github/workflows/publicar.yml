@@ -2,7 +2,7 @@ name: Publicar ofertas de trabajo
 
 on:
   schedule:
-    - cron: "0 * * * *"   # cada hora, en punto (hora UTC)
+    - cron: "17 * * * *"  # cada hora al minuto 17 (en el minuto 00 GitHub está saturado y saltea ejecuciones)
   workflow_dispatch:       # botón "Run workflow" para probar a mano
     inputs:
       modo:
