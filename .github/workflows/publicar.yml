@@ -36,8 +36,8 @@ jobs:
           if os.environ["EVENTO"] != "schedule":
               print("seguir=true"); raise SystemExit
           try:
-              publicados = json.load(open("estado.json")).get("publicados", [])
-              ultima = datetime.fromisoformat(publicados[-1]["fecha"])
+              estado = json.load(open("estado.json"))
+              ultima = datetime.fromisoformat(estado.get("ultima_ejecucion") or estado["publicados"][-1]["fecha"])
               minutos = (datetime.now(timezone.utc) - ultima).total_seconds() / 60
           except Exception:
               minutos = 999

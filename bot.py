@@ -405,6 +405,8 @@ def main():
 
     for clave in ("vistos", "huellas", "publicados"):
         estado[clave] = estado[clave][-MAX_HISTORIAL:]
+    if not solo_generar:
+        estado["ultima_ejecucion"] = ahora().isoformat()  # el workflow lo usa para correr 1 vez por hora
     ARCHIVO_ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
 
     if en_github:
