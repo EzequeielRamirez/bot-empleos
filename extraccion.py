@@ -35,9 +35,10 @@ GENERICOS_INICIO = (
     "vacante", "oportunidad", "trabajo", "empleo", "urgente", "estamos", "te gusta", "buscamos",
     "se busca", "ingreso", "llamado", "atencion!", "atencion", "hola", "nueva", "nuevo",
     "sumate", "unite", "postulate", "incorporar", "enviar", "envia", "cv",
+    "en ", "temporada", "busquedalaboral", "ofertalaboral", "seguimos", "somos",
 )
 VERBOS_DE_FRASE = re.compile(r"busc|selecci|abre|necesit|sumamos|incorpor|tenemos|queremos|"
-                             r"envi|postul|\bcv\b|\?",
+                             r"envi|postul|\bcv\b|seguimos|crecie|\?",
                              re.IGNORECASE)
 
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
@@ -209,14 +210,16 @@ RUBROS = [
     ("Limpieza y mantenimiento", ["limpieza", "limpiador", "mucama", "mantenimiento", "conserje",
                                   "portero", "jardiner"]),
     ("Salud y cuidados", ["cuidador", "enfermer", "medic", "acompanante", "adultos mayores",
-                          "odontolog", "farmac", "psicolog", "ninera", "diagnostico", "salud"]),
+                          "odontolog", "farmac", "psicolog", "ninera", "diagnostico", "salud",
+                          "social", "trabajador/a social"]),
     ("Administración y oficina", ["administrativ", "contable", "contador", "auditor", "recepcionista",
                                   "secretari", "rrhh", "recursos humanos", "siniestros", "oficina",
                                   "data entry", "facturacion", "cobranza"]),
     ("Logística y transporte", ["chofer", "repartidor", "reparto", "logistic", "deposito",
                                 "expedicion", "conductor", "cadete", "camion", "delivery"]),
     ("Construcción y oficios", ["obra", "construccion", "albanil", "electricista", "sanitario",
-                                "pintor", "carpinter", "herrer", "soldador", "mecanic", "tecnico"]),
+                                "pintor", "carpinter", "herrer", "soldador", "mecanic", "tecnico de obra",
+                                "tecnico electric", "tecnico en mantenimiento"]),
     ("Industria y producción", ["operario", "fabrica", "produccion", "planta", "industrial",
                                 "frigorifico", "envasado"]),
     ("Tecnología y marketing", ["programador", "desarrollador", "developer", "sistemas", "informatic",
