@@ -1,0 +1,63 @@
+{
+  "graph_version": "v24.0",
+
+  "cuentas": [
+    {
+      "clave": "tcm",
+      "usuario": "tcm.uruguay",
+      "logo_texto": "TCM",
+      "lema": "Trabajo y empleos en Uruguay",
+      "variable_id": "IG_ID_TCM",
+      "color_fondo": "#F7A21B",
+      "color_texto": "#111111",
+      "hashtags_propios": "#TCMUruguay"
+    },
+    {
+      "clave": "btu",
+      "usuario": "__b.t.u__",
+      "logo_texto": "BTU",
+      "lema": "Busco Trabajo Uruguay",
+      "variable_id": "IG_ID_BTU",
+      "color_fondo": "#F7A21B",
+      "color_texto": "#111111",
+      "hashtags_propios": "#BuscoTrabajoUruguay"
+    }
+  ],
+
+  "hashtags_a_buscar": [
+    "trabajouruguay",
+    "empleouruguay",
+    "trabajomontevideo",
+    "empleomontevideo",
+    "busquedalaboral",
+    "ofertalaboraluruguay",
+    "trabajoenuruguay",
+    "vacantesuruguay",
+    "rrhhuruguay",
+    "trabajocanelones",
+    "trabajomaldonado",
+    "estamosbuscando"
+  ],
+
+  "hashtags_al_publicar": "#TrabajoUruguay #EmpleoUruguay #BusquedaLaboral #TrabajoMontevideo #OfertaLaboral #Empleo #Uruguay",
+
+  "palabras_de_busqueda_laboral": [
+    "buscamos", "estamos buscando", "busqueda laboral", "se busca", "se necesita",
+    "necesitamos", "vacante", "postulate", "postulacion", "postularse", "postulantes",
+    "enviar cv", "envia tu cv", "envianos tu cv", "enviar curriculum", "curriculum",
+    "requisitos", "oferta laboral", "oportunidad laboral", "llamado a", "incorporar",
+    "sumate a nuestro equipo", "unite a nuestro equipo", "se solicita", "seleccionamos"
+  ],
+
+  "palabras_prohibidas": [
+    "busco trabajo", "me ofrezco", "estoy buscando trabajo", "busco empleo",
+    "cripto", "forex", "trading", "inversion", "multinivel", "ingresos extra",
+    "ganar dinero", "gana dinero", "ganancias", "network marketing", "libertad financiera",
+    "apuestas", "casino", "trabaja desde tu celular", "sin experiencia gana",
+    "@tcm.uruguay", "@__b.t.u__", "tcmuruguay", "buscotrabajouruguay"
+  ],
+
+  "minimo_caracteres_descripcion": 60,
+  "dias_maximos_de_antiguedad": 3,
+  "dias_que_se_guardan_las_imagenes": 7
+}
