@@ -24,6 +24,9 @@ RAIZ = Path(__file__).parent
 ARCHIVO_ESTADO = RAIZ / "estado.json"
 CARPETA_IMAGENES = RAIZ / "publicadas"
 MAX_HISTORIAL = 5000
+AVISO = ("⚠️ Importante: {marca} no contrata, no selecciona personal y no recibe currículums. "
+         "Únicamente difundimos oportunidades laborales publicadas por empresas y terceros. "
+         "La postulación debe realizarse directamente mediante el contacto indicado.")
 
 
 class ErrorGraph(Exception):
@@ -132,7 +135,8 @@ def armar_texto(cuenta, oferta, puesto, zona, email, config):
               f"📍 Zona: {zona}"]
     if email:
         lineas.append(f"📩 Contacto: {email}")
-    lineas += ["", "📝 Detalle publicado por la empresa:",
+    lineas += ["", AVISO.format(marca=cuenta["logo_texto"]),
+               "", "📝 Detalle publicado por la empresa:",
                descripcion_sin_hashtags(oferta["caption"]), ""]
     if oferta.get("permalink"):
         lineas += [f"🔗 Publicación original: {oferta['permalink']}", ""]

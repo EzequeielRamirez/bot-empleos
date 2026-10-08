@@ -93,7 +93,7 @@ def generar_tarjeta(cuenta, puesto, zona, email, destino):
     _, y = pastilla(draw, MARGEN, 270, "OFERTA DE TRABAJO", fuente("Lato-Black.ttf", 34), negro, blanco)
 
     # Título
-    draw.text((MARGEN, y + 30), "ESTAMOS BUSCANDO", font=fuente("Anton-Regular.ttf", 84), fill=negro)
+    draw.text((MARGEN, y + 30), "SE BUSCA", font=fuente("Anton-Regular.ttf", 84), fill=negro)
     y_titulo = y + 150
     alto_disponible = 930 - y_titulo
     f, lineas, interlineado = ajustar_titulo(draw, puesto.upper(), ANCHO - 2 * MARGEN, alto_disponible)
