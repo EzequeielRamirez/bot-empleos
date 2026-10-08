@@ -10,13 +10,32 @@ DEPARTAMENTOS = [
     "Punta del Este", "Ciudad de la Costa", "Las Piedras", "Pando", "Piriápolis",
 ]
 
+# Formas explícitas ("Puesto: X") y frases típicas ("buscamos X", "llamado para X")
+PATRON_EXPLICITO = r"(?:puesto|cargo|vacante|rol)\s*[:\-–]\s*([^\n.!¡?¿#:;]{3,70})"
 PATRONES_PUESTO = [
-    r"(?:puesto|cargo|vacante|rol)\s*[:\-–]\s*([^\n.!¡?¿#:;|]{3,70})",
-    r"(?:estamos buscando|buscamos|se busca|se necesita|necesitamos|se solicita|"
-    r"estamos en la b[uú]squeda de|incorporamos|seleccionamos)\s+"
-    r"(?:a\s+)?(?:(?:un|una|unos|unas|el|la)(?:\s*/\s*a|\(a\))?\s+)?"
-    r"([^\n.,!¡?¿#:;(|]{3,70})",
+    r"(?:oportunidad laboral|llamado(?: p[uú]blico)?|b[uú]squeda laboral)\s+(?:para|de)\s+"
+    r"(?:el puesto de\s+)?(?:\d+\s+)?([^\n.,!¡?¿#:;(]{3,70})",
+    r"(?:para el puesto de|en el puesto de|puesto de|cargo de)\s+([^\n.,!¡?¿#:;(]{3,70})",
+    r"(?:estamos buscando|estamos sumando|estamos incorporando|buscamos|se busca|se buscan|"
+    r"se necesita|se necesitan|necesitamos|se solicita|buscan|busca|est[aá] buscando|"
+    r"estamos en la b[uú]squeda de|incorporamos|seleccionamos|est[aá] seleccionando)\s+"
+    r"(?:a\s+)?(?:(?:un|una|unos|unas|el|la|los|las)(?:\s*/\s*a|\(a\))?\s+)?"
+    r"([^\n.,!¡?¿#:;(]{3,70})",
+    r"(?:[aá]rea|sector) de\s+([^\n.,!¡?¿#:;(]{3,50})",
 ]
+SEPARADORES = r"\s+[–—|]\s+|\s+-\s+|\s*\|\s*"
+CORTES = (r"\s+(?:para|que|con experiencia|con o sin|zona|en el|en la|en zona|en nuestr[oa]s?|"
+          r"a nuestro|a su|al equipo|y sumarte)\b")
+GENERICOS_EXACTOS = {"personal", "talento", "gente", "personas", "equipo", "trabajo", "empleo"}
+GENERICOS_INICIO = (
+    "sumar", "personal para", "personal joven", "personal femenino", "personal masculino",
+    "personal con", "personal idoneo", "talento", "gente", "personas", "nuevos", "nuevas",
+    "colaborador", "integrante", "a nuestro", "busqueda laboral", "importante", "nueva vacante",
+    "vacante", "oportunidad", "trabajo", "empleo", "urgente", "estamos", "te gusta", "buscamos",
+    "se busca", "ingreso", "llamado", "atencion!", "atencion", "hola",
+)
+VERBOS_DE_FRASE = re.compile(r"busc|selecci|abre|necesit|sumamos|incorpor|tenemos|queremos|\?",
+                             re.IGNORECASE)
 
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
 
@@ -38,13 +57,21 @@ def limpiar(texto):
     return re.sub(r"\s+", " ", "".join(permitido)).strip(" -/")
 
 
+SENALES_DE_POSTULACION = ("cv", "curriculum", "postul", "envia", "enviar", "whatsapp", "wsp",
+                          "mensaje privado", "privado", "inscrib", "formulario", "link",
+                          "interesad", "comunicarse", "contacto", "llamar", "dm")
+
+
 def es_busqueda_laboral(caption, config):
     if not caption or len(caption) < config["minimo_caracteres_descripcion"]:
         return False
     t = normalizar(caption)
     if any(p in t for p in config["palabras_prohibidas"]):
         return False
-    return any(p in t for p in config["palabras_de_busqueda_laboral"])
+    if not any(p in t for p in config["palabras_de_busqueda_laboral"]):
+        return False
+    # Tiene que decir cómo postularse (descarta noticias y consejos)
+    return bool(EMAIL.search(caption)) or any(s in t for s in SENALES_DE_POSTULACION)
 
 
 def huella(caption):
@@ -53,18 +80,43 @@ def huella(caption):
     return hashlib.sha1(base.encode()).hexdigest()[:16]
 
 
+def _candidato(texto):
+    """Limpia un posible puesto; devuelve None si es genérico."""
+    texto = re.split(SEPARADORES, texto, maxsplit=1)[0]
+    texto = limpiar(texto).strip(" !¡")
+    texto = re.split(CORTES, texto, maxsplit=1, flags=re.IGNORECASE)[0].strip()
+    if len(texto) > 45:
+        texto = texto[:45].rsplit(" ", 1)[0]
+    n = normalizar(texto)
+    if len(texto) < 3 or n in GENERICOS_EXACTOS or n.startswith(GENERICOS_INICIO):
+        return None
+    return texto
+
+
+def _desde_titulo(caption):
+    """Muchos posts arrancan con "🍔 Cajero/a – Empresa" o "BÚSQUEDA LABORAL | ASISTENTE"."""
+    primera = next((l for l in caption.splitlines() if limpiar(l)), "")
+    for parte in re.split(SEPARADORES, primera)[:2]:
+        if VERBOS_DE_FRASE.search(parte) or len(limpiar(parte)) > 45:
+            continue
+        candidato = _candidato(parte)
+        if candidato:
+            return candidato
+    return None
+
+
 def extraer_puesto(caption):
+    m = re.search(PATRON_EXPLICITO, caption, re.IGNORECASE)
+    if m and _candidato(m.group(1)):
+        return _candidato(m.group(1))
+    titulo = _desde_titulo(caption)
+    if titulo:
+        return titulo
     for patron in PATRONES_PUESTO:
-        m = re.search(patron, caption, re.IGNORECASE)
-        if m:
-            puesto = limpiar(m.group(1))
-            # Cortamos en conectores que suelen iniciar otra idea
-            puesto = re.split(r"\s+(?:para trabajar|que |con experiencia|zona|en el|en la|en zona)\b",
-                              puesto, maxsplit=1, flags=re.IGNORECASE)[0]
-            if len(puesto) > 45:
-                puesto = puesto[:45].rsplit(" ", 1)[0]
-            if len(puesto) >= 3:
-                return puesto
+        for m in re.finditer(patron, caption, re.IGNORECASE):
+            candidato = _candidato(m.group(1))
+            if candidato:
+                return candidato
     return "Personal"
 
 

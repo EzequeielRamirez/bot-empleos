@@ -83,8 +83,12 @@ def buscar_ofertas(api, ig_id, config, estado):
                 if not res.get("data"):
                     continue
                 hid = estado["hashtag_ids"][tag] = res["data"][0]["id"]
-            res = api.get(f"{hid}/recent_media", user_id=ig_id, limit=50,
-                          fields="id,caption,permalink,timestamp,media_type")
+            try:
+                res = api.get(f"{hid}/recent_media", user_id=ig_id, limit=25,
+                              fields="id,caption,permalink,timestamp")
+            except ErrorGraph:  # hashtags muy grandes: Instagram pide menos datos por vez
+                res = api.get(f"{hid}/recent_media", user_id=ig_id, limit=10,
+                              fields="id,caption,permalink,timestamp")
         except ErrorGraph as e:
             print(f"  #{tag}: no se pudo buscar ({e})")
             continue
@@ -114,7 +118,8 @@ def buscar_ofertas(api, ig_id, config, estado):
 def ordenar_y_limpiar_cola(estado, config):
     limite = ahora() - timedelta(days=config["dias_maximos_de_antiguedad"])
     cola = [o for o in estado["cola"]
-            if datetime.strptime(o["timestamp"], "%Y-%m-%dT%H:%M:%S%z") >= limite]
+            if datetime.strptime(o["timestamp"], "%Y-%m-%dT%H:%M:%S%z") >= limite
+            and es_busqueda_laboral(o["caption"], config)]  # por si cambiaron los filtros
     cola.sort(key=lambda o: o["timestamp"], reverse=True)  # lo más nuevo primero
     estado["cola"] = cola
 

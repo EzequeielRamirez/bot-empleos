@@ -1,6 +1,5 @@
 {
   "graph_version": "v24.0",
-
   "cuentas": [
     {
       "clave": "tcm",
@@ -23,7 +22,6 @@
       "hashtags_propios": "#BuscoTrabajoUruguay"
     }
   ],
-
   "hashtags_a_buscar": [
     "trabajouruguay",
     "empleouruguay",
@@ -38,25 +36,65 @@
     "trabajomaldonado",
     "estamosbuscando"
   ],
-
   "hashtags_al_publicar": "#TrabajoUruguay #EmpleoUruguay #BusquedaLaboral #TrabajoMontevideo #OfertaLaboral #Empleo #Uruguay",
-
   "palabras_de_busqueda_laboral": [
-    "buscamos", "estamos buscando", "busqueda laboral", "se busca", "se necesita",
-    "necesitamos", "vacante", "postulate", "postulacion", "postularse", "postulantes",
-    "enviar cv", "envia tu cv", "envianos tu cv", "enviar curriculum", "curriculum",
-    "requisitos", "oferta laboral", "oportunidad laboral", "llamado a", "incorporar",
-    "sumate a nuestro equipo", "unite a nuestro equipo", "se solicita", "seleccionamos"
+    "buscamos",
+    "estamos buscando",
+    "busqueda laboral",
+    "se busca",
+    "se necesita",
+    "necesitamos",
+    "vacante",
+    "postulate",
+    "postulacion",
+    "postularse",
+    "postulantes",
+    "enviar cv",
+    "envia tu cv",
+    "envianos tu cv",
+    "enviar curriculum",
+    "curriculum",
+    "requisitos",
+    "oferta laboral",
+    "oportunidad laboral",
+    "llamado a",
+    "incorporar",
+    "sumate a nuestro equipo",
+    "unite a nuestro equipo",
+    "se solicita",
+    "seleccionamos"
   ],
-
   "palabras_prohibidas": [
-    "busco trabajo", "me ofrezco", "estoy buscando trabajo", "busco empleo",
-    "cripto", "forex", "trading", "inversion", "multinivel", "ingresos extra",
-    "ganar dinero", "gana dinero", "ganancias", "network marketing", "libertad financiera",
-    "apuestas", "casino", "trabaja desde tu celular", "sin experiencia gana",
-    "@tcm.uruguay", "@__b.t.u__", "tcmuruguay", "buscotrabajouruguay"
+    "busco trabajo",
+    "me ofrezco",
+    "estoy buscando trabajo",
+    "busco empleo",
+    "cripto",
+    "forex",
+    "trading",
+    "inversion",
+    "multinivel",
+    "ingresos extra",
+    "ganar dinero",
+    "gana dinero",
+    "ganancias",
+    "network marketing",
+    "libertad financiera",
+    "apuestas",
+    "casino",
+    "trabaja desde tu celular",
+    "sin experiencia gana",
+    "@tcm.uruguay",
+    "@__b.t.u__",
+    "tcmuruguay",
+    "buscotrabajouruguay",
+    "mas ofertas",
+    "empleosenuruguay",
+    "buscar trabajo no es",
+    "becas",
+    "consejos para",
+    "tips para"
   ],
-
   "minimo_caracteres_descripcion": 60,
   "dias_maximos_de_antiguedad": 3,
   "dias_que_se_guardan_las_imagenes": 7
