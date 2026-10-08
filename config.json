@@ -100,7 +100,6 @@
   ],
   "minimo_caracteres_descripcion": 60,
   "dias_maximos_de_antiguedad": 3,
-  "dias_que_se_guardan_las_imagenes": 7,
   "palabras_de_otros_paises": [
     "argentina",
     "misiones",
@@ -134,5 +133,11 @@
     "venezuela",
     "espana",
     "brasil"
-  ]
+  ],
+  "historias": true,
+  "reels_de_prueba": {
+    "activado": true,
+    "por_hora_por_cuenta": 1,
+    "graduacion": "MANUAL"
+  }
 }

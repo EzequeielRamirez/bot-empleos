@@ -4,7 +4,7 @@ una tarjeta propia en cada cuenta configurada.
 Uso:
   python bot.py                 # busca y publica (lo que corre cada hora en GitHub)
   python bot.py --sin-publicar  # busca y genera las tarjetas, pero no publica
-  python bot.py --prueba        # sin internet: genera tarjetas de ejemplo en vista_previa/
+  python bot.py --prueba        # sin internet: genera tarjetas, historias y reels de ejemplo
   python bot.py --configurar    # muestra los IDs de tus cuentas de Instagram
 """
 import argparse
@@ -18,11 +18,13 @@ from pathlib import Path
 
 from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_email,
                         extraer_puesto, extraer_zona, huella)
-from tarjeta import generar_tarjeta
+from tarjeta import generar_tarjeta, generar_vertical
+from video import generar_video
 
 RAIZ = Path(__file__).parent
 ARCHIVO_ESTADO = RAIZ / "estado.json"
-CARPETA_IMAGENES = RAIZ / "publicadas"
+CARPETA_SALIDA = RAIZ / "salida"
+RAMA_IMAGENES = "imagenes"
 MAX_HISTORIAL = 5000
 AVISO = ("⚠️ Importante: {marca} no contrata, no selecciona personal y no recibe currículums. "
          "Únicamente difundimos oportunidades laborales publicadas por empresas y terceros. "
@@ -146,41 +148,87 @@ def armar_texto(cuenta, oferta, puesto, zona, email, config):
     return "\n".join(lineas)[:2150]
 
 
-def publicar_en_instagram(api, ig_id, url_imagen, texto):
+def esperar_contenedor(api, contenedor, intentos=24, espera=5):
+    for _ in range(intentos):
+        estado = api.get(contenedor, fields="status_code").get("status_code")
+        if estado == "FINISHED":
+            return
+        if estado == "ERROR":
+            raise ErrorGraph("Instagram rechazó el archivo")
+        time.sleep(espera)
+    raise ErrorGraph("Instagram tardó demasiado en procesar el archivo")
+
+
+def publicar_imagen(api, ig_id, url_imagen, texto=None, historia=False):
+    params = {"image_url": url_imagen}
+    if historia:
+        params["media_type"] = "STORIES"
+    else:
+        params["caption"] = texto
     for intento in range(4):
         try:
-            contenedor = api.post(f"{ig_id}/media", image_url=url_imagen, caption=texto)["id"]
+            contenedor = api.post(f"{ig_id}/media", **params)["id"]
             break
         except ErrorGraph:
             if intento == 3:
                 raise
             time.sleep(20)  # la imagen recién subida puede tardar unos segundos en estar online
-    for _ in range(24):
-        estado = api.get(contenedor, fields="status_code").get("status_code")
-        if estado == "FINISHED":
-            break
-        if estado == "ERROR":
-            raise ErrorGraph("Instagram rechazó la imagen")
-        time.sleep(5)
+    esperar_contenedor(api, contenedor)
     return api.post(f"{ig_id}/media_publish", creation_id=contenedor)["id"]
 
 
-def preparar(cuenta, oferta, config):
+def publicar_reel_de_prueba(api, ig_id, ruta_video, texto, graduacion):
+    """Sube el video directo a Instagram (sin URL pública) como Reel de prueba:
+    se muestra primero a personas que no te siguen."""
+    import requests
+    respuesta = api.post(f"{ig_id}/media", media_type="REELS", upload_type="resumable",
+                         caption=texto, share_to_feed="false",
+                         trial_params=json.dumps({"graduation_strategy": graduacion}))
+    datos = Path(ruta_video).read_bytes()
+    subida = requests.post(respuesta["uri"], data=datos, timeout=300, headers={
+        "Authorization": f"OAuth {api.token}", "offset": "0", "file_size": str(len(datos))})
+    if not subida.ok or not subida.json().get("success"):
+        raise ErrorGraph(f"No se pudo subir el video: {subida.text[:200]}")
+    esperar_contenedor(api, respuesta["id"], intentos=40, espera=10)
+    return api.post(f"{ig_id}/media_publish", creation_id=respuesta["id"])["id"]
+
+
+def subir_imagenes(rutas):
+    """Publica las imágenes en una rama aparte que se pisa en cada ejecución, para que
+    Instagram pueda descargarlas sin que el repositorio crezca con el tiempo."""
+    indice = RAIZ / ".git" / "indice-imagenes"
+    env = dict(os.environ, GIT_INDEX_FILE=str(indice))
+
+    def g(*args):
+        return subprocess.run(["git", *args], cwd=RAIZ, env=env, check=True,
+                              capture_output=True, text=True).stdout.strip()
+
+    g("read-tree", "--empty")
+    g("update-index", "--add", *[r.relative_to(RAIZ).as_posix() for r in rutas])
+    commit = g("commit-tree", g("write-tree"), "-m", "Imágenes para Instagram")
+    g("push", "--force", "origin", f"{commit}:refs/heads/{RAMA_IMAGENES}")
+    indice.unlink(missing_ok=True)
+    return commit
+
+
+def preparar(cuenta, oferta, config, formato):
+    """formato: "feed" (tarjeta + historia) o "reel"."""
     puesto = extraer_puesto(oferta["caption"])
     zona = extraer_zona(oferta["caption"])
     email = extraer_email(oferta["caption"])
-    nombre = f"{ahora():%Y%m%d_%H%M}_{cuenta['clave']}_{oferta['id']}.jpg"
-    ruta = CARPETA_IMAGENES / cuenta["clave"] / nombre
-    generar_tarjeta(cuenta, puesto, zona, email, ruta)
+    base = CARPETA_SALIDA / cuenta["clave"] / f"{ahora():%Y%m%d_%H%M}_{formato}_{oferta['id']}"
+    archivos = {"tarjeta": generar_tarjeta(cuenta, puesto, zona, email, base.with_suffix(".jpg"))}
+    if formato == "feed" and config.get("historias"):
+        archivos["historia"] = generar_vertical(cuenta, archivos["tarjeta"],
+                                                f"Más info en @{cuenta['usuario']}",
+                                                base.with_name(base.name + "_historia.jpg"))
+    if formato == "reel":
+        vertical = generar_vertical(cuenta, archivos["tarjeta"], "Toda la info en la descripción",
+                                    base.with_name(base.name + "_vertical.jpg"))
+        archivos["video"] = generar_video(vertical, base.with_suffix(".mp4"))
     texto = armar_texto(cuenta, oferta, puesto, zona, email, config)
-    return ruta, texto
-
-
-def borrar_imagenes_viejas(config):
-    corte = (ahora() - timedelta(days=config["dias_que_se_guardan_las_imagenes"])).strftime("%Y%m%d")
-    for img in CARPETA_IMAGENES.glob("*/*.jpg"):
-        if img.name[:8] < corte:
-            img.unlink()
+    return {"cuenta": cuenta, "oferta": oferta, "formato": formato,
+            "archivos": archivos, "texto": texto}
 
 
 # ---------------------------------------------------------------- modos
@@ -196,8 +244,13 @@ def modo_prueba(config):
             continue
         puesto, zona, email = (extraer_puesto(oferta["caption"]), extraer_zona(oferta["caption"]),
                                extraer_email(oferta["caption"]))
-        generar_tarjeta(cuenta, puesto, zona, email, salida / f"ejemplo_{i + 1}_{cuenta['clave']}.jpg")
+        ruta = generar_tarjeta(cuenta, puesto, zona, email, salida / f"ejemplo_{i + 1}_{cuenta['clave']}.jpg")
         print(armar_texto(cuenta, oferta, puesto, zona, email, config))
+        if i == 0:
+            historia = generar_vertical(cuenta, ruta, f"Más info en @{cuenta['usuario']}",
+                                        salida / "ejemplo_historia.jpg")
+            generar_video(generar_vertical(cuenta, ruta, "Toda la info en la descripción",
+                                           salida / "ejemplo_reel.jpg"), salida / "ejemplo_reel.mp4")
     print(f"\nTarjetas guardadas en {salida}")
 
 
@@ -241,7 +294,9 @@ def main():
     ordenar_y_limpiar_cola(estado, config)
     print(f"  {nuevas} ofertas nuevas, {len(estado['cola'])} en espera.")
 
-    # Cada hora se alterna qué cuenta elige primero, y cada cuenta publica una oferta distinta
+    # Cada hora se alterna qué cuenta elige primero. Primero se reparten las publicaciones
+    # normales (que también van a historias); si sobran ofertas, van como Reels de prueba,
+    # que NO se comparten en historias para no repetir el mismo anuncio.
     if ahora().hour % 2:
         cuentas.reverse()
     trabajos = []
@@ -249,55 +304,70 @@ def main():
         if not estado["cola"]:
             print(f"  @{cuenta['usuario']}: no hay ofertas nuevas, se saltea esta hora.")
             continue
-        oferta = estado["cola"].pop(0)
-        ruta, texto = preparar(cuenta, oferta, config)
-        trabajos.append((cuenta, oferta, ruta, texto))
+        trabajos.append(preparar(cuenta, estado["cola"].pop(0), config, "feed"))
+    reels = config.get("reels_de_prueba", {})
+    if reels.get("activado"):
+        for _ in range(reels.get("por_hora_por_cuenta", 1)):
+            for cuenta in cuentas:
+                if estado["cola"]:
+                    trabajos.append(preparar(cuenta, estado["cola"].pop(0), config, "reel"))
 
     en_github = os.environ.get("GITHUB_ACTIONS") == "true"
     solo_generar = args.sin_publicar or not en_github  # fuera de GitHub no hay URL pública
-    if trabajos and not solo_generar:
-        # Las imágenes se suben al repositorio para que Instagram pueda descargarlas
-        git("add", "publicadas")
-        git("commit", "-m", "Tarjetas nuevas")
-        git("push")
-        sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=RAIZ, capture_output=True,
-                             text=True, check=True).stdout.strip()
+    imagenes = [t["archivos"][k] for t in trabajos for k in ("tarjeta", "historia") if k in t["archivos"]]
+    sha = subir_imagenes(imagenes) if imagenes and en_github else None
+    url = lambda ruta: (f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/"
+                        f"{sha}/{ruta.relative_to(RAIZ).as_posix()}")
+    if sha:
         time.sleep(5)
 
     errores = 0
-    for cuenta, oferta, ruta, texto in trabajos:
+    for t in trabajos:
+        cuenta, oferta, archivos = t["cuenta"], t["oferta"], t["archivos"]
+        quien = f"@{cuenta['usuario']} ({'publicación' if t['formato'] == 'feed' else 'reel de prueba'})"
         if solo_generar:
-            print(f"  @{cuenta['usuario']}: tarjeta generada en {ruta} (sin publicar)")
-            print(texto)
+            print(f"  {quien}: generado sin publicar → " + ", ".join(
+                url(r) if sha and r.suffix == ".jpg" else r.name for r in archivos.values()))
+            print(t["texto"])
             estado["cola"].insert(0, oferta)  # queda en espera para la próxima publicación real
             continue
-        relativa = ruta.relative_to(RAIZ).as_posix()
-        url = f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/{sha}/{relativa}"
+        ig_id = os.environ[cuenta["variable_id"]]
         try:
-            media_id = publicar_en_instagram(api, os.environ[cuenta["variable_id"]], url, texto)
-            estado["publicados"].append({"cuenta": cuenta["usuario"], "oferta": oferta["id"],
-                                         "media": media_id, "fecha": ahora().isoformat()})
-            print(f"  @{cuenta['usuario']}: publicado ✔ ({oferta['permalink']})")
+            if t["formato"] == "feed":
+                media_id = publicar_imagen(api, ig_id, url(archivos["tarjeta"]), t["texto"])
+            else:
+                media_id = publicar_reel_de_prueba(api, ig_id, archivos["video"], t["texto"],
+                                                   reels.get("graduacion", "MANUAL"))
+            estado["publicados"].append({"cuenta": cuenta["usuario"], "formato": t["formato"],
+                                         "oferta": oferta["id"], "media": media_id,
+                                         "fecha": ahora().isoformat()})
+            print(f"  {quien}: publicado ✔ ({oferta['permalink']})")
         except ErrorGraph as e:
             errores += 1
-            print(f"  @{cuenta['usuario']}: ERROR al publicar → {e}")
+            print(f"  {quien}: ERROR al publicar → {e}")
             oferta["intentos"] += 1
             if oferta["intentos"] < 2:
                 estado["cola"].insert(0, oferta)
+            continue
+        if "historia" in archivos:
+            try:
+                publicar_imagen(api, ig_id, url(archivos["historia"]), historia=True)
+                print(f"  @{cuenta['usuario']}: compartido en historias ✔")
+            except ErrorGraph as e:
+                print(f"  @{cuenta['usuario']}: no se pudo subir la historia → {e}")
 
     for clave in ("vistos", "huellas", "publicados"):
         estado[clave] = estado[clave][-MAX_HISTORIAL:]
     ARCHIVO_ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
-    borrar_imagenes_viejas(config)
 
     if en_github:
-        git("add", "-A", "estado.json", "publicadas")
+        git("add", "estado.json")
         if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=RAIZ).returncode:
             git("commit", "-m", "Actualizar estado")
             git("push")
 
     if trabajos and errores == len(trabajos) and not solo_generar:
-        sys.exit("No se pudo publicar en ninguna cuenta.")
+        sys.exit("No se pudo publicar nada.")
 
 
 if __name__ == "__main__":

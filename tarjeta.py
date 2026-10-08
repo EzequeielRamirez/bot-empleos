@@ -133,3 +133,30 @@ def generar_tarjeta(cuenta, puesto, zona, email, destino):
     Path(destino).parent.mkdir(parents=True, exist_ok=True)
     img.save(destino, "JPEG", quality=92)
     return destino
+
+
+def generar_vertical(cuenta, ruta_tarjeta, texto_inferior, destino):
+    """Versión 9:16 (1080x1920) para historias y reels: la tarjeta centrada con encabezado y pie."""
+    fondo, negro, blanco = cuenta["color_fondo"], cuenta["color_texto"], "#FFFFFF"
+    img = Image.new("RGB", (ANCHO, 1920), negro)
+    draw = ImageDraw.Draw(img)
+
+    f = fuente("Anton-Regular.ttf", 76)
+    titulo = "NUEVA OFERTA DE TRABAJO"
+    draw.text(((ANCHO - ancho_texto(draw, titulo, f)) / 2, 150), titulo, font=f, fill=fondo)
+
+    tarjeta = Image.open(ruta_tarjeta).convert("RGB").resize((1000, 1250))
+    mascara = Image.new("L", tarjeta.size, 0)
+    ImageDraw.Draw(mascara).rounded_rectangle((0, 0, *tarjeta.size), radius=36, fill=255)
+    img.paste(tarjeta, (40, 300), mascara)
+
+    fp = fuente("Lato-Black.ttf", 44)
+    while ancho_texto(draw, texto_inferior, fp) > ANCHO - 2 * MARGEN and fp.size > 28:
+        fp = fuente("Lato-Black.ttf", fp.size - 2)
+    draw.text(((ANCHO - ancho_texto(draw, texto_inferior, fp)) / 2, 1610), texto_inferior, font=fp, fill=blanco)
+    cx, cy = ANCHO / 2, 1700
+    draw.polygon([(cx - 30, cy), (cx + 30, cy), (cx, cy + 34)], fill=fondo)
+
+    Path(destino).parent.mkdir(parents=True, exist_ok=True)
+    img.save(destino, "JPEG", quality=92)
+    return destino
