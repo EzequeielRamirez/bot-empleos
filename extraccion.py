@@ -18,7 +18,8 @@ PATRONES_PUESTO = [
     r"(?:para el puesto de|en el puesto de|puesto de|cargo de)\s+([^\n.,!¡?¿#:;(]{3,70})",
     r"(?:estamos buscando|estamos sumando|estamos incorporando|buscamos|se busca|se buscan|"
     r"se necesita|se necesitan|necesitamos|se solicita|buscan|busca|est[aá] buscando|"
-    r"estamos en la b[uú]squeda de|incorporamos|seleccionamos|est[aá] seleccionando)\s+"
+    r"en la b[uú]squeda de|incorporamos|seleccionamos|est[aá] seleccionando|"
+    r"(?:busca|buscamos|queremos) (?:incorporar|sumar)|incorporar|sumar)\s+"
     r"(?:a\s+)?(?:(?:un|una|unos|unas|el|la|los|las)(?:\s*/\s*a|\(a\))?\s+)?"
     r"([^\n.,!¡?¿#:;(]{3,70})",
     r"(?:[aá]rea|sector) de\s+([^\n.,!¡?¿#:;(]{3,50})",
@@ -32,9 +33,11 @@ GENERICOS_INICIO = (
     "personal con", "personal idoneo", "talento", "gente", "personas", "nuevos", "nuevas",
     "colaborador", "integrante", "a nuestro", "busqueda laboral", "importante", "nueva vacante",
     "vacante", "oportunidad", "trabajo", "empleo", "urgente", "estamos", "te gusta", "buscamos",
-    "se busca", "ingreso", "llamado", "atencion!", "atencion", "hola",
+    "se busca", "ingreso", "llamado", "atencion!", "atencion", "hola", "nueva", "nuevo",
+    "sumate", "unite", "postulate", "incorporar", "enviar", "envia", "cv",
 )
-VERBOS_DE_FRASE = re.compile(r"busc|selecci|abre|necesit|sumamos|incorpor|tenemos|queremos|\?",
+VERBOS_DE_FRASE = re.compile(r"busc|selecci|abre|necesit|sumamos|incorpor|tenemos|queremos|"
+                             r"envi|postul|\bcv\b|\?",
                              re.IGNORECASE)
 
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
@@ -68,6 +71,10 @@ def es_busqueda_laboral(caption, config):
     t = normalizar(caption)
     if any(p in t for p in config["palabras_prohibidas"]):
         return False
+    # Solo Uruguay: los hashtags en español traen ofertas de otros países
+    if any(re.search(r"(?<![a-z])" + re.escape(p) + r"(?![a-z])", t)
+           for p in config.get("palabras_de_otros_paises", [])):
+        return False
     if not any(p in t for p in config["palabras_de_busqueda_laboral"]):
         return False
     # Tiene que decir cómo postularse (descarta noticias y consejos)
@@ -87,8 +94,11 @@ def _candidato(texto):
     texto = re.split(CORTES, texto, maxsplit=1, flags=re.IGNORECASE)[0].strip()
     if len(texto) > 45:
         texto = texto[:45].rsplit(" ", 1)[0]
+    # No terminar en "de", "por", "en"…
+    texto = re.sub(r"(?:\s+(?:de|del|en|por|para|y|con|la|el|los|las|a))+$", "", texto, flags=re.IGNORECASE)
     n = normalizar(texto)
-    if len(texto) < 3 or n in GENERICOS_EXACTOS or n.startswith(GENERICOS_INICIO):
+    if (len(texto) < 3 or n in GENERICOS_EXACTOS or n.startswith(GENERICOS_INICIO)
+            or re.match(r"\d+\s+(?:vacantes|puestos|personas)", n)):
         return None
     return texto
 
@@ -97,7 +107,7 @@ def _desde_titulo(caption):
     """Muchos posts arrancan con "🍔 Cajero/a – Empresa" o "BÚSQUEDA LABORAL | ASISTENTE"."""
     primera = next((l for l in caption.splitlines() if limpiar(l)), "")
     for parte in re.split(SEPARADORES, primera)[:2]:
-        if VERBOS_DE_FRASE.search(parte) or len(limpiar(parte)) > 45:
+        if VERBOS_DE_FRASE.search(parte) or len(limpiar(parte)) > 60:
             continue
         candidato = _candidato(parte)
         if candidato:
