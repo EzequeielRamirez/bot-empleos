@@ -1,0 +1,27 @@
+name: Reloj de prueba (1 minuto)
+
+on:
+  workflow_dispatch:
+    inputs:
+      vueltas:
+        description: "Cuántas vueltas dar"
+        default: "2"
+
+permissions:
+  actions: write
+
+jobs:
+  esperar-y-lanzar:
+    runs-on: ubuntu-latest
+    environment: espera-prueba
+    steps:
+      - name: Lanzar el bot (sin publicar) y la próxima vuelta
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VUELTAS: ${{ inputs.vueltas }}
+        run: |
+          echo "Vuelta: quedan $VUELTAS"
+          gh workflow run publicar.yml --repo "$GITHUB_REPOSITORY" -f modo=sin-publicar
+          if [ "$VUELTAS" -gt 1 ]; then
+            gh workflow run reloj-prueba.yml --repo "$GITHUB_REPOSITORY" -f vueltas=$((VUELTAS - 1))
+          fi
