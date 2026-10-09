@@ -39,7 +39,8 @@ GENERICOS_INICIO = (
     "ser parte", "formar parte", "parte de", "oferta laboral", "oportunidades laborales",
     "trabajo en", "empleo en", "llamado laboral", "requisito", "ofrecemos", "beneficio", "tarea",
     "funcion", "perfil", "horario", "sueldo", "salario", "remuneracion", "ubicacion", "zona", "importante",
-    "condiciones", "se valora", "excluyente", "deslizá", "desliza", "info",
+    "condiciones", "se valora", "excluyente", "deslizá", "desliza", "info", "alerta", "atencion",
+    "aviso", "comunicado", "convocatoria", "nuevo llamado", "nuevos llamados", "postulaciones",
 )
 VERBOS_DE_FRASE = re.compile(r"busc|selecci|abre|necesit|sumamos|incorpor|tenemos|queremos|"
                              r"envi|postul|\bcv\b|seguimos|crecie|\?",
@@ -102,6 +103,16 @@ def _candidato(texto):
     # No terminar en "de", "por", "en"…
     texto = re.sub(r"(?:\s+(?:de|del|en|por|para|y|con|la|el|los|las|a))+$", "", texto, flags=re.IGNORECASE)
     n = normalizar(texto)
+    from ubicacion import DEPARTAMENTOS, LUGARES  # (import acá para evitar import circular)
+    lugares = [normalizar(l) for l in list(LUGARES) + list(DEPARTAMENTOS)]
+    m = re.search(r"\s+en\s+(.+)$", texto, re.IGNORECASE)
+    if m and any(normalizar(m.group(1)).startswith(l) for l in lugares):
+        texto = texto[:m.start()]  # "Auxiliar de Servicio en Maldonado" → "Auxiliar de Servicio"
+        n = normalizar(texto)
+    if n in {normalizar(l) for l in list(LUGARES) + list(DEPARTAMENTOS) + ["Uruguay"]}:
+        return None  # es el lugar, no el puesto ("Punta del Este")
+    if re.fullmatch(r"[A-ZÁÉÍÓÚÑ]{2,6}", texto):
+        return None  # sigla de la empresa u organismo ("ASSE", "UTE"), no el puesto
     if (len(texto) < 3 or n in GENERICOS_EXACTOS or n.startswith(GENERICOS_INICIO)
             or re.match(r"\d+\s+(?:vacantes|puestos|personas)", n)):
         return None
