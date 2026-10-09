@@ -70,7 +70,7 @@ jobs:
           git config user.name "bot-empleos"
           git config user.email "bot-empleos@users.noreply.github.com"
           if [ "${{ inputs.modo }}" = "sin-publicar" ]; then
-            python bot.py --sin-publicar
+            python -u bot.py --sin-publicar
           else
-            python bot.py
+            python -u bot.py
           fi

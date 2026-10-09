@@ -107,25 +107,38 @@ def buscar_ofertas(api, ids_busqueda, config, estado, tipo="recent_media"):
             # los que ya se consultaban siguen con la primera cuenta; los nuevos, a la que tenga menos
             usados = [list(asignacion.values()).count(n) for n in range(len(ids_busqueda))]
             asignacion[tag] = 0 if tag in estado["hashtag_ids"] else usados.index(min(usados))
+    # 1) IDs de hashtags nuevos (una sola vez por hashtag; cuenta para el límite semanal)
     for tag in config["hashtags_a_buscar"]:
-        ig_id = ids_busqueda[asignacion[tag]]
+        if tag in estado["hashtag_ids"]:
+            continue
         try:
-            hid = estado["hashtag_ids"].get(tag)
-            if not hid:
-                res = api.get("ig_hashtag_search", user_id=ig_id, q=tag)
-                if not res.get("data"):
-                    continue
-                hid = estado["hashtag_ids"][tag] = res["data"][0]["id"]
-            try:
-                res = api.get(f"{hid}/{tipo}", user_id=ig_id, limit=25,
-                              fields="id,caption,permalink,timestamp")
-            except ErrorGraph:  # hashtags muy grandes: Instagram pide menos datos por vez
-                res = api.get(f"{hid}/{tipo}", user_id=ig_id, limit=10,
-                              fields="id,caption,permalink,timestamp")
+            res = api.get("ig_hashtag_search", user_id=ids_busqueda[asignacion[tag]], q=tag)
+            if res.get("data"):
+                estado["hashtag_ids"][tag] = res["data"][0]["id"]
         except ErrorGraph as e:
             print(f"  #{tag}: no se pudo buscar ({e})")
-            continue
 
+    # 2) Publicaciones de cada hashtag, varias consultas a la vez (de a una tardaba ~14 min)
+    def traer(tag):
+        hid, ig_id = estado["hashtag_ids"][tag], ids_busqueda[asignacion[tag]]
+        try:
+            try:
+                return tag, api.get(f"{hid}/{tipo}", user_id=ig_id, limit=25,
+                                    fields="id,caption,permalink,timestamp")
+            except ErrorGraph:  # hashtags muy grandes: Instagram pide menos datos por vez
+                return tag, api.get(f"{hid}/{tipo}", user_id=ig_id, limit=10,
+                                    fields="id,caption,permalink,timestamp")
+        except ErrorGraph as e:
+            print(f"  #{tag}: no se pudo buscar ({e})")
+            return tag, {}
+
+    from concurrent.futures import ThreadPoolExecutor
+    con_id = [t for t in config["hashtags_a_buscar"] if t in estado["hashtag_ids"]]
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        resultados = list(pool.map(traer, con_id))
+
+    # 3) Filtrar y encolar (en orden, sin hilos)
+    for tag, res in resultados:
         for post in res.get("data", []):
             if post["id"] in vistos:
                 continue
@@ -398,6 +411,7 @@ def main():
     estado = cargar_json(ARCHIVO_ESTADO, estado_inicial())
 
     print("Buscando ofertas nuevas…")
+    inicio_busqueda = time.time()
     ids_busqueda = [os.environ[c["variable_id"]] for c in config["cuentas"] if os.environ.get(c["variable_id"])]
     nuevas = buscar_ofertas(api, ids_busqueda, config, estado)
     ordenar_y_limpiar_cola(estado, config)
@@ -407,7 +421,8 @@ def main():
         ordenar_y_limpiar_cola(estado, config)
         print(f"  Se sumaron {extra} de las destacadas (hasta "
               f"{config['dias_maximos_de_antiguedad']} días).")
-    print(f"  {nuevas} ofertas nuevas, {len(estado['cola'])} en espera.")
+    print(f"  {nuevas} ofertas nuevas, {len(estado['cola'])} en espera "
+          f"(búsqueda: {time.time() - inicio_busqueda:.0f} s).")
 
     # Cada hora, cada cuenta toma UNA oferta y la publica en todos los formatos:
     # publicación + historia (con su rubro) + Reel de prueba + página de Facebook.
