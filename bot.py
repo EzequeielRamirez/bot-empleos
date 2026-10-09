@@ -414,6 +414,7 @@ def main():
     parser.add_argument("--configurar", action="store_true")
     parser.add_argument("--diagnostico", action="store_true")
     parser.add_argument("--lugar", help="prueba la búsqueda de ubicaciones de Facebook")
+    parser.add_argument("--probar-ubicacion", help="crea (sin publicar) un contenedor con ese location_id")
     args = parser.parse_args()
 
     config = cargar_json(RAIZ / "config.json", None)
@@ -429,6 +430,17 @@ def main():
         return modo_configurar(api)
     if args.diagnostico:
         return modo_diagnostico(api, config)
+    if args.probar_ubicacion:
+        ig_id = os.environ[config["cuentas"][0]["variable_id"]]
+        url = (f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/main/"
+               "assets/fondos/generico.jpg")
+        for loc in args.probar_ubicacion.split(","):
+            try:
+                c = api.post(f"{ig_id}/media", image_url=url, caption="prueba", location_id=loc)["id"]
+                print(loc, "→ ACEPTADO (contenedor", c, "sin publicar)")
+            except ErrorGraph as e:
+                print(loc, "→ RECHAZADO:", e)
+        return
     if args.lugar:
         for consulta in args.lugar.split(";"):
             try:

@@ -2,6 +2,10 @@ name: Diagnóstico de publicaciones
 
 on:
   workflow_dispatch:
+    inputs:
+      ubicaciones:
+        description: "location_id a probar, separados por coma (opcional)"
+        default: ""
 
 jobs:
   diagnostico:
@@ -12,7 +16,13 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python bot.py --diagnostico && python bot.py --lugar "Montevideo, Uruguay;Pocitos;Punta del Este"
+      - run: python bot.py --probar-ubicacion "${{ inputs.ubicaciones }}"
+        if: inputs.ubicaciones != ''
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_ID_TCM: ${{ secrets.IG_ID_TCM }}
+          IG_ID_BTU: ${{ secrets.IG_ID_BTU }}
+      - run: python bot.py --diagnostico
         env:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
           IG_ID_TCM: ${{ secrets.IG_ID_TCM }}
