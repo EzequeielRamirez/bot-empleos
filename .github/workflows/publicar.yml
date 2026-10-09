@@ -45,7 +45,7 @@ jobs:
               minutos = (datetime.now(timezone.utc) - ultima).total_seconds() / 60
           except Exception:
               minutos = 999
-          print(f"seguir={'true' if minutos >= 55 else 'false'}")
+          print(f"seguir={'true' if minutos >= 45 else 'false'}")
           PY
           cat "$GITHUB_OUTPUT"
         env:

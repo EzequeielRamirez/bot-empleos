@@ -327,7 +327,7 @@ def reservar_hora():
         ultima = estado.get("ultima_ejecucion")
         if ultima and os.environ.get("FORZAR") != "true":
             minutos = (ahora() - datetime.fromisoformat(ultima)).total_seconds() / 60
-            if minutos < 55:
+            if minutos < 45:
                 print(f"Esta hora ya la tomó otra ejecución (hace {minutos:.0f} min): no se publica.")
                 return False
         estado["ultima_ejecucion"] = ahora().isoformat()
