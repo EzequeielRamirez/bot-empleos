@@ -112,3 +112,23 @@ def extraer_ubicacion(caption):
         lugar = especificos[0]
         return f"{lugar}, {LUGARES[lugar]}"
     return encontrados[0][2]
+
+
+# ---------------------------------------------------------------- ubicación de la publicación
+
+import json as _json
+from pathlib import Path as _Path
+
+_CODIGOS = {k: v for k, v in _json.loads(
+    (_Path(__file__).parent / "assets" / "ubicaciones_instagram.json").read_text(encoding="utf-8")).items()
+    if not k.startswith("_")}
+
+
+def codigo_ubicacion(zona):
+    """'Pocitos, Montevideo' → código de Pocitos; si no está, el del departamento; si no, None."""
+    if not zona:
+        return None
+    for parte in [p.strip() for p in zona.split(",")]:  # primero el barrio/ciudad, después el departamento
+        if parte in _CODIGOS:
+            return _CODIGOS[parte]
+    return None

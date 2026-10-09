@@ -19,7 +19,7 @@ from pathlib import Path
 
 from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_contacto, tiene_contacto,
                         extraer_puesto, extraer_rubro, formato_local, huella)
-from ubicacion import extraer_ubicacion
+from ubicacion import codigo_ubicacion, extraer_ubicacion
 from extraccion import normalizar
 from fondos import elegir_fondo
 from tarjeta import generar_promo, generar_tarjeta, generar_vertical
@@ -214,12 +214,14 @@ def esperar_contenedor(api, contenedor, intentos=24, espera=5):
     raise ErrorGraph("Instagram tardó demasiado en procesar el archivo")
 
 
-def publicar_imagen(api, ig_id, url_imagen, texto=None, historia=False):
+def publicar_imagen(api, ig_id, url_imagen, texto=None, historia=False, lugar=None):
     params = {"image_url": url_imagen}
     if historia:
         params["media_type"] = "STORIES"
     else:
         params["caption"] = texto
+        if lugar:
+            params["location_id"] = lugar
     for intento in range(4):
         try:
             contenedor = api.post(f"{ig_id}/media", **params)["id"]
@@ -232,7 +234,7 @@ def publicar_imagen(api, ig_id, url_imagen, texto=None, historia=False):
     return api.post(f"{ig_id}/media_publish", creation_id=contenedor)["id"]
 
 
-def publicar_carrusel(api, ig_id, urls, texto):
+def publicar_carrusel(api, ig_id, urls, texto, lugar=None):
     """Carrusel: primero cada imagen como "item", después el contenedor que las agrupa."""
     hijos = []
     for url in urls:
@@ -246,18 +248,21 @@ def publicar_carrusel(api, ig_id, urls, texto):
                 time.sleep(20)
         esperar_contenedor(api, hijo)
         hijos.append(hijo)
-    contenedor = api.post(f"{ig_id}/media", media_type="CAROUSEL", children=",".join(hijos), caption=texto)["id"]
+    extra = {"location_id": lugar} if lugar else {}
+    contenedor = api.post(f"{ig_id}/media", media_type="CAROUSEL", children=",".join(hijos), caption=texto,
+                          **extra)["id"]
     esperar_contenedor(api, contenedor)
     return api.post(f"{ig_id}/media_publish", creation_id=contenedor)["id"]
 
 
-def publicar_reel_de_prueba(api, ig_id, ruta_video, texto, graduacion):
+def publicar_reel_de_prueba(api, ig_id, ruta_video, texto, graduacion, lugar=None):
     """Sube el video directo a Instagram (sin URL pública) como Reel de prueba:
     se muestra primero a personas que no te siguen."""
     import requests
     respuesta = api.post(f"{ig_id}/media", media_type="REELS", upload_type="resumable",
                          caption=texto, share_to_feed="false",
-                         trial_params=json.dumps({"graduation_strategy": graduacion}))
+                         trial_params=json.dumps({"graduation_strategy": graduacion}),
+                         **({"location_id": lugar} if lugar else {}))
     datos = Path(ruta_video).read_bytes()
     subida = requests.post(respuesta["uri"], data=datos, timeout=300, headers={
         "Authorization": f"OAuth {api.token}", "offset": "0", "file_size": str(len(datos))})
@@ -305,7 +310,8 @@ def preparar(cuenta, oferta, config):
                                     base.with_name(base.name + "_vertical.jpg"))
         archivos["video"] = generar_video(vertical, base.with_suffix(".mp4"))
     texto = armar_texto(cuenta, oferta, puesto, zona, contacto, rubro, config)
-    return {"cuenta": cuenta, "oferta": oferta, "rubro": rubro, "archivos": archivos, "texto": texto}
+    return {"cuenta": cuenta, "oferta": oferta, "rubro": rubro, "archivos": archivos, "texto": texto,
+            "lugar": codigo_ubicacion(zona)}
 
 
 def paginas_de_facebook(api):
@@ -507,9 +513,10 @@ def main():
         ig_id = os.environ[cuenta["variable_id"]]
         try:
             if "promo" in archivos:
-                media_id = publicar_carrusel(api, ig_id, [url(archivos["tarjeta"]), url(archivos["promo"])], t["texto"])
+                media_id = publicar_carrusel(api, ig_id, [url(archivos["tarjeta"]), url(archivos["promo"])],
+                                             t["texto"], t["lugar"])
             else:
-                media_id = publicar_imagen(api, ig_id, url(archivos["tarjeta"]), t["texto"])
+                media_id = publicar_imagen(api, ig_id, url(archivos["tarjeta"]), t["texto"], lugar=t["lugar"])
         except ErrorGraph as e:
             errores += 1
             print(f"  {quien}: ERROR al publicar → {e}")
@@ -530,7 +537,7 @@ def main():
         if "video" in archivos:
             extras.append(("reel de prueba", lambda: publicar_reel_de_prueba(
                 api, ig_id, archivos["video"], t["texto"],
-                config["reels_de_prueba"].get("graduacion", "MANUAL"))))
+                config["reels_de_prueba"].get("graduacion", "MANUAL"), t["lugar"])))
         if config.get("facebook"):
             if ig_id in paginas:
                 fotos_fb = [url(archivos[k]) for k in ("tarjeta", "promo") if k in archivos]
