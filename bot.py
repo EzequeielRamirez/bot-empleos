@@ -22,7 +22,7 @@ from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_c
 from ubicacion import extraer_ubicacion
 from extraccion import normalizar
 from fondos import elegir_fondo
-from tarjeta import generar_tarjeta, generar_vertical
+from tarjeta import generar_promo, generar_tarjeta, generar_vertical
 from video import generar_video
 
 RAIZ = Path(__file__).parent
@@ -232,6 +232,25 @@ def publicar_imagen(api, ig_id, url_imagen, texto=None, historia=False):
     return api.post(f"{ig_id}/media_publish", creation_id=contenedor)["id"]
 
 
+def publicar_carrusel(api, ig_id, urls, texto):
+    """Carrusel: primero cada imagen como "item", después el contenedor que las agrupa."""
+    hijos = []
+    for url in urls:
+        for intento in range(4):
+            try:
+                hijo = api.post(f"{ig_id}/media", image_url=url, is_carousel_item="true")["id"]
+                break
+            except ErrorGraph:
+                if intento == 3:
+                    raise
+                time.sleep(20)
+        esperar_contenedor(api, hijo)
+        hijos.append(hijo)
+    contenedor = api.post(f"{ig_id}/media", media_type="CAROUSEL", children=",".join(hijos), caption=texto)["id"]
+    esperar_contenedor(api, contenedor)
+    return api.post(f"{ig_id}/media_publish", creation_id=contenedor)["id"]
+
+
 def publicar_reel_de_prueba(api, ig_id, ruta_video, texto, graduacion):
     """Sube el video directo a Instagram (sin URL pública) como Reel de prueba:
     se muestra primero a personas que no te siguen."""
@@ -275,6 +294,8 @@ def preparar(cuenta, oferta, config):
     base = CARPETA_SALIDA / cuenta["clave"] / f"{ahora():%Y%m%d_%H%M}_{oferta['id']}"
     foto = elegir_fondo(puesto, rubro, oferta["caption"]) if config.get("fotos_de_fondo", True) else None
     archivos = {"tarjeta": generar_tarjeta(cuenta, puesto, zona, contacto, base.with_suffix(".jpg"), rubro, foto)}
+    if config.get("carrusel_promo", True):  # 2.ª imagen: invitación a empresas a publicar
+        archivos["promo"] = generar_promo(cuenta, base.with_name(base.name + "_promo.jpg"))
     if config.get("historias"):
         archivos["historia"] = generar_vertical(cuenta, archivos["tarjeta"],
                                                 f"Más info en @{cuenta['usuario']}",
@@ -298,11 +319,19 @@ def paginas_de_facebook(api):
             for p in datos.get("data", []) if p.get("instagram_business_account")}
 
 
-def publicar_en_facebook(api, pagina, url_imagen, texto):
+def publicar_en_facebook(api, pagina, urls, texto):
+    """Una publicación con varias fotos: se suben sin publicar y después se publican juntas."""
     pagina_id, token_pagina = pagina
     import requests
-    r = requests.post(f"{api.base}/{pagina_id}/photos", timeout=60, data={
-        "url": url_imagen, "message": texto, "access_token": token_pagina})
+    fotos = []
+    for url in urls:
+        r = requests.post(f"{api.base}/{pagina_id}/photos", timeout=60, data={
+            "url": url, "published": "false", "access_token": token_pagina})
+        fotos.append(api._respuesta(r)["id"])
+    datos = {"message": texto, "access_token": token_pagina}
+    for i, foto in enumerate(fotos):
+        datos[f"attached_media[{i}]"] = json.dumps({"media_fbid": foto})
+    r = requests.post(f"{api.base}/{pagina_id}/feed", timeout=60, data=datos)
     return api._respuesta(r)["id"]
 
 
@@ -435,7 +464,7 @@ def main():
             continue
         trabajos.append(preparar(cuenta, estado["cola"].pop(0), config))
 
-    imagenes = [t["archivos"][k] for t in trabajos for k in ("tarjeta", "historia") if k in t["archivos"]]
+    imagenes = [t["archivos"][k] for t in trabajos for k in ("tarjeta", "promo", "historia") if k in t["archivos"]]
     sha = subir_imagenes(imagenes) if imagenes and en_github else None
     url = lambda ruta: (f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/"
                         f"{sha}/{ruta.relative_to(RAIZ).as_posix()}")
@@ -455,7 +484,10 @@ def main():
             continue
         ig_id = os.environ[cuenta["variable_id"]]
         try:
-            media_id = publicar_imagen(api, ig_id, url(archivos["tarjeta"]), t["texto"])
+            if "promo" in archivos:
+                media_id = publicar_carrusel(api, ig_id, [url(archivos["tarjeta"]), url(archivos["promo"])], t["texto"])
+            else:
+                media_id = publicar_imagen(api, ig_id, url(archivos["tarjeta"]), t["texto"])
         except ErrorGraph as e:
             errores += 1
             print(f"  {quien}: ERROR al publicar → {e}")
@@ -479,8 +511,9 @@ def main():
                 config["reels_de_prueba"].get("graduacion", "MANUAL"))))
         if config.get("facebook"):
             if ig_id in paginas:
+                fotos_fb = [url(archivos[k]) for k in ("tarjeta", "promo") if k in archivos]
                 extras.append(("Facebook", lambda: publicar_en_facebook(
-                    api, paginas[ig_id], url(archivos["tarjeta"]), texto_para_facebook(cuenta, t["texto"]))))
+                    api, paginas[ig_id], fotos_fb, texto_para_facebook(cuenta, t["texto"]))))
             else:
                 print(f"  {quien}: Facebook → no encontré la página vinculada (¿falta el permiso pages_manage_posts?)")
         for nombre, publicar in extras:

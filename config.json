@@ -208,5 +208,6 @@
     "graduacion": "MANUAL"
   },
   "facebook": true,
-  "minimo_en_espera": 25
+  "minimo_en_espera": 25,
+  "carrusel_promo": true
 }

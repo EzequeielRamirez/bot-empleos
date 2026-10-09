@@ -357,3 +357,94 @@ def generar_vertical(cuenta, ruta_tarjeta, texto_inferior, destino, rubro=None):
     Path(destino).parent.mkdir(parents=True, exist_ok=True)
     img.save(destino, "JPEG", quality=92)
     return destino
+
+
+# ---------------------------------------------------------------- 2.ª imagen del carrusel
+
+def icono_tilde(d, color=(17, 17, 17)):
+    D = d * SS
+    capa = Image.new("RGBA", (D, D), (0, 0, 0, 0))
+    dr = ImageDraw.Draw(capa)
+    dr.ellipse((0, 0, D - 1, D - 1), fill=color)
+    dr.line([(D * 0.27, D * 0.52), (D * 0.44, D * 0.68), (D * 0.74, D * 0.34)], fill=DEGRADE_CENTRO,
+            width=int(D * 0.1), joint="curve")
+    return capa.resize((d, d), Image.LANCZOS)
+
+
+def icono_mensaje(d):
+    """Avión de papel (mensaje directo de Instagram) sobre círculo con los colores de Instagram."""
+    D = d * SS
+    capa = Image.new("RGBA", (D, D), (0, 0, 0, 0))
+    aro = degradado_lineal(D, COLORES_IG).convert("RGBA")
+    m = Image.new("L", (D, D), 0)
+    ImageDraw.Draw(m).ellipse((0, 0, D - 1, D - 1), fill=255)
+    capa.paste(aro, (0, 0), m)
+    dr = ImageDraw.Draw(capa)
+    c, r = D / 2, D * 0.27
+    punta, izq, abajo = (c + r, c - r * 0.95), (c - r * 1.05, c - r * 0.05), (c + r * 0.05, c + r * 1.0)
+    dr.polygon([punta, izq, (c - r * 0.1, c + r * 0.05), abajo], fill="white")
+    dr.line([punta, (c - r * 0.1, c + r * 0.05)], fill=(214, 41, 118), width=int(D * 0.035))
+    return capa.resize((d, d), Image.LANCZOS)
+
+
+def generar_promo(cuenta, destino):
+    """Invita a dueños de negocios a publicar su búsqueda laboral o su empresa en la cuenta."""
+    negro, blanco = "#111111", "#FFFFFF"
+    img = fondo_degradado(ANCHO, ALTO).convert("RGBA")
+    draw = ImageDraw.Draw(img)
+
+    # Encabezado igual al de las ofertas
+    d = 132
+    img.alpha_composite(avatar(cuenta, d), (MARGEN - 6, 58))
+    fu = fuente("Lato-Black.ttf", 46)
+    x_txt = MARGEN + d + 22
+    draw.text((x_txt, 76), cuenta["usuario"], font=fu, fill=negro)
+    img.alpha_composite(insignia_verificado(44), (int(x_txt + ancho_texto(draw, cuenta["usuario"], fu) + 12), 80))
+    draw.text((x_txt, 136), cuenta["lema"], font=fuente("Lato-Regular.ttf", 31), fill="#3B2A00")
+    draw.line((MARGEN, 222, ANCHO - MARGEN, 222), fill=(17, 17, 17, 60), width=2)
+
+    # Título
+    _, y = pastilla(draw, MARGEN, 252, "PARA EMPRESAS Y EMPRENDEDORES", fuente("Lato-Black.ttf", 30), negro, blanco, 26, 12)
+    draw.text((MARGEN, y + 18), "¿TENÉS UN NEGOCIO", font=fuente("Anton-Regular.ttf", 104), fill=negro)
+    draw.text((MARGEN, y + 140), "O BUSCÁS PERSONAL?", font=fuente("Anton-Regular.ttf", 104), fill=blanco,
+              stroke_width=5, stroke_fill=negro)
+    fs = fuente("Lato-Bold.ttf", 38)
+    draw.text((MARGEN, y + 282), "Publicá tu búsqueda laboral o", font=fs, fill=negro)
+    draw.text((MARGEN, y + 330), "promocioná tu empresa con nosotros.", font=fs, fill=negro)
+
+    # Beneficios
+    beneficios = [
+        "Llegá a miles de personas en todo Uruguay",
+        "Encontrá personal más rápido",
+        "Publicación, historias, reels y Facebook",
+    ]
+    yb = y + 420
+    fb = fuente("Lato-Black.ttf", 36)
+    for texto in beneficios:
+        img.alpha_composite(icono_tilde(54), (MARGEN, yb))
+        draw.text((MARGEN + 76, yb + 27), texto, font=fb, fill=negro, anchor="lm")
+        yb += 76
+
+    # Llamado a la acción
+    caja = (MARGEN, 1028, ANCHO - MARGEN, 1192)
+    sombra(img, caja, 30)
+    draw = ImageDraw.Draw(img)
+    draw.rounded_rectangle(caja, radius=30, fill=blanco)
+    img.alpha_composite(icono_mensaje(92), (MARGEN + 30, 1064))
+    x_c = MARGEN + 146
+    draw.text((x_c, 1066), "ESCRIBINOS POR MENSAJE DIRECTO", font=fuente("Lato-Black.ttf", 26), fill="#7A7A7A")
+    fd = fuente("Lato-Black.ttf", 50)
+    draw.text((x_c, 1146), f"@{cuenta['usuario']}", font=fd, fill=negro, anchor="lm")
+
+    # Pie
+    draw.rectangle((0, 1232, ANCHO, ALTO), fill=negro)
+    fp = fuente("Lato-Bold.ttf", 30)
+    pie = "Consultá tarifas y planes de difusión"
+    draw.text(((ANCHO - ancho_texto(draw, pie, fp)) / 2, 1252), pie, font=fp, fill=blanco)
+    fs2 = fuente("Lato-Regular.ttf", 22)
+    sub = "La oferta de trabajo está en la imagen anterior"
+    draw.text(((ANCHO - ancho_texto(draw, sub, fs2)) / 2, 1300), sub, font=fs2, fill="#AAAAAA")
+
+    Path(destino).parent.mkdir(parents=True, exist_ok=True)
+    img.convert("RGB").save(destino, "JPEG", quality=93)
+    return destino
