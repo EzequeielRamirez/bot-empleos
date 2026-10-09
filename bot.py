@@ -297,6 +297,20 @@ def modo_prueba(config):
     print(f"\nTarjetas guardadas en {salida}")
 
 
+def modo_diagnostico(api, config):
+    for cuenta in config["cuentas"]:
+        ig_id = os.environ.get(cuenta["variable_id"])
+        if not ig_id:
+            continue
+        print(f"\n=== @{cuenta['usuario']} (últimas publicaciones)")
+        datos = api.get(f"{ig_id}/media", limit=14,
+                        fields="id,media_type,media_product_type,timestamp,permalink,caption,is_shared_to_feed")
+        for m in datos.get("data", []):
+            puesto = next((l for l in (m.get("caption") or "").splitlines() if "Puesto" in l), "")
+            print(f"{m['timestamp'][:16]} {m.get('media_product_type')}/{m.get('media_type')} "
+                  f"feed={m.get('is_shared_to_feed')} {m.get('permalink')} {puesto[:50]}")
+
+
 def modo_configurar(api):
     paginas = api.get("me/accounts", fields="name,instagram_business_account{id,username}")
     for p in paginas.get("data", []):
@@ -312,6 +326,7 @@ def main():
     parser.add_argument("--prueba", action="store_true")
     parser.add_argument("--sin-publicar", action="store_true")
     parser.add_argument("--configurar", action="store_true")
+    parser.add_argument("--diagnostico", action="store_true")
     args = parser.parse_args()
 
     config = cargar_json(RAIZ / "config.json", None)
@@ -325,6 +340,8 @@ def main():
     api = Graph(token, config["graph_version"])
     if args.configurar:
         return modo_configurar(api)
+    if args.diagnostico:
+        return modo_diagnostico(api, config)
 
     cuentas = [c for c in config["cuentas"] if os.environ.get(c["variable_id"])]
     if not cuentas:
