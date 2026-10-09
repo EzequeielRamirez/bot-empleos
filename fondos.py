@@ -1,5 +1,5 @@
-"""Fondo de foto según el oficio. Las fotos están en assets/fondos/ (generadas una sola vez,
-gratis, con herramientas/generar_fondos.py)."""
+"""Fondo de foto según el oficio. Las fotos están en assets/fondos/ (generadas una sola vez con
+ChatGPT; herramientas/generar_fondos.py sirve de respaldo gratuito para agregar oficios nuevos)."""
 from pathlib import Path
 
 from extraccion import normalizar
