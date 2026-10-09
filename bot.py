@@ -413,6 +413,7 @@ def main():
     parser.add_argument("--sin-publicar", action="store_true")
     parser.add_argument("--configurar", action="store_true")
     parser.add_argument("--diagnostico", action="store_true")
+    parser.add_argument("--lugar", help="prueba la búsqueda de ubicaciones de Facebook")
     args = parser.parse_args()
 
     config = cargar_json(RAIZ / "config.json", None)
@@ -428,6 +429,15 @@ def main():
         return modo_configurar(api)
     if args.diagnostico:
         return modo_diagnostico(api, config)
+    if args.lugar:
+        for consulta in args.lugar.split(";"):
+            try:
+                r = api.get("pages/search", q=consulta, fields="id,name,location,link", limit=5)
+                for p in r.get("data", []):
+                    print(consulta, "→", p.get("id"), p.get("name"), p.get("location"))
+            except ErrorGraph as e:
+                print(consulta, "→ ERROR:", e)
+        return
 
     cuentas = [c for c in config["cuentas"] if os.environ.get(c["variable_id"])]
     if not cuentas:

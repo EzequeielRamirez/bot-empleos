@@ -12,7 +12,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python bot.py --diagnostico
+      - run: python bot.py --diagnostico && python bot.py --lugar "Montevideo, Uruguay;Pocitos;Punta del Este"
         env:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
           IG_ID_TCM: ${{ secrets.IG_ID_TCM }}
