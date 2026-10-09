@@ -94,12 +94,21 @@ def git(*args):
 
 # ---------------------------------------------------------------- búsqueda
 
-def buscar_ofertas(api, ig_id, config, estado, tipo="recent_media"):
-    """tipo: "recent_media" (últimas 24 h) o "top_media" (destacadas, pueden ser más viejas)."""
+def buscar_ofertas(api, ids_busqueda, config, estado, tipo="recent_media"):
+    """tipo: "recent_media" (últimas 24 h) o "top_media" (destacadas, pueden ser más viejas).
+    Instagram permite 30 hashtags distintos por semana POR CUENTA: los hashtags se reparten
+    entre las cuentas (cada uno siempre con la misma), así entran hasta 60."""
     vistos, huellas = set(estado["vistos"]), set(estado["huellas"])
     limite = ahora() - timedelta(days=config["dias_maximos_de_antiguedad"])
     nuevas = 0
+    asignacion = estado.setdefault("hashtag_cuenta", {})
     for tag in config["hashtags_a_buscar"]:
+        if tag not in asignacion or asignacion[tag] >= len(ids_busqueda):
+            # los que ya se consultaban siguen con la primera cuenta; los nuevos, a la que tenga menos
+            usados = [list(asignacion.values()).count(n) for n in range(len(ids_busqueda))]
+            asignacion[tag] = 0 if tag in estado["hashtag_ids"] else usados.index(min(usados))
+    for tag in config["hashtags_a_buscar"]:
+        ig_id = ids_busqueda[asignacion[tag]]
         try:
             hid = estado["hashtag_ids"].get(tag)
             if not hid:
@@ -389,14 +398,14 @@ def main():
     estado = cargar_json(ARCHIVO_ESTADO, estado_inicial())
 
     print("Buscando ofertas nuevas…")
-    ig_busqueda = os.environ[cuentas[0]["variable_id"]]
-    nuevas = buscar_ofertas(api, ig_busqueda, config, estado)
+    ids_busqueda = [os.environ[c["variable_id"]] for c in config["cuentas"] if os.environ.get(c["variable_id"])]
+    nuevas = buscar_ofertas(api, ids_busqueda, config, estado)
     ordenar_y_limpiar_cola(estado, config)
     # Si quedan pocas, se completan con publicaciones destacadas de los últimos días
     if len(estado["cola"]) < config.get("minimo_en_espera", 6):
-        extra = buscar_ofertas(api, ig_busqueda, config, estado, tipo="top_media")
+        extra = buscar_ofertas(api, ids_busqueda, config, estado, tipo="top_media")
         ordenar_y_limpiar_cola(estado, config)
-        print(f"  Quedaban pocas: se sumaron {extra} de las destacadas (hasta "
+        print(f"  Se sumaron {extra} de las destacadas (hasta "
               f"{config['dias_maximos_de_antiguedad']} días).")
     print(f"  {nuevas} ofertas nuevas, {len(estado['cola'])} en espera.")
 
