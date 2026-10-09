@@ -162,7 +162,8 @@ def icono_contacto(tipo, d):
     D = d * SS
     capa = Image.new("RGBA", (D, D), (0, 0, 0, 0))
     dr = ImageDraw.Draw(capa)
-    color = {"whatsapp": VERDE_WHATSAPP, "email": (17, 17, 17), "info": (17, 17, 17)}[tipo]
+    color = {"whatsapp": VERDE_WHATSAPP, "email": (17, 17, 17), "info": (17, 17, 17),
+             "telefono": (17, 17, 17), "web": (17, 17, 17)}[tipo]
     dr.ellipse((0, 0, D - 1, D - 1), fill=color)
     c, w = D / 2, int(D * 0.06)
     if tipo == "whatsapp":
@@ -184,6 +185,18 @@ def icono_contacto(tipo, d):
         x0, y0, x1, y1 = c - D * 0.24, c - D * 0.16, c + D * 0.24, c + D * 0.16
         dr.rectangle((x0, y0, x1, y1), outline="white", width=w)
         dr.line([(x0, y0), (c, c + D * 0.03), (x1, y0)], fill="white", width=w, joint="curve")
+    elif tipo == "telefono":  # auricular
+        import math
+        a, grosor = D * 0.2, int(D * 0.075)
+        dr.arc((c - a, c - a, c + a, c + a), start=35, end=235, fill="white", width=grosor)
+        for ang in (35, 235):
+            x, y = c + (a - grosor / 2) * math.cos(math.radians(ang)), c + (a - grosor / 2) * math.sin(math.radians(ang))
+            dr.ellipse((x - D * 0.055, y - D * 0.055, x + D * 0.055, y + D * 0.055), fill="white")
+    elif tipo == "web":  # globo terráqueo
+        r = D * 0.24
+        dr.ellipse((c - r, c - r, c + r, c + r), outline="white", width=w)
+        dr.ellipse((c - r * 0.45, c - r, c + r * 0.45, c + r), outline="white", width=w)
+        dr.line((c - r, c, c + r, c), fill="white", width=w)
     else:
         f = fuente("Anton-Regular.ttf", int(D * 0.55))
         dr.text((c, c), "i", font=f, fill="white", anchor="mm")
@@ -284,6 +297,10 @@ def generar_tarjeta(cuenta, puesto, zona, contacto, destino, rubro=None, foto=No
         tipo, etiqueta, dato = "whatsapp", "POSTULATE POR WHATSAPP", formato_local(contacto["whatsapp"])
     elif contacto.get("email"):
         tipo, etiqueta, dato = "email", "ENVIÁ TU CV A", contacto["email"]
+    elif contacto.get("telefono"):
+        tipo, etiqueta, dato = "telefono", "LLAMÁ AL", formato_local(contacto["telefono"])
+    elif contacto.get("web"):
+        tipo, etiqueta, dato = "web", "POSTULATE EN", contacto["web"]
     else:
         tipo, etiqueta, dato = "info", "¿CÓMO POSTULARSE?", "Toda la información en la descripción"
     img.alpha_composite(icono_contacto(tipo, 92), (MARGEN + 30, 1064))

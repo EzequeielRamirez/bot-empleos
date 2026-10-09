@@ -37,7 +37,9 @@ GENERICOS_INICIO = (
     "sumate", "unite", "postulate", "incorporar", "enviar", "envia", "cv",
     "en ", "temporada", "busquedalaboral", "ofertalaboral", "seguimos", "somos",
     "ser parte", "formar parte", "parte de", "oferta laboral", "oportunidades laborales",
-    "trabajo en", "empleo en", "llamado laboral",
+    "trabajo en", "empleo en", "llamado laboral", "requisito", "ofrecemos", "beneficio", "tarea",
+    "funcion", "perfil", "horario", "sueldo", "salario", "remuneracion", "ubicacion", "zona", "importante",
+    "condiciones", "se valora", "excluyente", "deslizá", "desliza", "info",
 )
 VERBOS_DE_FRASE = re.compile(r"busc|selecci|abre|necesit|sumamos|incorpor|tenemos|queremos|"
                              r"envi|postul|\bcv\b|seguimos|crecie|\?",
@@ -108,13 +110,44 @@ def _candidato(texto):
 
 def _desde_titulo(caption):
     """Muchos posts arrancan con "🍔 Cajero/a – Empresa" o "BÚSQUEDA LABORAL | ASISTENTE"."""
-    primera = next((l for l in caption.splitlines() if limpiar(l)), "")
-    for parte in re.split(SEPARADORES, primera)[:2]:
-        if VERBOS_DE_FRASE.search(parte) or len(limpiar(parte)) > 60:
+    lineas = [l for l in caption.splitlines() if limpiar(l)][:2]  # si la 1.ª es genérica, se mira la 2.ª
+    for linea in lineas:
+        if linea.rstrip().endswith(":"):
+            continue  # encabezado ("Requisitos:"), no es el puesto
+        linea = re.sub(r"[!¡:]+", " | ", linea)  # "¡BÚSQUEDA ACTIVA! Vendedor/a" → 2 partes
+        partes = [p for p in re.split(SEPARADORES, linea) if limpiar(p)]
+        for parte in partes[:3]:
+            if VERBOS_DE_FRASE.search(parte) or len(limpiar(parte)) > 60:
+                continue
+            candidato = _candidato(parte)
+            if candidato:
+                return candidato
+    return None
+
+
+def _desde_lista(caption):
+    """Ofertas con varios puestos en lista ("Buscamos:\n💅 Manicuras\n🦶 Podólogas…")."""
+    lineas = caption.splitlines()
+    for i, linea in enumerate(lineas):
+        if not linea.rstrip().endswith(":"):
             continue
-        candidato = _candidato(parte)
-        if candidato:
-            return candidato
+        items = []
+        for sig in lineas[i + 1:i + 8]:
+            texto = limpiar(sig)
+            if not texto:
+                if items:
+                    break
+                continue
+            if len(texto) > 35 or VERBOS_DE_FRASE.search(texto) or not _candidato(texto):
+                break
+            items.append(_candidato(texto))
+        if len(items) >= 2:
+            resultado = items[0]
+            for item in items[1:]:
+                if len(resultado) + len(item) + 3 > 45:
+                    break
+                resultado += " · " + item
+            return resultado
     return None
 
 
@@ -122,7 +155,7 @@ def extraer_puesto(caption):
     m = re.search(PATRON_EXPLICITO, caption, re.IGNORECASE)
     if m and _candidato(m.group(1)):
         return _candidato(m.group(1))
-    titulo = _desde_titulo(caption)
+    titulo = _desde_titulo(caption) or _desde_lista(caption)
     if titulo:
         return titulo
     for patron in PATRONES_PUESTO:
@@ -178,6 +211,7 @@ def formato_local(numero):
 def extraer_contacto(caption):
     """Email, WhatsApp y teléfono fijo. El WhatsApp es el número que aparece junto a la
     palabra "WhatsApp" o, si no, el primer celular uruguayo (09X)."""
+    caption = unicodedata.normalize("NFKC", caption)  # 𝗿𝗿𝗵𝗵@… → rrhh@…
     whatsapp = telefono = None
     m = re.search(r"wa\.me/(\d+)", caption)
     if m:
@@ -198,7 +232,32 @@ def extraer_contacto(caption):
             whatsapp = numero
         elif not numero.startswith("9") and not telefono:
             telefono = numero
-    return {"email": extraer_email(caption), "whatsapp": whatsapp, "telefono": telefono}
+    return {"email": extraer_email(caption), "whatsapp": whatsapp, "telefono": telefono,
+            "web": extraer_web(caption)}
+
+
+URL = re.compile(r"(?:https?://|www\.)[^\s,;)\]]+|\b[a-z0-9-]+\.(?:com|uy|com\.uy|org|org\.uy|gub\.uy|net|edu\.uy)"
+                 r"(?:/[^\s,;)\]]*)?", re.IGNORECASE)
+NO_SON_CONTACTO = ("instagram.com", "facebook.com", "fb.com", "tiktok.com", "linktr.ee", "wa.me", "youtu",
+                   # portales que solo repostean ofertas (no son la postulación de la empresa)
+                   "empleosenuruguay", "trabajoparalatinos", "informacionsocialuruguay", "portaltrabajos",
+                   "ofertasdetrabajo", "bit.ly")
+
+
+def extraer_web(caption):
+    """Link para postularse (formulario o web de la empresa), si lo hay."""
+    for m in URL.finditer(caption):
+        url = m.group(0).rstrip(".!¡?¿:")
+        if "@" in caption[max(0, m.start() - 40):m.start()] and "." in url and "/" not in url:
+            continue  # es la parte final de un email
+        if any(x in url.lower() for x in NO_SON_CONTACTO):
+            continue
+        return re.sub(r"^https?://", "", url)
+    return None
+
+
+def tiene_contacto(contacto):
+    return any(contacto.get(k) for k in ("whatsapp", "telefono", "email", "web"))
 
 
 # ---------------------------------------------------------------- rubro

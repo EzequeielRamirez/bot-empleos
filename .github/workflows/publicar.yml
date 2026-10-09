@@ -1,10 +1,8 @@
 name: Publicar ofertas de trabajo
 
 on:
-  schedule:
-    # GitHub saltea muchas ejecuciones programadas cuando está cargado, así que se intenta
-    # cada 10 minutos y el paso "¿Toca publicar?" deja pasar solo una por hora.
-    - cron: "*/10 * * * *"
+  # Lo lanza el reloj (reloj.yml) una vez por hora. El programador de GitHub ("schedule")
+  # se quitó: a veces corría al mismo tiempo que el reloj y duplicaba publicaciones.
   workflow_dispatch:       # botón "Run workflow" para probar a mano
     inputs:
       modo:
@@ -67,6 +65,7 @@ jobs:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
           IG_ID_TCM: ${{ secrets.IG_ID_TCM }}
           IG_ID_BTU: ${{ secrets.IG_ID_BTU }}
+          FORZAR: ${{ inputs.forzar || 'false' }}
         run: |
           git config user.name "bot-empleos"
           git config user.email "bot-empleos@users.noreply.github.com"

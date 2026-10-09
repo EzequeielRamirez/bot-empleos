@@ -13,12 +13,14 @@ import os
 import subprocess
 import sys
 import time
+import unicodedata
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_contacto,
+from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_contacto, tiene_contacto,
                         extraer_puesto, extraer_rubro, formato_local, huella)
 from ubicacion import extraer_ubicacion
+from extraccion import normalizar
 from fondos import elegir_fondo
 from tarjeta import generar_tarjeta, generar_vertical
 from video import generar_video
@@ -35,7 +37,15 @@ AVISO = ("⚠️ Importante: {marca} no contrata, no selecciona personal y no re
 
 def oferta_valida(caption, config):
     """Búsqueda laboral + un lugar de Uruguay identificable (si no, puede ser de otro país)."""
-    return es_busqueda_laboral(caption, config) and extraer_ubicacion(caption) is not None
+    return (es_busqueda_laboral(caption, config) and extraer_ubicacion(caption) is not None
+            and tiene_contacto(extraer_contacto(caption)))
+
+
+def clave_oferta(caption):
+    """Misma oferta subida por páginas distintas: mismo puesto + mismo contacto."""
+    c = extraer_contacto(caption)
+    dato = c.get("whatsapp") or c.get("telefono") or (c.get("email") or "").lower() or (c.get("web") or "").lower()
+    return f"{normalizar(extraer_puesto(caption))}|{dato}"
 
 
 class ErrorGraph(Exception):
@@ -115,14 +125,14 @@ def buscar_ofertas(api, ig_id, config, estado, tipo="recent_media"):
                 continue  # muy vieja: ni la marcamos como vista
             vistos.add(post["id"])
             estado["vistos"].append(post["id"])
-            caption = post.get("caption") or ""
+            caption = unicodedata.normalize("NFKC", post.get("caption") or "")  # letras decorativas → normales
             if not oferta_valida(caption, config):
                 continue
-            h = huella(caption)
-            if h in huellas:
+            h, clave = huella(caption), clave_oferta(caption)
+            if h in huellas or clave in huellas:
                 continue
-            huellas.add(h)
-            estado["huellas"].append(h)
+            huellas.update((h, clave))
+            estado["huellas"] += [h, clave]
             estado["cola"].append({"id": post["id"], "caption": caption,
                                    "permalink": post.get("permalink", ""), "timestamp": fecha,
                                    "intentos": 0})
@@ -151,8 +161,10 @@ def armar_texto(cuenta, oferta, puesto, zona, contacto, rubro, config):
         lineas.append(f"📲 WhatsApp: {formato_local(numero)} → wa.me/598{numero}")
     if contacto.get("email"):
         lineas.append(f"📩 Email: {contacto['email']}")
-    if contacto.get("telefono") and not contacto.get("whatsapp"):
+    if contacto.get("telefono"):
         lineas.append(f"📞 Teléfono: {formato_local(contacto['telefono'])}")
+    if contacto.get("web"):
+        lineas.append(f"🌐 Postulación: {contacto['web']}")
     lineas += ["", AVISO.format(marca=cuenta["logo_texto"]),
                "", "📝 Detalle publicado por la empresa:",
                descripcion_sin_hashtags(oferta["caption"]), ""]
@@ -297,6 +309,29 @@ def modo_prueba(config):
     print(f"\nTarjetas guardadas en {salida}")
 
 
+def reservar_hora():
+    """Anota en GitHub que esta hora ya la tomó una ejecución, ANTES de publicar. Si dos
+    ejecuciones arrancan juntas, la segunda ve la reserva (o choca al guardarla) y no publica."""
+    for intento in range(3):
+        subprocess.run(["git", "pull", "--rebase", "-q"], cwd=RAIZ)
+        estado = cargar_json(ARCHIVO_ESTADO, estado_inicial())
+        ultima = estado.get("ultima_ejecucion")
+        if ultima and os.environ.get("FORZAR") != "true":
+            minutos = (ahora() - datetime.fromisoformat(ultima)).total_seconds() / 60
+            if minutos < 55:
+                print(f"Esta hora ya la tomó otra ejecución (hace {minutos:.0f} min): no se publica.")
+                return False
+        estado["ultima_ejecucion"] = ahora().isoformat()
+        ARCHIVO_ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
+        git("add", "estado.json")
+        git("commit", "-q", "-m", "Reservar hora")
+        if subprocess.run(["git", "push", "-q"], cwd=RAIZ).returncode == 0:
+            return True
+        subprocess.run(["git", "reset", "-q", "--hard", "HEAD~1"], cwd=RAIZ)  # otro se adelantó
+    print("No se pudo reservar la hora: no se publica.")
+    return False
+
+
 def modo_diagnostico(api, config):
     for cuenta in config["cuentas"]:
         ig_id = os.environ.get(cuenta["variable_id"])
@@ -347,6 +382,10 @@ def main():
     if not cuentas:
         print("Faltan los secretos IG_ID_TCM / IG_ID_BTU: ejecutá 'Ver IDs de mis cuentas' (ver GUIA.md, paso 4).")
         return
+    en_github = os.environ.get("GITHUB_ACTIONS") == "true"
+    solo_generar = args.sin_publicar or not en_github  # fuera de GitHub no hay URL pública
+    if not solo_generar and not reservar_hora():
+        return
     estado = cargar_json(ARCHIVO_ESTADO, estado_inicial())
 
     print("Buscando ofertas nuevas…")
@@ -372,8 +411,6 @@ def main():
             continue
         trabajos.append(preparar(cuenta, estado["cola"].pop(0), config))
 
-    en_github = os.environ.get("GITHUB_ACTIONS") == "true"
-    solo_generar = args.sin_publicar or not en_github  # fuera de GitHub no hay URL pública
     imagenes = [t["archivos"][k] for t in trabajos for k in ("tarjeta", "historia") if k in t["archivos"]]
     sha = subir_imagenes(imagenes) if imagenes and en_github else None
     url = lambda ruta: (f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/"
@@ -431,8 +468,6 @@ def main():
 
     for clave in ("vistos", "huellas", "publicados"):
         estado[clave] = estado[clave][-MAX_HISTORIAL:]
-    if not solo_generar:
-        estado["ultima_ejecucion"] = ahora().isoformat()  # el workflow lo usa para correr 1 vez por hora
     ARCHIVO_ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
 
     if en_github:
