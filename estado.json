@@ -353,7 +353,9 @@
   "18204669253372525",
   "18197839504383501",
   "18639535330036109",
-  "18112933985140490"
+  "18112933985140490",
+  "18000202517811004",
+  "18111119933219859"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -426,7 +428,9 @@
   "8dc0fd1ac70dec7f",
   "administrativos|www.empleo.com.uy",
   "6196b6bce06f1742",
-  "colon y piedras blancas|rrhh@limport.com.uy"
+  "colon y piedras blancas|rrhh@limport.com.uy",
+  "04ef1cfb11785a91",
+  "personal de cocina|www.dikon.com.uy/postings?ref=234"
  ],
  "cola": [],
  "publicados": [
@@ -797,6 +801,16 @@
    "historia": "18060802007537028",
    "reel de prueba": "18073636457742367",
    "Facebook": "832226589971294_122147644341082595"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "18111119933219859",
+   "rubro": "Gastronomía",
+   "media": "18119325895951842",
+   "fecha": "2026-10-14T07:15:20.785023+00:00",
+   "historia": "17919212016451385",
+   "reel de prueba": "17988413829072933",
+   "Facebook": "832226589971294_122147658543082595"
   }
  ],
  "ultima_ejecucion": "2026-10-14T07:13:05.877521+00:00",
