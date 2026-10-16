@@ -476,7 +476,16 @@
   "17893614414612142",
   "18126688834860426",
   "18217620886357404",
-  "18132338677740988"
+  "18132338677740988",
+  "18104893376178972",
+  "18102779639373068",
+  "17955016317031550",
+  "18125815819755863",
+  "18092813096689631",
+  "18099883916550340",
+  "18137936995726293",
+  "17975014440158905",
+  "18006893865006365"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -565,7 +574,11 @@
   "0c16b260f8a066e4",
   "operarios de logistica|hola.nodohr@gmail.com",
   "8b991497f6959de1",
-  "ayudante de mantenimiento edilicio|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-ayudante-de-mantenimiento-maldonado-en-maldonado-56bcb1906bdeea5a61373e686dcf3405"
+  "ayudante de mantenimiento edilicio|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-ayudante-de-mantenimiento-maldonado-en-maldonado-56bcb1906bdeea5a61373e686dcf3405",
+  "a99445dbb5a94057",
+  "medico internista suplente|seleccionmedicos@asistencial.com.uy",
+  "dee2e27a990b7f3f",
+  "oficial y medio oficial herrero calificado|92430097"
  ],
  "cola": [],
  "publicados": [
@@ -1016,6 +1029,26 @@
    "historia": "18128815993789284",
    "reel de prueba": "18102779639373068",
    "Facebook": "1150597551475578_122149691349354312"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "17975014440158905",
+   "rubro": "Salud y cuidados",
+   "media": "18002279846798320",
+   "fecha": "2026-10-16T15:25:12.091509+00:00",
+   "historia": "18130332331828622",
+   "reel de prueba": "17880103710554181",
+   "Facebook": "832226589971294_122147913723082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "18006893865006365",
+   "rubro": "Construcción y oficios",
+   "media": "18095232284671677",
+   "fecha": "2026-10-16T15:26:45.425518+00:00",
+   "historia": "18106502621363511",
+   "reel de prueba": "18100109525532219",
+   "Facebook": "1150597551475578_122149701579354312"
   }
  ],
  "ultima_ejecucion": "2026-10-16T15:22:51.533558+00:00",
