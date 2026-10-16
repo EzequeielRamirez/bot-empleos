@@ -485,7 +485,18 @@
   "18099883916550340",
   "18137936995726293",
   "17975014440158905",
-  "18006893865006365"
+  "18006893865006365",
+  "17892853557615079",
+  "18373954744212359",
+  "18100109525532219",
+  "18095232284671677",
+  "17880103710554181",
+  "18002279846798320",
+  "18035013212890187",
+  "18127994720477478",
+  "18127972939846709",
+  "18131811584508801",
+  "17958656481249125"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -578,7 +589,11 @@
   "a99445dbb5a94057",
   "medico internista suplente|seleccionmedicos@asistencial.com.uy",
   "dee2e27a990b7f3f",
-  "oficial y medio oficial herrero calificado|92430097"
+  "oficial y medio oficial herrero calificado|92430097",
+  "d1fee847fde9acc2",
+  "mecanico · herrero · tecnico electromecanico|hola.nodohr@gmail.com",
+  "32e81236446318f0",
+  "buenas|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-asesor-telefonico-call-center-en-montevideo-f59ba94fa47cb05461373e686dcf3405"
  ],
  "cola": [],
  "publicados": [
@@ -1049,6 +1064,26 @@
    "historia": "18106502621363511",
    "reel de prueba": "18100109525532219",
    "Facebook": "1150597551475578_122149701579354312"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "17892853557615079",
+   "rubro": "Construcción y oficios",
+   "media": "17985830334082947",
+   "fecha": "2026-10-16T16:24:47.748663+00:00",
+   "historia": "17974431816143541",
+   "reel de prueba": "18126019744918104",
+   "Facebook": "1150597551475578_122149710285354312"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "18373954744212359",
+   "rubro": "Tecnología y marketing",
+   "media": "17952927924270678",
+   "fecha": "2026-10-16T16:25:51.326539+00:00",
+   "historia": "18103267706558839",
+   "reel de prueba": "18146857099536300",
+   "Facebook": "832226589971294_122147919855082595"
   }
  ],
  "ultima_ejecucion": "2026-10-16T16:23:04.166431+00:00",
