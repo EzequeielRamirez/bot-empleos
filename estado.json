@@ -473,7 +473,10 @@
   "18122471071939366",
   "18116303585047109",
   "17970258923961001",
-  "17893614414612142"
+  "17893614414612142",
+  "18126688834860426",
+  "18217620886357404",
+  "18132338677740988"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -560,7 +563,9 @@
   "a2ecc9da0b4d72f8",
   "asistente de exportaciones|www.empleo.com.uy",
   "0c16b260f8a066e4",
-  "operarios de logistica|hola.nodohr@gmail.com"
+  "operarios de logistica|hola.nodohr@gmail.com",
+  "8b991497f6959de1",
+  "ayudante de mantenimiento edilicio|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-ayudante-de-mantenimiento-maldonado-en-maldonado-56bcb1906bdeea5a61373e686dcf3405"
  ],
  "cola": [],
  "publicados": [
@@ -1001,6 +1006,16 @@
    "historia": "17894757744680993",
    "reel de prueba": "18103360424206628",
    "Facebook": "1150597551475578_122149558191354312"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "18217620886357404",
+   "rubro": "Limpieza y mantenimiento",
+   "media": "17955016317031550",
+   "fecha": "2026-10-16T14:24:24.020748+00:00",
+   "historia": "18128815993789284",
+   "reel de prueba": "18102779639373068",
+   "Facebook": "1150597551475578_122149691349354312"
   }
  ],
  "ultima_ejecucion": "2026-10-16T14:22:45.474489+00:00",
