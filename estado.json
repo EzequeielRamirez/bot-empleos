@@ -548,7 +548,9 @@
   "18096386486133479",
   "17954697528082291",
   "18644881342053823",
-  "17963194920229568"
+  "17963194920229568",
+  "17919889257443927",
+  "18645851791001623"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -651,7 +653,11 @@
   "a2c0a42832b33820",
   "asistente en admisiones|seleccionpersonal@claeh.edu.uy",
   "4e422d41b7082317",
-  "personal|trabaja.uy"
+  "personal|trabaja.uy",
+  "46de9c27c57fb9e1",
+  "ejecutivo/a comercial|www.dikon.com.uy/postings?ref=952",
+  "cb1431d7218708d1",
+  "una nueva oportunidad de empleo|inscripciones.ose.com.uy/inscripcion/anotingw2016.nsf/inscripcionaconcursoexterno.xsp"
  ],
  "cola": [],
  "publicados": [
@@ -1172,6 +1178,26 @@
    "historia": "18108606659224482",
    "reel de prueba": "17954697528082291",
    "Facebook": "832226589971294_122148017949082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "17919889257443927",
+   "rubro": "Ventas y atención al público",
+   "media": "17918150040461203",
+   "fecha": "2026-10-17T20:29:11.824874+00:00",
+   "historia": "18039833258839108",
+   "reel de prueba": "18030029534886776",
+   "Facebook": "1150597551475578_122149989039354312"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "18645851791001623",
+   "rubro": "Construcción y oficios",
+   "media": "18131536238501300",
+   "fecha": "2026-10-17T20:30:40.563993+00:00",
+   "historia": "18494006044107125",
+   "reel de prueba": "18412530523082849",
+   "Facebook": "832226589971294_122148038847082595"
   }
  ],
  "ultima_ejecucion": "2026-10-17T20:27:31.786158+00:00",
