@@ -665,7 +665,9 @@
   "17948973870302346",
   "18113097401111712",
   "18076325051770124",
-  "17998783698001046"
+  "17998783698001046",
+  "17979338396917973",
+  "17876019384583794"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -784,7 +786,9 @@
   "5245c1a0cab72574",
   "buenas noticias|43261373",
   "19009e3846a00352",
-  "recepcionista|www.dikon.com.uy/postings?ref=472"
+  "recepcionista|www.dikon.com.uy/postings?ref=472",
+  "47b7675f806c7491",
+  "arquitecto/a tecnico/a|info@triaxconsultora.network"
  ],
  "cola": [],
  "publicados": [
@@ -1385,6 +1389,16 @@
    "historia": "18030604229857109",
    "reel de prueba": "18125679424815766",
    "Facebook": "1150597551475578_122150490453354312"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "17876019384583794",
+   "rubro": "Construcción y oficios",
+   "media": "17995611800842965",
+   "fecha": "2026-10-20T16:44:47.465122+00:00",
+   "historia": "17917435407453919",
+   "reel de prueba": "18073700255770122",
+   "Facebook": "1150597551475578_122150637459354312"
   }
  ],
  "ultima_ejecucion": "2026-10-20T16:42:10.082067+00:00",
