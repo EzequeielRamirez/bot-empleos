@@ -783,7 +783,10 @@
   "18452796976126988",
   "18412791148092413",
   "18359448949222410",
-  "18213726064320158"
+  "18213726064320158",
+  "18411610519091073",
+  "17913765555558894",
+  "17973940529947763"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -920,7 +923,9 @@
   "f075276c478a1fdb",
   "reponedores|contacto@sagazsa.com",
   "ec5708278b19b7bb",
-  "5 lic en trabajo social o asistente social|www.empleo.com.uy/ig"
+  "5 lic en trabajo social o asistente social|www.empleo.com.uy/ig",
+  "56c6719e986c35d4",
+  "formate como auxiliar de farmacia|94860212"
  ],
  "cola": [],
  "publicados": [
@@ -1611,6 +1616,16 @@
    "historia": "17926090920199874",
    "reel de prueba": "18452796976126988",
    "Facebook": "832226589971294_122148483687082595"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "17913765555558894",
+   "rubro": "Salud y cuidados",
+   "media": "18091386554223503",
+   "fecha": "2026-10-21T19:48:51.183025+00:00",
+   "historia": "18640719310020167",
+   "reel de prueba": "18503978176098156",
+   "Facebook": "832226589971294_122148496917082595"
   }
  ],
  "ultima_ejecucion": "2026-10-21T19:47:10.748616+00:00",
