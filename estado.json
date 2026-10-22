@@ -868,7 +868,11 @@
   "18132086929771518",
   "17908606176578546",
   "18098609633391807",
-  "18015333689992173"
+  "18015333689992173",
+  "18077996822427071",
+  "17987360108886323",
+  "18389168962224187",
+  "18120338144058087"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1019,7 +1023,9 @@
   "ac4f198a7db6cb80",
   "personal|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-administrativo-comercial-ambos-sexos-en-ciudad-vieja-ed4db25d448d032d61373e686dcf3405",
   "b8a389eb5c25bf43",
-  "3 ingenieros agronomos|www.empleo.com.uy/ig"
+  "3 ingenieros agronomos|www.empleo.com.uy/ig",
+  "120f3f621c001f52",
+  "20 vendedoras/es|www.empleo.com.uy/ig"
  ],
  "cola": [],
  "publicados": [
@@ -1780,6 +1786,16 @@
    "historia": "18127851350493648",
    "reel de prueba": "17987360108886323",
    "Facebook": "832226589971294_122148602337082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "18120338144058087",
+   "rubro": "Ventas y atención al público",
+   "media": "18138032011649294",
+   "fecha": "2026-10-22T18:53:37.887962+00:00",
+   "historia": "17967926802192746",
+   "reel de prueba": "18129170144500421",
+   "Facebook": "1150597551475578_122151117081354312"
   }
  ],
  "ultima_ejecucion": "2026-10-22T18:51:16.070674+00:00",
