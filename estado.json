@@ -874,7 +874,11 @@
   "18389168962224187",
   "18120338144058087",
   "18129170144500421",
-  "18138032011649294"
+  "18138032011649294",
+  "18112574855230499",
+  "18383180413236497",
+  "18035070404667139",
+  "17993028816101134"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1027,7 +1031,9 @@
   "b8a389eb5c25bf43",
   "3 ingenieros agronomos|www.empleo.com.uy/ig",
   "120f3f621c001f52",
-  "20 vendedoras/es|www.empleo.com.uy/ig"
+  "20 vendedoras/es|www.empleo.com.uy/ig",
+  "5962a3cefc57103b",
+  "auxiliar operativo y de logistica|info@consultoradetrabajo.com"
  ],
  "cola": [],
  "publicados": [
@@ -1798,6 +1804,16 @@
    "historia": "17967926802192746",
    "reel de prueba": "18129170144500421",
    "Facebook": "1150597551475578_122151117081354312"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "18112574855230499",
+   "rubro": "Logística y transporte",
+   "media": "17949536961303099",
+   "fecha": "2026-10-22T21:53:26.054526+00:00",
+   "historia": "18193746790404427",
+   "reel de prueba": "18155285146525492",
+   "Facebook": "832226589971294_122148622023082595"
   }
  ],
  "ultima_ejecucion": "2026-10-22T21:51:46.250360+00:00",
