@@ -811,7 +811,13 @@
   "17991733092061800",
   "18190910005407962",
   "18094602422404675",
-  "18098839946382026"
+  "18098839946382026",
+  "18157627843508081",
+  "17983772223129755",
+  "18119108560762199",
+  "17886124104502383",
+  "17976100014149817",
+  "18119714644745013"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -950,7 +956,9 @@
   "ec5708278b19b7bb",
   "5 lic en trabajo social o asistente social|www.empleo.com.uy/ig",
   "56c6719e986c35d4",
-  "formate como auxiliar de farmacia|94860212"
+  "formate como auxiliar de farmacia|94860212",
+  "7c43b79489d0de6e",
+  "empresa especializada en mantenimiento|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-multirrubro-para-realizar-reforma-edilicia-en-montevideo-469f578089ef758761373e686dcf3405"
  ],
  "cola": [],
  "publicados": [
@@ -1651,6 +1659,16 @@
    "historia": "18640719310020167",
    "reel de prueba": "18503978176098156",
    "Facebook": "832226589971294_122148496917082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "18119108560762199",
+   "rubro": "Limpieza y mantenimiento",
+   "media": "18221063197341758",
+   "fecha": "2026-10-22T12:51:39.875818+00:00",
+   "historia": "18101299598533621",
+   "reel de prueba": "18095310197268395",
+   "Facebook": "1150597551475578_122151059529354312"
   }
  ],
  "ultima_ejecucion": "2026-10-22T12:50:03.932391+00:00",
