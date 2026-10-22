@@ -861,7 +861,14 @@
   "17979449918915832",
   "18435193123199544",
   "18126954244910007",
-  "18117084881009650"
+  "18117084881009650",
+  "18103233668306557",
+  "18132949609743013",
+  "17969761893178738",
+  "18132086929771518",
+  "17908606176578546",
+  "18098609633391807",
+  "18015333689992173"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1010,7 +1017,9 @@
   "8131438aec39896a",
   "buenas|48461373",
   "ac4f198a7db6cb80",
-  "personal|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-administrativo-comercial-ambos-sexos-en-ciudad-vieja-ed4db25d448d032d61373e686dcf3405"
+  "personal|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-administrativo-comercial-ambos-sexos-en-ciudad-vieja-ed4db25d448d032d61373e686dcf3405",
+  "b8a389eb5c25bf43",
+  "3 ingenieros agronomos|www.empleo.com.uy/ig"
  ],
  "cola": [],
  "publicados": [
@@ -1761,6 +1770,16 @@
    "historia": "17913115713491117",
    "reel de prueba": "17969761893178738",
    "Facebook": "832226589971294_122148599013082595"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "18015333689992173",
+   "rubro": "Salud y cuidados",
+   "media": "18389168962224187",
+   "fecha": "2026-10-22T17:53:06.976331+00:00",
+   "historia": "18127851350493648",
+   "reel de prueba": "17987360108886323",
+   "Facebook": "832226589971294_122148602337082595"
   }
  ],
  "ultima_ejecucion": "2026-10-22T17:51:03.323269+00:00",
