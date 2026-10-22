@@ -822,7 +822,11 @@
   "18029169209883018",
   "18637874620012717",
   "18095310197268395",
-  "18221063197341758"
+  "18221063197341758",
+  "18138410026733019",
+  "18056103428802505",
+  "18180262465436273",
+  "18105627247997025"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -963,7 +967,9 @@
   "56c6719e986c35d4",
   "formate como auxiliar de farmacia|94860212",
   "7c43b79489d0de6e",
-  "empresa especializada en mantenimiento|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-multirrubro-para-realizar-reforma-edilicia-en-montevideo-469f578089ef758761373e686dcf3405"
+  "empresa especializada en mantenimiento|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-multirrubro-para-realizar-reforma-edilicia-en-montevideo-469f578089ef758761373e686dcf3405",
+  "26eed0253223ae67",
+  "staff zafra rivera|www.empleo.com.uy/ig"
  ],
  "cola": [],
  "publicados": [
@@ -1674,6 +1680,16 @@
    "historia": "18101299598533621",
    "reel de prueba": "18095310197268395",
    "Facebook": "1150597551475578_122151059529354312"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "18105627247997025",
+   "rubro": "Logística y transporte",
+   "media": "18103043393568489",
+   "fecha": "2026-10-22T14:52:31.500446+00:00",
+   "historia": "18645428902063457",
+   "reel de prueba": "17879792034651884",
+   "Facebook": "1150597551475578_122151082299354312"
   }
  ],
  "ultima_ejecucion": "2026-10-22T14:50:30.334870+00:00",
