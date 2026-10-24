@@ -981,7 +981,10 @@
   "17910863967507272",
   "18001703655008495",
   "18114631316581435",
-  "18099153788409900"
+  "18099153788409900",
+  "18014476217978399",
+  "18106376033311144",
+  "18074033657581527"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1148,7 +1151,9 @@
   "f89e7a6a2f291197",
   "ampliamente valorado|www.empleo.com.uy/ig",
   "490882d4bcc9e606",
-  "guardia de seguridad|www.empleo.com.uy/ig"
+  "guardia de seguridad|www.empleo.com.uy/ig",
+  "93b722044a6c4c01",
+  "personal|www.empleo.com.uy/ig"
  ],
  "cola": [],
  "publicados": [
@@ -1989,6 +1994,16 @@
    "historia": "17931503040181617",
    "reel de prueba": "18115721822105524",
    "Facebook": "1150597551475578_122151438963354312"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "18014476217978399",
+   "rubro": "Industria y producción",
+   "media": "18647643679063846",
+   "fecha": "2026-10-24T17:00:32.276427+00:00",
+   "historia": "18118016642084767",
+   "reel de prueba": "18118567579960127",
+   "Facebook": "1150597551475578_122151512313354312"
   }
  ],
  "ultima_ejecucion": "2026-10-24T16:58:44.869803+00:00",
