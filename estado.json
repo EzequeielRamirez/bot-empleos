@@ -1019,7 +1019,10 @@
   "18128214805869664",
   "18123833164936608",
   "18118251295969434",
-  "18122114308943275"
+  "18122114308943275",
+  "17952218799294207",
+  "18113657231177511",
+  "17996676936032721"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1192,7 +1195,9 @@
   "eac45f336e0f2dc9",
   "contrato|www.empleo.com.uy/ig",
   "535fda20d12b4a2a",
-  "asistente contable|www.empleo.com.uy/ig"
+  "asistente contable|www.empleo.com.uy/ig",
+  "d6675a8ef3975731",
+  "personal|recursoshumanos@capenarol.com.uy"
  ],
  "cola": [],
  "publicados": [
@@ -2063,6 +2068,16 @@
    "historia": "18004263390009132",
    "reel de prueba": "17952218799294207",
    "Facebook": "832226589971294_122149178961082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "17996676936032721",
+   "rubro": "Otros rubros",
+   "media": "18121580419738579",
+   "fecha": "2026-10-25T14:03:49.808963+00:00",
+   "historia": "17911089951577462",
+   "reel de prueba": "17914403589517664",
+   "Facebook": "1150597551475578_122151693321354312"
   }
  ],
  "ultima_ejecucion": "2026-10-25T14:02:09.253967+00:00",
