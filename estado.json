@@ -1018,7 +1018,8 @@
   "18467227663143746",
   "18128214805869664",
   "18123833164936608",
-  "18118251295969434"
+  "18118251295969434",
+  "18122114308943275"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1189,7 +1190,9 @@
   "93b722044a6c4c01",
   "personal|www.empleo.com.uy/ig",
   "eac45f336e0f2dc9",
-  "contrato|www.empleo.com.uy/ig"
+  "contrato|www.empleo.com.uy/ig",
+  "535fda20d12b4a2a",
+  "asistente contable|www.empleo.com.uy/ig"
  ],
  "cola": [],
  "publicados": [
@@ -2050,6 +2053,16 @@
    "historia": "18077731880735859",
    "reel de prueba": "18128214805869664",
    "Facebook": "1150597551475578_122151575031354312"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "18122114308943275",
+   "rubro": "Administración y oficina",
+   "media": "18113657231177511",
+   "fecha": "2026-10-25T13:03:58.383632+00:00",
+   "historia": "18004263390009132",
+   "reel de prueba": "17952218799294207",
+   "Facebook": "832226589971294_122149178961082595"
   }
  ],
  "ultima_ejecucion": "2026-10-25T13:02:04.222650+00:00",
