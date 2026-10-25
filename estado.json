@@ -1025,7 +1025,9 @@
   "17996676936032721",
   "17914403589517664",
   "18121580419738579",
-  "17990756505075690"
+  "17990756505075690",
+  "18082937654707686",
+  "17913854400538691"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1200,7 +1202,9 @@
   "535fda20d12b4a2a",
   "asistente contable|www.empleo.com.uy/ig",
   "d6675a8ef3975731",
-  "personal|recursoshumanos@capenarol.com.uy"
+  "personal|recursoshumanos@capenarol.com.uy",
+  "bdec9c609c9f646b",
+  "repostero|www.empleo.com.uy/ig"
  ],
  "cola": [],
  "publicados": [
@@ -2081,6 +2085,16 @@
    "historia": "17911089951577462",
    "reel de prueba": "17914403589517664",
    "Facebook": "1150597551475578_122151693321354312"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "17913854400538691",
+   "rubro": "Gastronomía",
+   "media": "18113656196141800",
+   "fecha": "2026-10-25T18:05:24.114901+00:00",
+   "historia": "18121301644942744",
+   "reel de prueba": "18114406708845008",
+   "Facebook": "1150597551475578_122151739635354312"
   }
  ],
  "ultima_ejecucion": "2026-10-25T18:02:46.444444+00:00",
