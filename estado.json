@@ -1027,7 +1027,12 @@
   "18121580419738579",
   "17990756505075690",
   "18082937654707686",
-  "17913854400538691"
+  "17913854400538691",
+  "17899305024395308",
+  "18137837311725876",
+  "18114406708845008",
+  "18113656196141800",
+  "17952438789342044"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1204,7 +1209,9 @@
   "d6675a8ef3975731",
   "personal|recursoshumanos@capenarol.com.uy",
   "bdec9c609c9f646b",
-  "repostero|www.empleo.com.uy/ig"
+  "repostero|www.empleo.com.uy/ig",
+  "a82c0907c1ba4026",
+  "empresa|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-asesor-comercial-en-fortin-de-santa-rosa-666b4016576a7ed961373e686dcf3405"
  ],
  "cola": [],
  "publicados": [
@@ -2095,6 +2102,16 @@
    "historia": "18121301644942744",
    "reel de prueba": "18114406708845008",
    "Facebook": "1150597551475578_122151739635354312"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "17899305024395308",
+   "rubro": "Ventas y atención al público",
+   "media": "17920998033240061",
+   "fecha": "2026-10-25T19:04:46.681652+00:00",
+   "historia": "18136766119635222",
+   "reel de prueba": "17905515495669164",
+   "Facebook": "832226589971294_122149212723082595"
   }
  ],
  "ultima_ejecucion": "2026-10-25T19:02:51.467293+00:00",
