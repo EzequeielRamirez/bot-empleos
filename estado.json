@@ -1061,7 +1061,11 @@
   "17912958402472137",
   "18109261253623538",
   "18116797880015102",
-  "18077245334428917"
+  "18077245334428917",
+  "18134338798681145",
+  "18059721944798946",
+  "17993565717111847",
+  "18126737833849245"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1246,7 +1250,9 @@
   "be4ebadbcf97010e",
   "oficial yesero|contacto@aditium.net",
   "97364187b57b4b41",
-  "administrativo/a contable con sap e ingles|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-administrativoa-contable-con-sap-e-ingles-perez-castellano-en-montevideo-c3bfc8b9b8ec223861373e686dcf3405"
+  "administrativo/a contable con sap e ingles|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-administrativoa-contable-con-sap-e-ingles-perez-castellano-en-montevideo-c3bfc8b9b8ec223861373e686dcf3405",
+  "bf09ec69c046b701",
+  "administrativo/a|www.empleo.com.uy/ig"
  ],
  "cola": [],
  "publicados": [
@@ -2177,6 +2183,16 @@
    "historia": "17926565331200898",
    "reel de prueba": "18125352016906174",
    "Facebook": "1150597551475578_122151834039354312"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "17993565717111847",
+   "rubro": "Administración y oficina",
+   "media": "17989684173088760",
+   "fecha": "2026-10-26T13:07:15.675455+00:00",
+   "historia": "18110282411226969",
+   "reel de prueba": "18358054867170450",
+   "Facebook": "832226589971294_122149297887082595"
   }
  ],
  "ultima_ejecucion": "2026-10-26T13:05:43.501308+00:00",
