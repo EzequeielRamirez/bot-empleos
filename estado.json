@@ -1126,7 +1126,18 @@
   "18137864056727087",
   "17917723980497093",
   "17967445737198142",
-  "18102340982542908"
+  "18102340982542908",
+  "17989807829874811",
+  "18114958316116226",
+  "18635067394036175",
+  "17903014590374810",
+  "18370486612208116",
+  "18084016796394123",
+  "17955393351036203",
+  "18052942571818355",
+  "18130750228695929",
+  "18154024099589344",
+  "18109672493349930"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1325,7 +1336,11 @@
   "5d608d2d5e421fc0",
   "comparti tu saber y forma a quienes cuidan|98029631",
   "0053ce3f025723de",
-  "la convocatoria esta dirigida a hombres|www.empleo.com.uy/ig"
+  "la convocatoria esta dirigida a hombres|www.empleo.com.uy/ig",
+  "b0b0093deacfcf34",
+  "hay oportunidad|21361373",
+  "a748fd3c6218c602",
+  "buenas noticias|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-operadora-de-call-center-centro-turno-tardenoche-en-montevideo-9f31997b33a11cb061373e686dcf3405"
  ],
  "cola": [],
  "publicados": [
@@ -2325,6 +2340,26 @@
    "fecha": "2026-10-26T19:13:52.180108+00:00",
    "reel de prueba": "18149181085540331",
    "Facebook": "832226589971294_122149334313082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "18635067394036175",
+   "rubro": "Salud y cuidados",
+   "media": "18139233331733359",
+   "fecha": "2026-10-26T22:14:58.430299+00:00",
+   "historia": "18145765558597851",
+   "reel de prueba": "18215046634362118",
+   "Facebook": "1150597551475578_122152020825354312"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "17903014590374810",
+   "rubro": "Ventas y atención al público",
+   "media": "18048967331819332",
+   "fecha": "2026-10-26T22:16:01.418407+00:00",
+   "historia": "18190429546408258",
+   "reel de prueba": "18108245639156556",
+   "Facebook": "832226589971294_122149347771082595"
   }
  ],
  "ultima_ejecucion": "2026-10-26T22:13:06.006882+00:00",
