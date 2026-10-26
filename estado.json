@@ -1051,7 +1051,10 @@
   "18154521049550210",
   "18008800610798289",
   "18031955327855915",
-  "18092971346656087"
+  "18092971346656087",
+  "18133561069736401",
+  "18082290875729377",
+  "17908022964596344"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1234,7 +1237,9 @@
   "ca76efe784559b5b",
   "agente de call center|27861373",
   "be4ebadbcf97010e",
-  "oficial yesero|contacto@aditium.net"
+  "oficial yesero|contacto@aditium.net",
+  "97364187b57b4b41",
+  "administrativo/a contable con sap e ingles|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-administrativoa-contable-con-sap-e-ingles-perez-castellano-en-montevideo-c3bfc8b9b8ec223861373e686dcf3405"
  ],
  "cola": [],
  "publicados": [
@@ -2155,6 +2160,16 @@
    "historia": "17991650486867215",
    "reel de prueba": "18082290875729377",
    "Facebook": "832226589971294_122149257675082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "18133561069736401",
+   "rubro": "Administración y oficina",
+   "media": "18060188585648450",
+   "fecha": "2026-10-26T06:06:22.932679+00:00",
+   "historia": "17926565331200898",
+   "reel de prueba": "18125352016906174",
+   "Facebook": "1150597551475578_122151834039354312"
   }
  ],
  "ultima_ejecucion": "2026-10-26T06:04:35.995472+00:00",
