@@ -1046,7 +1046,8 @@
   "17876097204593493",
   "18149245405566708",
   "17913509787510496",
-  "18357178987170885"
+  "18357178987170885",
+  "17968768845193378"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1225,7 +1226,9 @@
   "bdec9c609c9f646b",
   "repostero|www.empleo.com.uy/ig",
   "a82c0907c1ba4026",
-  "empresa|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-asesor-comercial-en-fortin-de-santa-rosa-666b4016576a7ed961373e686dcf3405"
+  "empresa|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-asesor-comercial-en-fortin-de-santa-rosa-666b4016576a7ed961373e686dcf3405",
+  "ca76efe784559b5b",
+  "agente de call center|27861373"
  ],
  "cola": [],
  "publicados": [
@@ -2126,6 +2129,16 @@
    "historia": "18136766119635222",
    "reel de prueba": "17905515495669164",
    "Facebook": "832226589971294_122149212723082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "17968768845193378",
+   "rubro": "Ventas y atención al público",
+   "media": "18008800610798289",
+   "fecha": "2026-10-26T02:06:09.528841+00:00",
+   "historia": "17923538670224663",
+   "reel de prueba": "18154521049550210",
+   "Facebook": "1150597551475578_122151801885354312"
   }
  ],
  "ultima_ejecucion": "2026-10-26T02:03:59.430351+00:00",
