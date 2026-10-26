@@ -1065,7 +1065,12 @@
   "18134338798681145",
   "18059721944798946",
   "17993565717111847",
-  "18126737833849245"
+  "18126737833849245",
+  "18358054867170450",
+  "17989684173088760",
+  "17910486090579825",
+  "18025463537925521",
+  "18116678876278724"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1252,7 +1257,11 @@
   "97364187b57b4b41",
   "administrativo/a contable con sap e ingles|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-administrativoa-contable-con-sap-e-ingles-perez-castellano-en-montevideo-c3bfc8b9b8ec223861373e686dcf3405",
   "bf09ec69c046b701",
-  "administrativo/a|www.empleo.com.uy/ig"
+  "administrativo/a|www.empleo.com.uy/ig",
+  "5e122423a68cee38",
+  "esta oportunidad puede ser|talentos@consultora-tres.com",
+  "d74acf463155f48a",
+  "tener 30 anos o mas · ciclo basico completo|postulaciones@reinventa.com.uy"
  ],
  "cola": [],
  "publicados": [
@@ -2193,6 +2202,26 @@
    "historia": "18110282411226969",
    "reel de prueba": "18358054867170450",
    "Facebook": "832226589971294_122149297887082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "17910486090579825",
+   "rubro": "Limpieza y mantenimiento",
+   "media": "18131964496860990",
+   "fecha": "2026-10-26T14:07:29.763141+00:00",
+   "historia": "18129196664485975",
+   "reel de prueba": "17979227424137214",
+   "Facebook": "1150597551475578_122151899817354312"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "18025463537925521",
+   "rubro": "Ventas y atención al público",
+   "media": "18039898613840995",
+   "fecha": "2026-10-26T14:08:42.815040+00:00",
+   "historia": "18079634429417963",
+   "reel de prueba": "18132064414842850",
+   "Facebook": "832226589971294_122149304295082595"
   }
  ],
  "ultima_ejecucion": "2026-10-26T14:05:54.944155+00:00",
