@@ -103,6 +103,8 @@ def _candidato(texto):
     # No terminar en "de", "por", "en"…
     texto = re.sub(r"(?:\s+(?:de|del|en|por|para|y|con|la|el|los|las|a))+$", "", texto, flags=re.IGNORECASE)
     n = normalizar(texto)
+    if " " not in texto and "/" not in texto and len(texto) > 14:
+        return None  # palabra pegada tipo hashtag ("administrativosuruguay"), no un puesto
     from ubicacion import DEPARTAMENTOS, LUGARES  # (import acá para evitar import circular)
     lugares = [normalizar(l) for l in list(LUGARES) + list(DEPARTAMENTOS)]
     m = re.search(r"\s+en\s+(.+)$", texto, re.IGNORECASE)
