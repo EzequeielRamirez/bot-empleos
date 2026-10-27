@@ -236,6 +236,8 @@ def extraer_contacto(caption):
             if whatsapp:
                 break
     for n in TELEFONO.finditer(caption):
+        if re.fullmatch(r"(?:19|20)\d\d[\s/-]+(?:19|20)\d\d", n.group().strip()):
+            continue  # "2026 2027" son años, no un teléfono
         numero = _numero_uy(n.group())
         if not numero or numero == whatsapp:
             continue

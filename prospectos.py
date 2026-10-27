@@ -25,7 +25,20 @@ def es_prospecto(caption, config):
     if any(re.search(r"(?<![a-z])" + re.escape(p) + r"(?![a-z])", t)
            for p in config.get("palabras_de_otros_paises", [])):
         return False
+    if any(x in t for x in NO_SON_CLIENTES):
+        return False
     return extraer_ubicacion(caption) is not None or bool(SENALES_URUGUAY.search(caption))
+
+
+# Organismos del Estado (no compran publicidad) y otros portales de empleo (competencia)
+NO_SON_CLIENTES = (
+    ".gub.uy", "uruguay concursa", "uruguayconcursa", "llamado publico", "llamados publicos", "asse",
+    "intendencia", "ministerio", "poder judicial", "mides", "inau", "bps", "antel", " ute ", " ose ",
+    "ancap", "udelar", "viatrabajo", "mtss", "inefop",
+    "computrabajo", "buscojobs", "laburon", "trabajoycv", "empleo.com.uy", "trabajoencasa", "news.google",
+    "indeed", "bumeran", "zonajobs", "empleosenuruguay", "trabajoparalatinos", "informacionsocialuruguay",
+    "portaltrabajos", "fortalezas detectadas",
+)
 
 
 def clave_empresa(caption, permalink):
@@ -53,6 +66,8 @@ def nuevo(post_id, caption, permalink, fecha):
 
 def _datos_mensaje(p):
     puesto = p["puesto"]
+    if extraer_rubro(puesto, "") == "Otros rubros":  # puesto poco claro ("interés", "Cargos"…)
+        puesto = "personal"
     puesto_txt = puesto.lower() if puesto.isupper() else puesto[0].lower() + puesto[1:]  # "AUXILIAR" → "auxiliar"
     zona_txt = f" en {p['zona']}" if p.get("zona") else ""
     return {"puesto": puesto_txt, "zona": zona_txt}
@@ -116,7 +131,8 @@ def generar_reporte(estado, config, hoy):
             botones.append(f"🌐 {c['web']}")
         botones.append(f"[📷 Ver publicación en Instagram]({p['permalink']})")
         dias = (datetime.fromisoformat(hoy) - datetime.strptime(p["timestamp"][:10], "%Y-%m-%d")).days
-        lineas += [f"## {i}. {p['puesto']}" + (f" — {p['zona']}" if p.get("zona") else ""),
+        titulo = p["puesto"] if extraer_rubro(p["puesto"], "") != "Otros rubros" else "Búsqueda laboral"
+        lineas += [f"## {i}. {titulo}" + (f" — {p['zona']}" if p.get("zona") else ""),
                    f"{p['rubro']} · publicada hace {dias} día{'s' if dias != 1 else ''}", "",
                    " · ".join(botones), "", "```text", texto, "```", ""]
         contactados[p["clave"]] = hoy
