@@ -25,9 +25,30 @@ def es_prospecto(caption, config):
     if any(re.search(r"(?<![a-z])" + re.escape(p) + r"(?![a-z])", t)
            for p in config.get("palabras_de_otros_paises", [])):
         return False
-    if any(x in t for x in NO_SON_CLIENTES):
+    if any(x in t for x in NO_SON_CLIENTES) or es_consultora(caption, t):
         return False
     return extraer_ubicacion(caption) is not None or bool(SENALES_URUGUAY.search(caption))
+
+
+# Consultoras de RRHH y agencias de selección: son competencia, no clientes
+SEÑALES_CONSULTORA = (
+    "consultora", "consultoria", "seleccion de personal", "selecciona para", "seleccionamos para",
+    "capital humano", "talento humano", "gestion humana", "importante empresa", "nuestro cliente",
+    "nuestra empresa cliente", "empresa cliente", "para empresa del rubro", "para una empresa",
+    "headhunt", "reclutamiento", "agencia de empleo", "bolsa de empleo", "bolsa de trabajo",
+    "a traves de nuestra", "postulate en nuestra web", "outsourcing", "tercerizacion", "rrhh para empresas",
+)
+DOMINIOS_CONSULTORA = ("talent", "consult", "capitalhumano", "seleccion", "recursoshumanos", "rrhhuy",
+                       "humanresources", "staffing", "headhunt", "empleos", "jobs")
+
+
+def es_consultora(caption, t=None):
+    t = t or normalizar(caption)
+    if any(x in t for x in SEÑALES_CONSULTORA):
+        return True
+    c = extraer_contacto(caption)
+    dominio = ((c.get("email") or "").split("@")[-1] + " " + (c.get("web") or "")).lower()
+    return any(x in dominio for x in DOMINIOS_CONSULTORA)
 
 
 # Organismos del Estado (no compran publicidad) y otros portales de empleo (competencia)
