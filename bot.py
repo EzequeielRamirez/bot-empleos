@@ -22,6 +22,7 @@ from extraccion import (descripcion_sin_hashtags, es_busqueda_laboral, extraer_c
 from ubicacion import codigo_ubicacion, extraer_ubicacion
 from extraccion import normalizar
 from fondos import elegir_fondo
+import prospectos
 from tarjeta import generar_promo, generar_tarjeta, generar_vertical
 from video import generar_video
 
@@ -148,6 +149,11 @@ def buscar_ofertas(api, ids_busqueda, config, estado, tipo="recent_media"):
             vistos.add(post["id"])
             estado["vistos"].append(post["id"])
             caption = unicodedata.normalize("NFKC", post.get("caption") or "")  # letras decorativas → normales
+            if prospectos.es_prospecto(caption, config):  # empresa a la que ofrecerle la publicidad
+                lista = estado.setdefault("prospectos", [])
+                clave = prospectos.clave_empresa(caption, post.get("permalink", ""))
+                if clave not in estado.get("contactados", {}) and all(x["clave"] != clave for x in lista):
+                    lista.append(prospectos.nuevo(post["id"], caption, post.get("permalink", ""), fecha))
             if not oferta_valida(caption, config):
                 continue
             h, clave = huella(caption), clave_oferta(caption)
@@ -167,8 +173,22 @@ def ordenar_y_limpiar_cola(estado, config):
     cola = [o for o in estado["cola"]
             if datetime.strptime(o["timestamp"], "%Y-%m-%dT%H:%M:%S%z") >= limite
             and oferta_valida(o["caption"], config)]  # por si cambiaron los filtros
-    cola.sort(key=lambda o: o["timestamp"], reverse=True)  # lo más nuevo primero
+    cola.sort(key=lambda o: (calidad_oferta(o), o["timestamp"]), reverse=True)  # la mejor primero
     estado["cola"] = cola
+
+
+def calidad_oferta(o):
+    """Para publicar una sola por día: contacto directo, puesto claro, lugar preciso y reciente."""
+    c = extraer_contacto(o["caption"])
+    puesto = extraer_puesto(o["caption"])
+    zona = extraer_ubicacion(o["caption"]) or ""
+    s = 3 if c.get("whatsapp") else 2 if (c.get("email") or c.get("telefono")) else 1
+    s += 0 if normalizar(puesto) == "personal" or "·" in puesto else 3
+    s += 2 if "," in zona else 0
+    s += 1 if extraer_rubro(puesto, o["caption"]) != "Otros rubros" else 0
+    dias = (ahora() - datetime.strptime(o["timestamp"], "%Y-%m-%dT%H:%M:%S%z")).days
+    s += 2 if dias <= 2 else 1 if dias <= 7 else 0
+    return s
 
 
 # ---------------------------------------------------------------- publicación
@@ -481,16 +501,28 @@ def main():
     print(f"  {nuevas} ofertas nuevas, {len(estado['cola'])} en espera "
           f"(búsqueda: {time.time() - inicio_busqueda:.0f} s).")
 
-    # Cada hora, cada cuenta toma UNA oferta y la publica en todos los formatos:
-    # publicación + historia (con su rubro) + Reel de prueba + página de Facebook.
-    if ahora().hour % 2:  # se alterna qué cuenta elige primero
+    # Una vez por día (desde la hora configurada, hora de Uruguay) cada cuenta publica la MEJOR oferta
+    # en todos los formatos, y se arma la lista de empresas para ofrecerles la publicidad.
+    uy = ahora() - timedelta(hours=3)
+    hoy = uy.date().isoformat()
+    es_hora = uy.hour >= config.get("hora_publicacion_uy", 10) or os.environ.get("FORZAR") == "true"
+    print(f"  Empresas para contactar en espera: {len(estado.get('prospectos', []))}")
+    if es_hora and estado.get("ultimo_dia_prospectos") != hoy and not solo_generar:
+        ruta, n = prospectos.generar_reporte(estado, config, hoy)
+        estado["ultimo_dia_prospectos"] = hoy
+        print(f"  Lista del día: {n} empresas → {ruta.relative_to(RAIZ)}")
+    publicar_hoy = (es_hora and estado.get("ultimo_dia_publicado") != hoy) or solo_generar
+    if not publicar_hoy:
+        print("  Hoy ya se publicó (o todavía no es la hora): solo se buscaron ofertas y empresas.")
+    if uy.toordinal() % 2:  # se alterna qué cuenta elige primero
         cuentas.reverse()
     trabajos = []
-    for cuenta in cuentas:
-        if not estado["cola"]:
-            print(f"  @{cuenta['usuario']}: no hay ofertas nuevas, se saltea esta hora.")
-            continue
-        trabajos.append(preparar(cuenta, estado["cola"].pop(0), config))
+    for cuenta in (cuentas if publicar_hoy else []):
+        for _ in range(config.get("publicaciones_por_dia_por_cuenta", 1)):
+            if not estado["cola"]:
+                print(f"  @{cuenta['usuario']}: no hay ofertas para publicar.")
+                break
+            trabajos.append(preparar(cuenta, estado["cola"].pop(0), config))
 
     imagenes = [t["archivos"][k] for t in trabajos for k in ("tarjeta", "promo", "historia") if k in t["archivos"]]
     sha = subir_imagenes(imagenes) if imagenes and en_github else None
@@ -524,6 +556,7 @@ def main():
             if oferta["intentos"] < 2:
                 estado["cola"].insert(0, oferta)
             continue
+        estado["ultimo_dia_publicado"] = hoy
         registro = {"cuenta": cuenta["usuario"], "oferta": oferta["id"], "rubro": t["rubro"],
                     "media": media_id, "fecha": ahora().isoformat()}
         estado["publicados"].append(registro)
@@ -558,6 +591,8 @@ def main():
 
     if en_github:
         git("add", "estado.json")
+        if (RAIZ / "prospectos").exists():
+            git("add", "prospectos")
         if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=RAIZ).returncode:
             git("commit", "-m", "Actualizar estado")
             for intento in range(4):  # si alguien subió algo mientras tanto, se actualiza y reintenta

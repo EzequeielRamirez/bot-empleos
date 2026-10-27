@@ -209,5 +209,11 @@
   },
   "facebook": true,
   "minimo_en_espera": 25,
-  "carrusel_promo": true
+  "carrusel_promo": true,
+  "publicaciones_por_dia_por_cuenta": 1,
+  "hora_publicacion_uy": 10,
+  "prospectos_por_dia": 40,
+  "dias_para_volver_a_contactar": 60,
+  "mensaje_prospectos": "¡Hola! 👋 Vimos que están buscando {puesto}{zona}.\n\nSomos *BTU* (Busco Trabajo Uruguay) y *TCM* (Trabajo Cerca de Mí), páginas de empleo con miles de personas buscando trabajo en todo Uruguay. Podemos ayudarlos a encontrar a la persona indicada más rápido. 🙌\n\nDifundimos su búsqueda durante *30 días* en todos nuestros medios: historias, posteos, historias destacadas, Facebook, X y nuestra comunidad privada. Ustedes nos pasan la información y nosotros nos encargamos de todo.\n\n🎁 *Promo para empresas que están contratando ahora:*\n💡 *Difusión completa: $1.990* (valor real entre $2.500 y $4.000)\n🚀 *Difusión + consultora de RRHH: $2.990* — más alcance, difusión en grupos específicos de su rubro y más posibilidades de recibir perfiles calificados.\n\nSi les interesa, nos mandan la imagen o el texto de la búsqueda y la publicamos hoy mismo. ¿Cuál prefieren activar: la de $1.990 o la de $2.990? 😊",
+  "asunto_email_prospectos": "Difusión de su búsqueda de {puesto} en BTU y TCM 🙌"
 }
