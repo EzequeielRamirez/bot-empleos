@@ -68,7 +68,7 @@ def _datos_mensaje(p):
     puesto = p["puesto"]
     if extraer_rubro(puesto, "") == "Otros rubros":  # puesto poco claro ("interés", "Cargos"…)
         puesto = "personal"
-    puesto_txt = puesto.lower() if puesto.isupper() else puesto[0].lower() + puesto[1:]  # "AUXILIAR" → "auxiliar"
+    puesto_txt = puesto.lower()  # "Auxiliar de Expedición" → "auxiliar de expedición"
     zona_txt = f" en {p['zona']}" if p.get("zona") else ""
     return {"puesto": puesto_txt, "zona": zona_txt}
 
