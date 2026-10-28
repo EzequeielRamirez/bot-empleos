@@ -250,7 +250,11 @@
   "17914611654471127",
   "17917432374465520",
   "17975430521947820",
-  "18149821543522911"
+  "18149821543522911",
+  "18124582465911241",
+  "18140822119624202",
+  "17889831447478195",
+  "18002871773796213"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -469,9 +473,18 @@
   "fa77c3859d6d9be1",
   "se abrio un nuevo llamado del brou|news.google.com/rss/articles/cbmirefvx3lxte9cufkzyzvyq3harkpibla0akzbd2fqsufks1ewy2looxdtr0nurwfjd2s4v09zbhppowlglw5db1dsunh1?oc=5",
   "0578fb93640bb822",
-  "esta oportunidad es|info@triaxconsultora.network"
+  "esta oportunidad es|info@triaxconsultora.network",
+  "7a3d458576a60c86",
+  "recepcionista|www.empleo.com.uy/ig"
  ],
  "cola": [
+  {
+   "id": "18002871773796213",
+   "caption": "Recepcionista para taller mecánico\n\n• Bachillerato completo.\n• Serán requisitos excluyentes contar con conocimientos básicos de mecánica, así como libreta de conducir categoría A vigente (SE SOLICITARÁ).\n• Será valorado tener experiencia en atención al cliente presencial y manejo de office y SAP.\n• Montevideo.\n\nMás información en www.empleo.com.uy/ig o link en bio.\n\nEmpleo.com.uy es un medio de difusión: no tiene vínculo con el empleador ni recibe postulaciones.\n\n#empleo #trabajo #uruguay #llamadolaboral",
+   "permalink": "https://www.instagram.com/p/DfC2Wn5zwqB/",
+   "timestamp": "2026-10-28T16:21:32+0000",
+   "intentos": 0
+  },
   {
    "id": "18375954598212898",
    "caption": "🏦 ¡Se abrió un nuevo llamado del BROU en Maldonado!\n\n¡Buenas gurises! Les traemos esta nueva oportunidad laboral que salió publicada en prensa.\n\n💼 Puesto: Llamado laboral BROU\n📍 Zona: Maldonado\n💰 Sueldo base: $60.042\n🏢 Empresa: no indicada\n📋 Descripción: no disponible\n\n🔗 Postulate en el link: https://news.google.com/rss/articles/CBMiREFVX3lxTE9CUFkzYzVyQ3haRkpiblA0akZBd2FqSUFkS1EwY2lOOXdtR0NURWFJd2s4V09ZbHpPOWlGLW5Db1dSUnh1?oc=5\n\nFuente: Prensa\n\n¿Conocés a alguien que ande buscando por Maldonado? Etiquetalo en los comentarios para darle una mano 👇\n\n#TrabajoUruguay #EmpleoUruguay #Administracion #Maldonado #BROU #TrabajoMaldonado #OportunidadLaboral",
@@ -1618,7 +1631,18 @@
   "trabajoartigas": 0,
   "trabajomelo": 1
  },
- "prospectos": [],
+ "prospectos": [
+  {
+   "id": "18140822119624202",
+   "caption": "¿Cuántas veces dejaste de enviar tu currículum porque leíste “se requiere experiencia previa”? 🛑📄\n\nEs el mayor miedo de quienes buscan insertarse en el área administrativa o de Recursos Humanos. Pero te contamos un secreto del mercado laboral uruguayo: las empresas no tienen tiempo para enseñarte a usar la computadora. Cuando piden “experiencia”, en realidad están pidiendo que te sientes el lunes a las 9:00 AM y sepas dónde hacer clic sin romper el sistema.\n\nSi dominás GNS y Memory, ya tenés la experiencia operativa que el 80% de los candidatos no tiene.\n\nEn Sigue Educándote no damos clases para que memorices manuales. Te formamos con cero relleno teórico y 100% de práctica enfocada en el trabajo real, para que el día de tu entrevista puedas demostrar seguridad absoluta.\n\n💡 Tu conocimiento práctico vale más que años de experiencia vacía.\n\n💬 Si querés respaldar tu perfil con Tres certificaciones y Diploma final que demuestren que estás lista para la oficina, comentá la palabra “EXPERIENCIA” y nuestro equipo te contactará por privado.\n\n#SigueEducandote #TrabajoUruguay #RecursosHumanos #Administracion #BusquedaLaboral",
+   "permalink": "https://www.instagram.com/p/DfC5NgDlUgP/",
+   "timestamp": "2026-10-28T16:46:19+0000",
+   "clave": "ig:https://www.instagram.com/p/DfC5NgDlUgP/",
+   "puesto": "00 AM y sepas dónde hacer clic sin romper",
+   "zona": "",
+   "rubro": "Administración y oficina"
+  }
+ ],
  "ultimo_dia_publicado": "2026-10-28",
  "contactados": {
   "wa:98121824": "2026-10-27",
