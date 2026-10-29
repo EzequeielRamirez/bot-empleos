@@ -286,7 +286,10 @@
   "18021205769949030",
   "18088723646289060",
   "18073652891752522",
-  "18638081599019986"
+  "18638081599019986",
+  "18178919023445037",
+  "18116735492104364",
+  "18375044497214367"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1748,6 +1751,16 @@
    "puesto": "ADMINISTRATIVO/A",
    "zona": "Montevideo",
    "rubro": "Administración y oficina"
+  },
+  {
+   "id": "18178919023445037",
+   "caption": "📢 Nuevo llamado en Universidad del Trabajo del Uruguay (UTU)\n\n• LLAMADO ABIERTO A LA CIUDADANÍA, PARA CONFORMAR UN REGISTRO DE ASPIRANTES, PARA CUMPLIR F...\n\nTodos los detalles en trabaja.uy — link en la bio.\n\n#trabajouy #empleouy #empleopublico #universidaddeltrabajodelurugua",
+   "permalink": "https://www.instagram.com/p/DfErCSwCMf4/",
+   "timestamp": "2026-10-29T09:21:03+0000",
+   "clave": "web:trabaja.uy",
+   "puesto": "Personal",
+   "zona": "",
+   "rubro": "Otros rubros"
   }
  ],
  "ultimo_dia_publicado": "2026-10-28",
