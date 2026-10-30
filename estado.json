@@ -398,7 +398,11 @@
   "18648401857041401",
   "18251937577309015",
   "17905571673598512",
-  "18129510478831664"
+  "18129510478831664",
+  "17927085147426968",
+  "17915614755493069",
+  "18134922700669719",
+  "18118551509090605"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1940,7 +1944,18 @@
   "trabajoartigas": 0,
   "trabajomelo": 1
  },
- "prospectos": [],
+ "prospectos": [
+  {
+   "id": "17927085147426968",
+   "caption": "¡OPORTUNIDAD LABORAL EN TORNOMETAL!\n\nEstamos seleccionando ASISTENTE DE E-COMMERCE.\n\nPara aplicar por favor mandar CV a talento@tornometal.com \n\n#OportunidadLaboral #ecommerce #trabajouruguay #empleouruguay #SumateATornometal",
+   "permalink": "https://www.instagram.com/p/DfH2jcpRI9O/",
+   "timestamp": "2026-10-30T15:03:39+0000",
+   "clave": "mail:tornometal.com",
+   "puesto": "Personal",
+   "zona": "",
+   "rubro": "Otros rubros"
+  }
+ ],
  "ultimo_dia_publicado": "2026-10-30",
  "contactados": {
   "wa:98121824": "2026-10-27",
