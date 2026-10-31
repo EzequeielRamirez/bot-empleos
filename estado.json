@@ -505,7 +505,11 @@
   "17875085457639346",
   "18117394757028718",
   "18645847237049414",
-  "17963554601997120"
+  "17963554601997120",
+  "18002703774034166",
+  "18132615577810348",
+  "18200301913386218",
+  "18014707268978263"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -782,7 +786,9 @@
   "c8bbcc7fe2b569da",
   "telefonista|www.empleo.com.uy/ig",
   "42f249287e4176be",
-  "bartender|lacasitasushibar@gmail.com"
+  "bartender|lacasitasushibar@gmail.com",
+  "eb7e6ff8bb003e46",
+  "estabilidad laboral|postulaciones.uy.2026@gmail.com"
  ],
  "cola": [
   {
@@ -825,6 +831,13 @@
    "caption": "💼 Llamado laboral en San José: buscan técnico en informática\n\nLa Asociación Médica de San José (AMSJ) abrió un llamado para cubrir un puesto de soporte de aplicaciones y testing de software, con una remuneración mensual nominal de $54.410.\n\n🕒 El cargo tiene una carga horaria de 35 horas semanales, de lunes a viernes.\n\n📋 Requisitos principales:\n\nBachillerato completo aprobado.\n\nFormación en tecnologías de la información o experiencia comprobable en informática.\n\nSe valorarán conocimientos en bases de datos, programación, pruebas de software y mesa de ayuda informática. Residir en San José de Mayo será considerado favorablemente.\n\n💻 Entre las tareas se incluyen asistir a usuarios, probar aplicaciones, capacitar al personal y actualizar la documentación de los sistemas.\n\n📅 Plazo para postularse: viernes 6 de noviembre, hasta las 9:00.\n\n📲 Los interesados deben completar el formulario disponible en amsj.com.uy/llamados.\n\n#SanJosé #LlamadoLaboral #Empleo #Informática #OportunidadLaboral",
    "permalink": "https://www.instagram.com/p/DfF7KZwjUvb/",
    "timestamp": "2026-10-29T21:01:06+0000",
+   "intentos": 0
+  },
+  {
+   "id": "18132615577810348",
+   "caption": "📢 ¡OPORTUNIDAD LABORAL! 📊💼\n\n🔎 Estamos en búsqueda de un/a ASISTENTE CONTABLE para incorporarse a nuestro equipo de trabajo.\n\n✅ Requisitos:\n• Estudiante avanzado/a de Contador Público o carreras afines.\n• Experiencia en tareas contables y administrativas.\n• Buen manejo de Excel y herramientas informáticas.\n• Organización, responsabilidad y proactividad.\n• Capacidad para trabajar en equipo.\n\n💼 Ofrecemos:\n✔️ Estabilidad laboral.\n✔️ Excelente ambiente de trabajo.\n✔️ Oportunidades de crecimiento profesional.\n\n📩 ¡Postulate ahora!\n\nEnviá tu CV a:\n📧 postulaciones.uy.2026@gmail.com\n\n🚀 ¡Esperamos tu postulación!\n\n#BúsquedaLaboral #EmpleoUruguay #AsistenteContable #TrabajoUruguay #OportunidadLaboral Montevideo",
+   "permalink": "https://www.instagram.com/reel/DfLHf_wA7cw/",
+   "timestamp": "2026-10-31T21:25:19+0000",
    "intentos": 0
   },
   {
@@ -2162,6 +2175,16 @@
    "puesto": "bartender",
    "zona": "Punta Ballena, Maldonado",
    "rubro": "Gastronomía"
+  },
+  {
+   "id": "18132615577810348",
+   "caption": "📢 ¡OPORTUNIDAD LABORAL! 📊💼\n\n🔎 Estamos en búsqueda de un/a ASISTENTE CONTABLE para incorporarse a nuestro equipo de trabajo.\n\n✅ Requisitos:\n• Estudiante avanzado/a de Contador Público o carreras afines.\n• Experiencia en tareas contables y administrativas.\n• Buen manejo de Excel y herramientas informáticas.\n• Organización, responsabilidad y proactividad.\n• Capacidad para trabajar en equipo.\n\n💼 Ofrecemos:\n✔️ Estabilidad laboral.\n✔️ Excelente ambiente de trabajo.\n✔️ Oportunidades de crecimiento profesional.\n\n📩 ¡Postulate ahora!\n\nEnviá tu CV a:\n📧 postulaciones.uy.2026@gmail.com\n\n🚀 ¡Esperamos tu postulación!\n\n#BúsquedaLaboral #EmpleoUruguay #AsistenteContable #TrabajoUruguay #OportunidadLaboral Montevideo",
+   "permalink": "https://www.instagram.com/reel/DfLHf_wA7cw/",
+   "timestamp": "2026-10-31T21:25:19+0000",
+   "clave": "mail:postulaciones.uy.2026@gmail.com",
+   "puesto": "Estabilidad laboral",
+   "zona": "Montevideo",
+   "rubro": "Administración y oficina"
   }
  ],
  "ultimo_dia_publicado": "2026-10-31",
