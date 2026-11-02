@@ -592,7 +592,9 @@
   "18081697838438663",
   "18131581852796777",
   "18114998726035609",
-  "18120566402090052"
+  "18120566402090052",
+  "18212336884367497",
+  "17975897814170123"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -2377,7 +2379,18 @@
   "trabajoartigas": 0,
   "trabajomelo": 1
  },
- "prospectos": [],
+ "prospectos": [
+  {
+   "id": "18212336884367497",
+   "caption": "¿Hace cuánto no renovás tu CV? 👀\n\nLas empresas ya empiezan a contratar para el verano: que tu CV esté listo antes que el del resto.\n\nUn reclutador decide en segundos si sigue leyendo. Si tu CV tiene la foto de hace años, párrafos largos y lo último que hiciste al final, se queda en la pila.\n\nRenovalo en 3 pasos:\n1️⃣ Escribinos «CV» por mensaje\n2️⃣ Elegí tu plan\n3️⃣ Mandanos el que tenés y te lo devolvemos renovado ✨\n\n#cvuruguay #curriculum #buscotrabajo #trabajouruguay #empleo",
+   "permalink": "https://www.instagram.com/reel/DfP5u2hDcxA/",
+   "timestamp": "2026-11-02T18:01:23+0000",
+   "clave": "ig:https://www.instagram.com/reel/DfP5u2hDcxA/",
+   "puesto": "Las empresas ya empiezan a contratar",
+   "zona": "",
+   "rubro": "Otros rubros"
+  }
+ ],
  "ultimo_dia_publicado": "2026-11-02",
  "contactados": {
   "wa:98121824": "2026-10-27",
