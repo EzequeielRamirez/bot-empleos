@@ -597,7 +597,10 @@
   "17975897814170123",
   "18352306576255015",
   "18093674483495695",
-  "18137893480655228"
+  "18137893480655228",
+  "18456104461126783",
+  "18085561220331192",
+  "18117012035023439"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -904,9 +907,18 @@
   "263792c72196adef",
   "aca hay una oportunidad|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-supervisor-de-reponedores-externos-con-auto-propio-montevideo-en-montevideo-790eda694c54396061373e686dcf3405",
   "64eb897b0112d97d",
-  "jornada|www.empleo.com.uy/ig"
+  "jornada|www.empleo.com.uy/ig",
+  "324bb566a9a15582",
+  "cajero/a|joanaatuccelli@outlook.com"
  ],
  "cola": [
+  {
+   "id": "18456104461126783",
+   "caption": "📢 ¡ESTAMOS BUSCANDO CAJERO/A! 🛒\n\nEn Tuccelli’s queremos sumar una nueva persona a nuestro equipo.\n✅ Requisito excluyente: experiencia previa en manejo de caja.\n\n📩 Si te interesa formar parte de nuestro equipo, enviá tu currículum a:\n📧 Joanaatuccelli@outlook.com\n\n¡Te esperamos! 🙌\n\n#Tuccellis #OportunidadLaboral #BuscamosPersonal #Pando #TrabajoUruguay",
+   "permalink": "https://www.instagram.com/p/DfQQLctpQzg/",
+   "timestamp": "2026-11-02T21:17:28+0000",
+   "intentos": 0
+  },
   {
    "id": "18399895813204281",
    "caption": "Pasante Administrativo Contable - Zonamerica\n\n• Estudiantes de Contador Público o Licenciatura en Administración.\n• Proactividad e iniciativa.\n• Capacidad de organización y planificación.\n• Se valorarán conocimientos de Excel y experiencia previa en tareas similares, aunque no son excluyentes.\n\nMás información en www.empleo.com.uy/ig o link en bio.\n\nEmpleo.com.uy es un medio de difusión: no tiene vínculo con el empleador ni recibe postulaciones.\n\n#empleo #trabajo #uruguay #llamadolaboral",
@@ -2401,6 +2413,16 @@
    "puesto": "Las empresas ya empiezan a contratar",
    "zona": "",
    "rubro": "Otros rubros"
+  },
+  {
+   "id": "18456104461126783",
+   "caption": "📢 ¡ESTAMOS BUSCANDO CAJERO/A! 🛒\n\nEn Tuccelli’s queremos sumar una nueva persona a nuestro equipo.\n✅ Requisito excluyente: experiencia previa en manejo de caja.\n\n📩 Si te interesa formar parte de nuestro equipo, enviá tu currículum a:\n📧 Joanaatuccelli@outlook.com\n\n¡Te esperamos! 🙌\n\n#Tuccellis #OportunidadLaboral #BuscamosPersonal #Pando #TrabajoUruguay",
+   "permalink": "https://www.instagram.com/p/DfQQLctpQzg/",
+   "timestamp": "2026-11-02T21:17:28+0000",
+   "clave": "mail:joanaatuccelli@outlook.com",
+   "puesto": "CAJERO/A",
+   "zona": "Pando, Canelones",
+   "rubro": "Ventas y atención al público"
   }
  ],
  "ultimo_dia_publicado": "2026-11-02",
