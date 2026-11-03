@@ -622,7 +622,8 @@
   "17913755688516392",
   "17915031984495156",
   "18095366192691981",
-  "18129726247889205"
+  "18129726247889205",
+  "18095554034669408"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -942,20 +943,6 @@
   "tipo de vinculo|www.empleo.com.uy/ig"
  ],
  "cola": [
-  {
-   "id": "18456104461126783",
-   "caption": "📢 ¡ESTAMOS BUSCANDO CAJERO/A! 🛒\n\nEn Tuccelli’s queremos sumar una nueva persona a nuestro equipo.\n✅ Requisito excluyente: experiencia previa en manejo de caja.\n\n📩 Si te interesa formar parte de nuestro equipo, enviá tu currículum a:\n📧 Joanaatuccelli@outlook.com\n\n¡Te esperamos! 🙌\n\n#Tuccellis #OportunidadLaboral #BuscamosPersonal #Pando #TrabajoUruguay",
-   "permalink": "https://www.instagram.com/p/DfQQLctpQzg/",
-   "timestamp": "2026-11-02T21:17:28+0000",
-   "intentos": 0
-  },
-  {
-   "id": "17987390595097871",
-   "caption": "Administración de Servicios de Salud del Estado. Centro Hospitalario Pereira Rossell.\n\nTipo de vínculo: Contratado\n\nTipo de tarea: Operativa oficio con supervisión\n\nTiempo del contrato: SUPLENCIAS\n\nMás información y cómo postularse: www.empleo.com.uy/ig\n\nTrabajos.Uruguay es un medio de difusión, no tiene afiliación con la compañía y no recibe postulaciones.\n\n#empleouruguay #trabajouruguay",
-   "permalink": "https://www.instagram.com/p/DfQt3pJDnC3/",
-   "timestamp": "2026-11-03T01:36:39+0000",
-   "intentos": 0
-  },
   {
    "id": "18399895813204281",
    "caption": "Pasante Administrativo Contable - Zonamerica\n\n• Estudiantes de Contador Público o Licenciatura en Administración.\n• Proactividad e iniciativa.\n• Capacidad de organización y planificación.\n• Se valorarán conocimientos de Excel y experiencia previa en tareas similares, aunque no son excluyentes.\n\nMás información en www.empleo.com.uy/ig o link en bio.\n\nEmpleo.com.uy es un medio de difusión: no tiene vínculo con el empleador ni recibe postulaciones.\n\n#empleo #trabajo #uruguay #llamadolaboral",
@@ -2410,6 +2397,26 @@
    "historia": "18141730528712488",
    "reel de prueba": "18342181417277292",
    "Facebook": "832226589971294_122150286771082595"
+  },
+  {
+   "cuenta": "__b.t.u__",
+   "oferta": "18456104461126783",
+   "rubro": "Ventas y atención al público",
+   "media": "17911556871482591",
+   "fecha": "2026-11-03T13:47:22.828977+00:00",
+   "historia": "18133646692772373",
+   "reel de prueba": "18045187811648222",
+   "Facebook": "832226589971294_122150407647082595"
+  },
+  {
+   "cuenta": "tcm.uruguay",
+   "oferta": "17987390595097871",
+   "rubro": "Salud y cuidados",
+   "media": "18106217993319986",
+   "fecha": "2026-11-03T13:48:37.114265+00:00",
+   "historia": "17995731915099377",
+   "reel de prueba": "18114591815125958",
+   "Facebook": "1150597551475578_122153731533354312"
   }
  ],
  "ultima_ejecucion": "2026-11-03T13:46:34.248806+00:00",
@@ -2461,29 +2468,8 @@
   "trabajoartigas": 0,
   "trabajomelo": 1
  },
- "prospectos": [
-  {
-   "id": "18212336884367497",
-   "caption": "¿Hace cuánto no renovás tu CV? 👀\n\nLas empresas ya empiezan a contratar para el verano: que tu CV esté listo antes que el del resto.\n\nUn reclutador decide en segundos si sigue leyendo. Si tu CV tiene la foto de hace años, párrafos largos y lo último que hiciste al final, se queda en la pila.\n\nRenovalo en 3 pasos:\n1️⃣ Escribinos «CV» por mensaje\n2️⃣ Elegí tu plan\n3️⃣ Mandanos el que tenés y te lo devolvemos renovado ✨\n\n#cvuruguay #curriculum #buscotrabajo #trabajouruguay #empleo",
-   "permalink": "https://www.instagram.com/reel/DfP5u2hDcxA/",
-   "timestamp": "2026-11-02T18:01:23+0000",
-   "clave": "ig:https://www.instagram.com/reel/DfP5u2hDcxA/",
-   "puesto": "Las empresas ya empiezan a contratar",
-   "zona": "",
-   "rubro": "Otros rubros"
-  },
-  {
-   "id": "18456104461126783",
-   "caption": "📢 ¡ESTAMOS BUSCANDO CAJERO/A! 🛒\n\nEn Tuccelli’s queremos sumar una nueva persona a nuestro equipo.\n✅ Requisito excluyente: experiencia previa en manejo de caja.\n\n📩 Si te interesa formar parte de nuestro equipo, enviá tu currículum a:\n📧 Joanaatuccelli@outlook.com\n\n¡Te esperamos! 🙌\n\n#Tuccellis #OportunidadLaboral #BuscamosPersonal #Pando #TrabajoUruguay",
-   "permalink": "https://www.instagram.com/p/DfQQLctpQzg/",
-   "timestamp": "2026-11-02T21:17:28+0000",
-   "clave": "mail:joanaatuccelli@outlook.com",
-   "puesto": "CAJERO/A",
-   "zona": "Pando, Canelones",
-   "rubro": "Ventas y atención al público"
-  }
- ],
- "ultimo_dia_publicado": "2026-11-02",
+ "prospectos": [],
+ "ultimo_dia_publicado": "2026-11-03",
  "contactados": {
   "wa:98121824": "2026-10-27",
   "wa:97310702": "2026-10-27",
@@ -2531,7 +2517,10 @@
   "ig:https://www.instagram.com/p/DfMuq7CnLN-/": "2026-11-01",
   "ig:https://www.instagram.com/p/DfL3xwdnPGj/": "2026-11-01",
   "wa:92858917": "2026-11-02",
-  "ig:https://www.instagram.com/p/DfPR12CHPky/": "2026-11-02"
+  "ig:https://www.instagram.com/p/DfPR12CHPky/": "2026-11-02",
+  "mail:joanaatuccelli@outlook.com": "2026-11-03",
+  "ig:https://www.instagram.com/p/DfR7dxZnEb6/": "2026-11-03",
+  "ig:https://www.instagram.com/reel/DfP5u2hDcxA/": "2026-11-03"
  },
- "ultimo_dia_prospectos": "2026-11-02"
+ "ultimo_dia_prospectos": "2026-11-03"
 }
