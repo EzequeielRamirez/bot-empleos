@@ -850,7 +850,8 @@
   "18141568015727294",
   "18109156312968021",
   "17882132781547386",
-  "18123220205473520"
+  "18123220205473520",
+  "18209465086374882"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1211,7 +1212,9 @@
   "3846b0250c48f45c",
   "trabajador/a social|aupi.basededatos@gmail.com",
   "8698e0b55d20d54c",
-  "educador/a|aupi.basededatos@gmail.com"
+  "educador/a|aupi.basededatos@gmail.com",
+  "76c45856e93122b3",
+  "supervisor/a administrativo/a|info@hkpunta.com.uy"
  ],
  "cola": [
   {
@@ -1240,6 +1243,13 @@
    "caption": "🍳 ¡Se busca Chef con experiencia para Playa Pascual!\n\n¡Buenas noticias! Desde BTU te traemos esta nueva propuesta laboral para sumarte al equipo.\n\n• Empresa: Consultora NEO\n• Zona: Playa Pascual, San José\n• Salario: $U 50.000 (Mensual)\n• Horario: Tiempo Completo (Contrato por tiempo indefinido)\n\nRequisitos:\n• Experiencia mínima de 3 años en el área\n• Educación técnico/profesional\n• Edad entre 25 y 50 años\n• Pasión por la cocina, técnicas culinarias avanzadas y trabajo en equipo\n\nPostulate en el link: https://uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-chef-restaurante-playa-pascual-san-jose-en-playa-pascual-687DE9798DF1835D61373E686DCF3405\n\nFuente: Computrabajo\n\n¿Conocés a alguien que esté buscando? Etiquetalo en los comentarios para darle una mano.\n\n#TrabajoUruguay #EmpleoUruguay #ChefUruguay #GastronomiaUruguay #SanJose #PlayaPascual #BuscoTrabajo #BTU",
    "permalink": "https://www.instagram.com/p/DfUaJ_xFkLt/",
    "timestamp": "2026-11-04T12:01:22+0000",
+   "intentos": 0
+  },
+  {
+   "id": "18209465086374882",
+   "caption": "📢 ¡SUMATE A NUESTRO EQUIPO!\n\nEn Housekeeping Punta estamos buscando un/a Supervisor/a Administrativo/a y de Operaciones para incorporarse a nuestro equipo de trabajo. 💼\n\n🔎 Buscamos una persona organizada, proactiva, con capacidad de liderazgo y experiencia en coordinación de equipos y gestión administrativa.\n\n✅ Requisitos:\n• Secundaria completa (excluyente).\n• Experiencia de 2 a 3 años en cargos similares.\n• Se valorará formación en Administración, Recursos Humanos, Logística o áreas afines.\n\n📩 ¿Te interesa formar parte de nuestro equipo?\n\nEnviá tu CV exclusivamente a:\n📧 info@hkpunta.com.uy\n\n📌 Asunto del mail: REF. SUP1126\n\n¡Te estamos buscando!\n\n#OportunidadLaboral #HousekeepingPunta #BusquedaLaboral #EmpleoUruguay #Maldonado",
+   "permalink": "https://www.instagram.com/p/DfaRG6yh60c/",
+   "timestamp": "2026-11-06T18:37:43+0000",
    "intentos": 0
   },
   {
@@ -2961,6 +2971,16 @@
    "puesto": "Personal",
    "zona": "Montevideo",
    "rubro": "Otros rubros"
+  },
+  {
+   "id": "18209465086374882",
+   "caption": "📢 ¡SUMATE A NUESTRO EQUIPO!\n\nEn Housekeeping Punta estamos buscando un/a Supervisor/a Administrativo/a y de Operaciones para incorporarse a nuestro equipo de trabajo. 💼\n\n🔎 Buscamos una persona organizada, proactiva, con capacidad de liderazgo y experiencia en coordinación de equipos y gestión administrativa.\n\n✅ Requisitos:\n• Secundaria completa (excluyente).\n• Experiencia de 2 a 3 años en cargos similares.\n• Se valorará formación en Administración, Recursos Humanos, Logística o áreas afines.\n\n📩 ¿Te interesa formar parte de nuestro equipo?\n\nEnviá tu CV exclusivamente a:\n📧 info@hkpunta.com.uy\n\n📌 Asunto del mail: REF. SUP1126\n\n¡Te estamos buscando!\n\n#OportunidadLaboral #HousekeepingPunta #BusquedaLaboral #EmpleoUruguay #Maldonado",
+   "permalink": "https://www.instagram.com/p/DfaRG6yh60c/",
+   "timestamp": "2026-11-06T18:37:43+0000",
+   "clave": "mail:hkpunta.com.uy",
+   "puesto": "Supervisor/a Administrativo/a",
+   "zona": "Maldonado",
+   "rubro": "Administración y oficina"
   }
  ],
  "ultimo_dia_publicado": "2026-11-06",
