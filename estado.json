@@ -874,7 +874,14 @@
   "18115678715589075",
   "17981732633918860",
   "18637704028025851",
-  "18132118210700431"
+  "18132118210700431",
+  "18146870056586578",
+  "18035787629898845",
+  "18643799521039578",
+  "18136421129496701",
+  "18128769490852216",
+  "18149584999562874",
+  "18025177841715755"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -2986,7 +2993,18 @@
   "trabajoartigas": 0,
   "trabajomelo": 1
  },
- "prospectos": [],
+ "prospectos": [
+  {
+   "id": "18025177841715755",
+   "caption": "📄 ¿Tu currículum está preparado para postular online?\n\nEn este video te muestro por qué la estructura, la claridad y las palabras clave de tu CV pueden marcar la diferencia. 💻🔎\n\nEn CV Profesional UY te ayudo a presentar tu experiencia con una redacción profesional y un formato adaptado a sistemas ATS, destacando tus habilidades para el puesto que buscás. ✨\n\n📲 Escribime «ATS» por WhatsApp y te cuento cómo podemos mejorar tu currículum.\n🌐 cvprofesionaluy.com\n\n#CVProfesionalUY #Currículum #CVATS #EmpleoUruguay #BúsquedaLaboral",
+   "permalink": "https://www.instagram.com/reel/DfcVImtPwsw/",
+   "timestamp": "2026-11-07T13:51:40+0000",
+   "clave": "web:cvprofesionaluy.com",
+   "puesto": "Personal",
+   "zona": "",
+   "rubro": "Tecnología y marketing"
+  }
+ ],
  "ultimo_dia_publicado": "2026-11-07",
  "contactados": {
   "wa:98121824": "2026-10-27",
