@@ -1,18 +1,18 @@
-# Empresas para contactar — 2026-11-08
+# Empresas para contactar — 2026-11-09
 
-**6 empresas** que están buscando personal en Uruguay. Cada una tiene su mensaje listo: tocá el botón, revisá y enviá.
+**3 empresas** que están buscando personal en Uruguay. Cada una tiene su mensaje listo: tocá el botón, revisá y enviá.
 
 - **WhatsApp / Email:** se abre con el texto ya escrito.
 - **Instagram:** abrí la publicación → entrá al perfil de la empresa → *Mensaje* → pegá el texto (botón de copiar arriba a la derecha del recuadro).
 - Enviá de a poco (no todos seguidos) para que Instagram/WhatsApp no lo tome como spam.
 
-## 1. Búsqueda laboral
-Tecnología y marketing · publicada hace 1 día
+## 1. Búsqueda laboral — Montevideo
+Administración y oficina · publicada hace 1 día
 
-🌐 cvprofesionaluy.com · [📷 Ver publicación en Instagram](https://www.instagram.com/reel/DfcVImtPwsw/)
+[📷 Ver publicación en Instagram](https://www.instagram.com/reel/Dffx-UAkrzs/)
 
 ```text
-¡Hola! 👋 Vimos que están buscando personal.
+¡Hola! 👋 Vimos que están buscando personal en Montevideo.
 
 Somos *BTU* (Busco Trabajo Uruguay) y *TCM* (Trabajo Cerca de Mí), páginas de empleo con miles de personas buscando trabajo en todo Uruguay. Podemos ayudarlos a encontrar a la persona indicada más rápido. 🙌
 
@@ -26,28 +26,9 @@ Si les interesa, nos mandan la imagen o el texto de la búsqueda y la publicamos
 ```
 
 ## 2. Búsqueda laboral
-Otros rubros · publicada hace 0 días
+Administración y oficina · publicada hace 1 día
 
-[📷 Ver publicación en Instagram](https://www.instagram.com/p/DfetNkUif0-/)
-
-```text
-¡Hola! 👋 Vimos que están buscando personal.
-
-Somos *BTU* (Busco Trabajo Uruguay) y *TCM* (Trabajo Cerca de Mí), páginas de empleo con miles de personas buscando trabajo en todo Uruguay. Podemos ayudarlos a encontrar a la persona indicada más rápido. 🙌
-
-Difundimos su búsqueda durante *30 días* en todos nuestros medios: historias, posteos, historias destacadas, Facebook, X y nuestra comunidad privada. Ustedes nos pasan la información y nosotros nos encargamos de todo.
-
-🎁 *Promo para empresas que están contratando ahora:*
-💡 *Difusión completa: $1.990* (valor real entre $2.500 y $4.000)
-🚀 *Difusión + consultora de RRHH: $2.990* — más alcance, difusión en grupos específicos de su rubro y más posibilidades de recibir perfiles calificados.
-
-Si les interesa, nos mandan la imagen o el texto de la búsqueda y la publicamos hoy mismo. ¿Cuál prefieren activar: la de $1.990 o la de $2.990? 😊
-```
-
-## 3. Búsqueda laboral
-Otros rubros · publicada hace 0 días
-
-[📷 Ver publicación en Instagram](https://www.instagram.com/p/DfesOCwERtv/)
+[📷 Ver publicación en Instagram](https://www.instagram.com/p/DffAKpQkeNf/)
 
 ```text
 ¡Hola! 👋 Vimos que están buscando personal.
@@ -63,51 +44,13 @@ Difundimos su búsqueda durante *30 días* en todos nuestros medios: historias, 
 Si les interesa, nos mandan la imagen o el texto de la búsqueda y la publicamos hoy mismo. ¿Cuál prefieren activar: la de $1.990 o la de $2.990? 😊
 ```
 
-## 4. Búsqueda laboral
-Otros rubros · publicada hace 0 días
+## 3. Administrativo de Cobranzas
+Administración y oficina · publicada hace 1 día
 
-[📷 Ver publicación en Instagram](https://www.instagram.com/reel/DfdzkzmgllV/)
-
-```text
-¡Hola! 👋 Vimos que están buscando personal.
-
-Somos *BTU* (Busco Trabajo Uruguay) y *TCM* (Trabajo Cerca de Mí), páginas de empleo con miles de personas buscando trabajo en todo Uruguay. Podemos ayudarlos a encontrar a la persona indicada más rápido. 🙌
-
-Difundimos su búsqueda durante *30 días* en todos nuestros medios: historias, posteos, historias destacadas, Facebook, X y nuestra comunidad privada. Ustedes nos pasan la información y nosotros nos encargamos de todo.
-
-🎁 *Promo para empresas que están contratando ahora:*
-💡 *Difusión completa: $1.990* (valor real entre $2.500 y $4.000)
-🚀 *Difusión + consultora de RRHH: $2.990* — más alcance, difusión en grupos específicos de su rubro y más posibilidades de recibir perfiles calificados.
-
-Si les interesa, nos mandan la imagen o el texto de la búsqueda y la publicamos hoy mismo. ¿Cuál prefieren activar: la de $1.990 o la de $2.990? 😊
-```
-
-## 5. Búsqueda laboral
-Otros rubros · publicada hace 1 día
-
-[📷 Ver publicación en Instagram](https://www.instagram.com/p/DfdQL1OyOKN/)
+[📷 Ver publicación en Instagram](https://www.instagram.com/p/Dfe-bUWoEuw/)
 
 ```text
-¡Hola! 👋 Vimos que están buscando personal.
-
-Somos *BTU* (Busco Trabajo Uruguay) y *TCM* (Trabajo Cerca de Mí), páginas de empleo con miles de personas buscando trabajo en todo Uruguay. Podemos ayudarlos a encontrar a la persona indicada más rápido. 🙌
-
-Difundimos su búsqueda durante *30 días* en todos nuestros medios: historias, posteos, historias destacadas, Facebook, X y nuestra comunidad privada. Ustedes nos pasan la información y nosotros nos encargamos de todo.
-
-🎁 *Promo para empresas que están contratando ahora:*
-💡 *Difusión completa: $1.990* (valor real entre $2.500 y $4.000)
-🚀 *Difusión + consultora de RRHH: $2.990* — más alcance, difusión en grupos específicos de su rubro y más posibilidades de recibir perfiles calificados.
-
-Si les interesa, nos mandan la imagen o el texto de la búsqueda y la publicamos hoy mismo. ¿Cuál prefieren activar: la de $1.990 o la de $2.990? 😊
-```
-
-## 6. Búsqueda laboral
-Otros rubros · publicada hace 1 día
-
-[📷 Ver publicación en Instagram](https://www.instagram.com/p/DfdOVKUMD-i/)
-
-```text
-¡Hola! 👋 Vimos que están buscando personal.
+¡Hola! 👋 Vimos que están buscando administrativo de cobranzas.
 
 Somos *BTU* (Busco Trabajo Uruguay) y *TCM* (Trabajo Cerca de Mí), páginas de empleo con miles de personas buscando trabajo en todo Uruguay. Podemos ayudarlos a encontrar a la persona indicada más rápido. 🙌
 
