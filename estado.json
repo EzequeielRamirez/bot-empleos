@@ -1072,7 +1072,11 @@
   "18016536530976262",
   "18092210048257487",
   "18176489701458926",
-  "18128746309905372"
+  "18128746309905372",
+  "18223609885339681",
+  "17883407916627458",
+  "18104900732376749",
+  "18133749649790624"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1497,7 +1501,9 @@
   "78b278cd785647f6",
   "evento internacional|97310702",
   "84b51e4e32b0b35b",
-  "buenas|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-administrativo-en-liquidacion-de-sueldos-barros-blancos-carrasco-en-barros-blancos-38c7b6fdc523dda761373e686dcf3405"
+  "buenas|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-administrativo-en-liquidacion-de-sueldos-barros-blancos-carrasco-en-barros-blancos-38c7b6fdc523dda761373e686dcf3405",
+  "7c865e64d03b0280",
+  "estudiante avanzado/a de ingenieria|postulaciones@reinventa.com.uy"
  ],
  "cola": [
   {
@@ -1519,6 +1525,13 @@
    "caption": "¡Nuevas oportunidades en la vuelta! 🍰\n\n¡Buenas! 🇺🇾 Se busca Ayudante Repostero/a Eventual para importante cliente del rubro hotelería en Carrasco.\n\n📍 Zona: Carrasco, Montevideo\n🕒 Horario: Turnos rotativos, según convocatoria (modalidad eventual)\n\n📌 Requisitos:\n• Experiencia comprobable como pastelero/a\n• Formación o capacitación en Pastelería (valorada)\n• Disponibilidad horaria para turnos rotativos y flexibilidad para modalidad a convocatoria\n• Responsabilidad, compromiso y trabajo en equipo\n\n🔗 Postulate en el link: https://uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-ayudante-reposteroa-eventual-rubro-hoteleria-en-carrasco-A9A750EFE9FC94E561373E686DCF3405\n\nFuente: Computrabajo\n\n¡Etiquetá a esa persona que le puede servir este pique! 👇\n\n#TrabajoUruguay #EmpleoUruguay #Pasteleria #Cocina #Carrasco #Montevideo #Hoteleria #BTU",
    "permalink": "https://www.instagram.com/p/DffyDdLlicc/",
    "timestamp": "2026-11-08T22:01:55+0000",
+   "intentos": 0
+  },
+  {
+   "id": "18133749649790624",
+   "caption": "📢 ¡NUEVO LLAMADO LABORAL!\n\n📍 MONTEVIDEO\n\n🌱 SELECCIONAMOS ESTUDIANTE AVANZADO/A DE INGENIERÍA AGRONÓMICA CON PERFIL COMERCIAL\n\nPara incorporarse a una empresa del rubro agropecuario.\n\n💡 ¿Qué perfil buscamos?\n\nUna persona con formación avanzada en Ingeniería Agronómica, interés por el área comercial, habilidades de comunicación y negociación, iniciativa y orientación al cliente.\n\nBuscamos un perfil dinámico, proactivo, con capacidad para generar vínculos comerciales y desarrollar nuevas oportunidades de negocio.\n\n🚀 ¿Estás buscando un desafío que te permita integrar tus conocimientos técnicos con el desarrollo comercial?\n\n¡Esta oportunidad puede ser para vos!\n\n📩 Postulate enviando tu CV a:\npostulaciones@reinventa.com.uy\n\n📌 Asunto: Estudiante avanzado Agrónomo – Ref. 470.\n\nReinventa Consultores\nPersonas que hacen crecer el interior.\n\n#EmpleoUruguay #IngenieríaAgronómica #Agronomía #SectorAgropecuario #Comercial Montevideo OportunidadLaboral",
+   "permalink": "https://www.instagram.com/p/DfkkmhlyXJ2/",
+   "timestamp": "2026-11-10T18:40:27+0000",
    "intentos": 0
   },
   {
@@ -3453,6 +3466,16 @@
    "timestamp": "2026-11-10T15:46:06+0000",
    "clave": "ig:https://www.instagram.com/p/DfkQp11lth8/",
    "puesto": "Personal",
+   "zona": "Montevideo",
+   "rubro": "Ventas y atención al público"
+  },
+  {
+   "id": "18133749649790624",
+   "caption": "📢 ¡NUEVO LLAMADO LABORAL!\n\n📍 MONTEVIDEO\n\n🌱 SELECCIONAMOS ESTUDIANTE AVANZADO/A DE INGENIERÍA AGRONÓMICA CON PERFIL COMERCIAL\n\nPara incorporarse a una empresa del rubro agropecuario.\n\n💡 ¿Qué perfil buscamos?\n\nUna persona con formación avanzada en Ingeniería Agronómica, interés por el área comercial, habilidades de comunicación y negociación, iniciativa y orientación al cliente.\n\nBuscamos un perfil dinámico, proactivo, con capacidad para generar vínculos comerciales y desarrollar nuevas oportunidades de negocio.\n\n🚀 ¿Estás buscando un desafío que te permita integrar tus conocimientos técnicos con el desarrollo comercial?\n\n¡Esta oportunidad puede ser para vos!\n\n📩 Postulate enviando tu CV a:\npostulaciones@reinventa.com.uy\n\n📌 Asunto: Estudiante avanzado Agrónomo – Ref. 470.\n\nReinventa Consultores\nPersonas que hacen crecer el interior.\n\n#EmpleoUruguay #IngenieríaAgronómica #Agronomía #SectorAgropecuario #Comercial Montevideo OportunidadLaboral",
+   "permalink": "https://www.instagram.com/p/DfkkmhlyXJ2/",
+   "timestamp": "2026-11-10T18:40:27+0000",
+   "clave": "mail:reinventa.com.uy",
+   "puesto": "ESTUDIANTE AVANZADO/A DE INGENIERÍA",
    "zona": "Montevideo",
    "rubro": "Ventas y atención al público"
   }
