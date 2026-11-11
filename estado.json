@@ -1102,7 +1102,12 @@
   "18134901227500061",
   "18034975652894927",
   "17971771221192189",
-  "17915836554472740"
+  "17915836554472740",
+  "18128437300895451",
+  "18650006452048220",
+  "18035580797675212",
+  "18120369850797004",
+  "18126650524910581"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -1539,9 +1544,18 @@
   "0128b20c09ef2e23",
   "empresa|uy.computrabajo.com/ofertas-de-trabajo/oferta-de-trabajo-de-auxiliar-administrativoa-zona-aeroparque-en-aeropuerto-internacional-de-carrasco-72ef3bb590600b7a61373e686dcf3405",
   "e6eee5c7ec89e31a",
-  "personal|info@guaridacorp.com"
+  "personal|info@guaridacorp.com",
+  "9402fe55d9834e47",
+  "pastelera|91522227"
  ],
  "cola": [
+  {
+   "id": "18120369850797004",
+   "caption": "Buscamos pastelera para sumarse al equipo de Origen 22. Búsqueda urgente.\n\nSi te gusta la pastelería de verdad —las masas, las cremas, el horno— y querés trabajar en una cafetería de especialidad en Pocitos, queremos conocerte.\n\n📲 Mandanos tu CV por WhatsApp al 091 522 227\n✉️ o a contacto@origen22.com.uy\n\nLuis Alberto de Herrera 1184, Montevideo.\n\n#Origen22 #BúsquedaLaboral #Pastelería #EmpleoMontevideo #Montevideo Pocitos",
+   "permalink": "https://www.instagram.com/p/DfldLCsupxa/",
+   "timestamp": "2026-11-11T02:55:17+0000",
+   "intentos": 0
+  },
   {
    "id": "18069601043787901",
    "caption": "🇧🇷 ¡OPORTUNIDAD LABORAL – EVENTO INTERNACIONAL!\n\n📅 27, 28 y 29 de noviembre.\n\n📍 Montevideo, Atlántida, Canelones y Punta del Este.\n\n📢 ¡No necesitás hablar portugués perfecto para participar!\n\nEstamos buscando personas con diferentes niveles de portugués: básico, intermedio y avanzado.\n\n✅ Las tareas son sencillas: recepción de turistas brasileños, bienvenida, orientación y apoyo en hoteles y traslados.\n\n✅ Contamos con diferentes puestos y funciones. En algunos sectores alcanza con conocimientos básicos de portugués, buena comunicación y ganas de trabajar.\n\n✅ Mayores de 18 años, responsables y con buena actitud.\n\n💰 Trabajo remunerado.\n\n📲 ¡Animate a postularte! Escribinos por WhatsApp +598 097310702 indicando tu nombre, edad, localidad y nivel de portugués.\n\nSOON – Staff & Brand Experience\n\n#TrabajoOfrecido #TrabajoUruguay #EmpleoUruguay #OfertaLaboral #BuscoTrabajo",
@@ -3579,6 +3593,16 @@
    "puesto": "Personal",
    "zona": "Maldonado",
    "rubro": "Salud y cuidados"
+  },
+  {
+   "id": "18120369850797004",
+   "caption": "Buscamos pastelera para sumarse al equipo de Origen 22. Búsqueda urgente.\n\nSi te gusta la pastelería de verdad —las masas, las cremas, el horno— y querés trabajar en una cafetería de especialidad en Pocitos, queremos conocerte.\n\n📲 Mandanos tu CV por WhatsApp al 091 522 227\n✉️ o a contacto@origen22.com.uy\n\nLuis Alberto de Herrera 1184, Montevideo.\n\n#Origen22 #BúsquedaLaboral #Pastelería #EmpleoMontevideo #Montevideo Pocitos",
+   "permalink": "https://www.instagram.com/p/DfldLCsupxa/",
+   "timestamp": "2026-11-11T02:55:17+0000",
+   "clave": "wa:91522227",
+   "puesto": "pastelera",
+   "zona": "Pocitos, Montevideo",
+   "rubro": "Gastronomía"
   }
  ],
  "ultimo_dia_publicado": "2026-11-10",
