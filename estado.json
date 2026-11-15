@@ -1391,7 +1391,8 @@
   "18080246615450649",
   "18397403851227093",
   "18204223798384944",
-  "18142218574722620"
+  "18142218574722620",
+  "18135194968776073"
  ],
  "huellas": [
   "c395ee505e57ec95",
@@ -4138,7 +4139,18 @@
   "trabajoartigas": 0,
   "trabajomelo": 1
  },
- "prospectos": [],
+ "prospectos": [
+  {
+   "id": "18135194968776073",
+   "caption": "Ya tienen trabajo 💼✨\n\nEstos son algunos de los mensajes que me llegan después de entregar un CV. Todos reales, de clientes desde 2022.\n\nNo hay nada mejor 🥹\n\n¿Querés que el próximo sea el tuyo?\nCV profesional en 24 h · $U 390 💬\n\n#curriculum #cv #trabajouruguay #empleouruguay #buscotrabajo #montevideo #testimonios",
+   "permalink": "https://www.instagram.com/p/DfxslDPD1dK/",
+   "timestamp": "2026-11-15T21:00:14+0000",
+   "clave": "ig:https://www.instagram.com/p/DfxslDPD1dK/",
+   "puesto": "Ya tienen trabajo",
+   "zona": "Montevideo",
+   "rubro": "Otros rubros"
+  }
+ ],
  "ultimo_dia_publicado": "2026-11-15",
  "contactados": {
   "wa:98121824": "2026-10-27",
